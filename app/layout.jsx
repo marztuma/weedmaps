@@ -1,5 +1,7 @@
 import { Manrope, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import JsonLd from "@/components/JsonLd";
+import { SITE_URL, organizationSchema, websiteSchema } from "@/lib/seo";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -16,6 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "Weedmaps — Shop the shelf, we drive",
   description:
     "Compare cannabis products across every licensed delivery service that reaches you. Live menus, real prices, delivered.",
@@ -62,6 +65,7 @@ export default function RootLayout({ children }) {
       )}
       <body className="relative">
         <div hidden dangerouslySetInnerHTML={{ __html: DIRECTION_CONTRACT }} />
+        <JsonLd data={[organizationSchema(), websiteSchema()]} />
         {children}
       </body>
     </html>

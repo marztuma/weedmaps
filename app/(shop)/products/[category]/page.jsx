@@ -4,6 +4,8 @@ import PageHeader from "@/components/PageHeader";
 import FilterBar from "@/components/FilterBar";
 import ProductGrid from "@/components/ProductGrid";
 import Link from "next/link";
+import JsonLd from "@/components/JsonLd";
+import { itemListSchema, breadcrumbSchema, canonical } from "@/lib/seo";
 
 export const revalidate = 60;
 
@@ -19,6 +21,8 @@ export async function generateMetadata({ params }) {
   return {
     title: `${cat.name} delivered near you — Weedmaps`,
     description: cat.blurb,
+    // ?sub= and ?sort= reorder the same goods; they are not separate pages
+    alternates: canonical(`/products/${category}`),
   };
 }
 
@@ -32,8 +36,21 @@ export default async function CategoryPage({ params, searchParams }) {
   const sort = typeof sp.sort === "string" ? sp.sort : "price_asc";
   const items = await getCategoryProducts(category, { sub, sort });
 
+  const trail = [
+    { label: "Home", href: "/" },
+    { label: "Shop", href: "/products" },
+    { label: cat.name },
+  ];
+
   return (
     <>
+      <JsonLd
+        data={[
+          itemListSchema(items, { name: cat.name, path: `/products/${category}` }),
+          breadcrumbSchema(trail),
+        ]}
+      />
+
       <PageHeader
         trail={[{ label: "Home", href: "/" }, { label: "Shop", href: "/products" }, { label: cat.name }]}
         title={cat.name}

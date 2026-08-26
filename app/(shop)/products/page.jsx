@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { canonical } from "@/lib/seo";
 import { getCategoryIndex, getAllProducts } from "@/db/queries";
 import PageHeader from "@/components/PageHeader";
 import ProductGrid from "@/components/ProductGrid";
@@ -8,6 +9,7 @@ import Icon from "@/components/Icons";
 export const revalidate = 60;
 
 export const metadata = {
+  alternates: canonical("/products"),
   title: "Shop every category — Weedmaps",
   description: "Every cannabis product delivering to you right now, across all nine categories.",
 };

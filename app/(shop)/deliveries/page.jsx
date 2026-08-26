@@ -1,10 +1,12 @@
 import { getShops } from "@/db/queries";
+import { canonical } from "@/lib/seo";
 import PageHeader from "@/components/PageHeader";
 import ShopList from "@/components/ShopList";
 
 export const revalidate = 60;
 
 export const metadata = {
+  alternates: canonical("/deliveries"),
   title: "Cannabis delivery services near you — Weedmaps",
   description: "Every licensed delivery service that reaches your address, with live arrival windows, fees and minimums.",
 };

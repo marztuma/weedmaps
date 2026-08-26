@@ -1,4 +1,5 @@
 import { getAllDeals } from "@/db/queries";
+import { canonical } from "@/lib/seo";
 import PageHeader from "@/components/PageHeader";
 import ProductGrid from "@/components/ProductGrid";
 import Icon from "@/components/Icons";
@@ -6,6 +7,7 @@ import Icon from "@/components/Icons";
 export const revalidate = 60;
 
 export const metadata = {
+  alternates: canonical("/deals"),
   title: "Cannabis deals delivering tonight — Weedmaps",
   description: "Every discounted product from a service delivering to you right now, deepest cut first.",
 };

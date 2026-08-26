@@ -12,7 +12,10 @@ import Learn from "@/components/Learn";
 import AppCta from "@/components/AppCta";
 import learn from "@/data/learn.json";
 
+import { canonical } from "@/lib/seo";
+
 export const revalidate = 60;
+export const metadata = { alternates: canonical("/") };
 
 export default async function HomePage() {
   const [flower, vape, edibles, cats, deals, shops, brands, stats] = await Promise.all([

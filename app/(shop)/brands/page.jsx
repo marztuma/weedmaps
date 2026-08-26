@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { canonical } from "@/lib/seo";
 import { getAllBrands } from "@/db/queries";
 import PageHeader from "@/components/PageHeader";
 import Reveal from "@/components/Reveal";
@@ -6,6 +7,7 @@ import Reveal from "@/components/Reveal";
 export const revalidate = 60;
 
 export const metadata = {
+  alternates: canonical("/brands"),
   title: "Cannabis brands A–Z — Weedmaps",
   description: "Every brand carried by the delivery services that reach you.",
 };

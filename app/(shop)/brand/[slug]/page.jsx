@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { getBrand, getAllSlugs } from "@/db/queries";
 import { Breadcrumb } from "@/components/PageHeader";
 import ProductGrid from "@/components/ProductGrid";
+import JsonLd from "@/components/JsonLd";
+import { itemListSchema, breadcrumbSchema, canonical, absolute } from "@/lib/seo";
 
 export const revalidate = 60;
 
@@ -16,8 +18,10 @@ export async function generateMetadata({ params }) {
   const b = await getBrand(slug);
   if (!b) return {};
   return {
-    title: `${b.name} — ${b.kind} delivered — Weedmaps`,
+    title: `${b.name} — ${b.kind ?? "cannabis"} delivered — Weedmaps`,
     description: `Every ${b.name} product delivering to you right now.`,
+    alternates: canonical(`/brand/${slug}`),
+    openGraph: { title: b.name, url: absolute(`/brand/${slug}`), type: "website" },
   };
 }
 
@@ -29,8 +33,27 @@ export default async function BrandPage({ params }) {
   const categories = [...new Set(brand.items.map((i) => i.category))];
   const cheapest = brand.items.reduce((m, i) => Math.min(m, i.price), Infinity);
 
+  const trail = [
+    { label: "Home", href: "/" },
+    { label: "Brands", href: "/brands" },
+    { label: brand.name },
+  ];
+
   return (
     <>
+      <JsonLd
+        data={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Brand",
+            name: brand.name,
+            url: absolute(`/brand/${brand.slug}`),
+          },
+          itemListSchema(brand.items, { name: brand.name, path: `/brand/${brand.slug}` }),
+          breadcrumbSchema(trail),
+        ]}
+      />
+
       <div className="u-shell pt-[clamp(1.5rem,3vw,2.5rem)]">
         <Breadcrumb
           trail={[

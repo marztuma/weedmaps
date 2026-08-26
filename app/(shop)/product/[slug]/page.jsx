@@ -7,6 +7,9 @@ import ProductLabel from "@/components/ProductLabel";
 import ProductGrid from "@/components/ProductGrid";
 import AddToCart from "@/components/AddToCart";
 import Icon from "@/components/Icons";
+import JsonLd from "@/components/JsonLd";
+import { productSchema, breadcrumbSchema, canonical, absolute } from "@/lib/seo";
+import { resolveProductImage } from "@/lib/images";
 
 export const revalidate = 60;
 
@@ -23,7 +26,27 @@ export async function generateMetadata({ params }) {
   if (!p) return {};
   return {
     title: `${p.brand} ${p.name} — ${p.weight} delivered — Weedmaps`,
-    description: `${p.name} by ${p.brand}. ${p.thc}% THC, ${p.weight}. Delivered by ${p.shop} in ${p.eta}.`,
+    description: p.description
+      ? p.description.slice(0, 155)
+      : `${p.name} by ${p.brand}. ${p.thc}% THC, ${p.weight}. Delivered by ${p.shop} in ${p.eta}.`,
+    alternates: canonical(`/product/${slug}`),
+    openGraph: {
+      title: `${p.brand} — ${p.name}`,
+      description: p.description?.slice(0, 200),
+      url: absolute(`/product/${slug}`),
+      type: "website",
+      images: [{
+        url: absolute(`/og/product/${slug}`),
+        width: 1200, height: 630,
+        alt: `${p.brand} ${p.name}`,
+      }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${p.brand} — ${p.name}`,
+      description: p.description?.slice(0, 200),
+      images: [absolute(`/og/product/${slug}`)],
+    },
   };
 }
 
@@ -42,12 +65,25 @@ export default async function ProductPage({ params }) {
   if (!p) notFound();
   const related = await getRelated(p.category, p.slug, 10);
 
+  const trail = [
+    { label: "Home", href: "/" },
+    { label: "Shop", href: "/products" },
+    { label: p.categoryName, href: `/products/${p.category}` },
+    { label: p.name },
+  ];
+  const resolved = resolveProductImage(p, "hero");
+  const imageUrl = resolved?.src?.startsWith("http")
+    ? resolved.src
+    : resolved?.src ? absolute(resolved.src) : null;
+
   const liveChip = p.shopLive
     ? { backgroundColor: "var(--color-green-tint)", color: "var(--color-green-deep)" }
     : { backgroundColor: "var(--color-rule-soft)", color: "var(--color-shade)" };
 
   return (
     <>
+      <JsonLd data={[productSchema(p, { imageUrl }), breadcrumbSchema(trail)]} />
+
       <div className="u-shell pt-[clamp(1.5rem,3vw,2.5rem)]">
         <Breadcrumb
           trail={[

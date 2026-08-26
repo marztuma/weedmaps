@@ -5,6 +5,8 @@ import { Breadcrumb } from "@/components/PageHeader";
 import ProductCard from "@/components/ProductCard";
 import Reveal from "@/components/Reveal";
 import Icon from "@/components/Icons";
+import JsonLd from "@/components/JsonLd";
+import { deliveryServiceSchema, breadcrumbSchema, canonical, absolute } from "@/lib/seo";
 
 export const revalidate = 60;
 
@@ -19,7 +21,9 @@ export async function generateMetadata({ params }) {
   if (!s) return {};
   return {
     title: `${s.name} — cannabis delivery — Weedmaps`,
-    description: `${s.name} delivers to ${s.area} in ${s.eta}. ${s.menuCount} items, ${s.rating} stars.`,
+    description: `${s.name} delivers to ${s.area} in ${s.eta}. ${s.menuCount} items on the menu.`,
+    alternates: canonical(`/delivery/${slug}`),
+    openGraph: { title: s.name, url: absolute(`/delivery/${slug}`), type: "website" },
   };
 }
 
@@ -41,8 +45,21 @@ export default async function DeliveryPage({ params }) {
   const menu = await getShopMenu(shop.id);
   const total = menu.reduce((n, g) => n + g.items.length, 0);
 
+  const trail = [
+    { label: "Home", href: "/" },
+    { label: "Delivery", href: "/deliveries" },
+    { label: shop.name },
+  ];
+
   return (
     <>
+      <JsonLd
+        data={[
+          deliveryServiceSchema(shop, { menuUrl: absolute(`/delivery/${shop.slug}`) }),
+          breadcrumbSchema(trail),
+        ]}
+      />
+
       <div className="u-shell pt-[clamp(1.5rem,3vw,2.5rem)]">
         <Breadcrumb
           trail={[
