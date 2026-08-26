@@ -20,24 +20,196 @@
   ],
   "reads": [
     {
+      "slug": "thc-percentage-is-a-bad-way-to-pick-flower",
       "title": "THC percentage is a bad way to pick flower",
       "deck": "Terpenes, not potency, decide what the high feels like.",
-      "mins": 6
+      "mins": 6,
+      "sections": [
+        {
+          "h": "The number on the jar is doing less than you think",
+          "p": [
+            "Walk into any menu and the flower is sorted by one figure: total THC. It is the easiest number to compare, so it became the number everyone compares. It is also close to useless as a prediction of how a given strain will actually feel.",
+            "THC percentage tells you how much of one molecule is present by weight. It does not tell you how quickly it reaches you, how long it holds, whether it leaves you talkative or flattened, or whether you will enjoy it. Two jars at the same 28% can produce experiences that have almost nothing in common."
+          ]
+        },
+        {
+          "h": "What the percentage actually measures",
+          "p": [
+            "Cannabis does not contain much THC while it is alive. It contains THCA, an acid that converts to THC when heated. Labs report both, and the figure printed as \"total THC\" is a calculation: the THCA multiplied by 0.877, plus whatever delta-9 THC is already present.",
+            "That 0.877 is the mass lost when the acid group breaks off. It assumes complete conversion, which a lighter never quite achieves. The number on the label is therefore a ceiling — the most THC that could reach you if combustion were perfect, not the amount that does."
+          ]
+        },
+        {
+          "h": "Terpenes are the part you can smell",
+          "p": [
+            "Terpenes are the aromatic compounds responsible for why one jar smells of diesel and another of lemon peel. They are not unique to cannabis: limonene is what makes citrus rind smell like citrus rind, pinene is what a pine forest smells like, and linalool is most of lavender.",
+            "Total terpene content usually lands between 1% and 4% by weight. Anything above 2% is considered aromatic, and growers who chase potency alone often produce flower that tests high and smells of almost nothing.",
+            "The claim that specific terpenes reliably steer a high in a specific direction — the so-called entourage effect — is popular and only partly supported. There is good evidence that terpenes shape aroma and flavour, and reasonable evidence they modulate the experience. There is not good evidence for the confident charts that assign each terpene a mood. Treat those as folklore with a grain of truth in them."
+          ]
+        },
+        {
+          "h": "Indica and sativa describe plants, not effects",
+          "p": [
+            "The indica/sativa split originally described plant morphology — short and broad-leaved against tall and narrow. After decades of hybridisation, almost everything commercially available is a hybrid, and the label on the shelf reflects marketing lineage more than botany.",
+            "The words remain useful as rough shorthand for what a seller expects you to feel, which is genuinely informative, because sellers pick the label based on how the strain has landed for customers. Just do not mistake it for a chemical fact about the jar."
+          ]
+        },
+        {
+          "h": "A better way to choose",
+          "p": [
+            "Read the terpene section of the certificate of analysis before the potency section. If the menu does not publish one, that is itself information.",
+            "Buy small quantities of several things rather than a large quantity of one. An eighth you dislike is a more expensive mistake than two grams you learn from.",
+            "Keep a note of what you actually enjoyed — strain, grower, harvest date, dominant terpene. Within a few purchases you will have a better predictor than any number on a jar.",
+            "And treat a very high percentage as a reason for a smaller first dose, not a better product."
+          ]
+        }
+      ]
     },
     {
+      "slug": "how-to-read-a-certificate-of-analysis",
       "title": "How to read a certificate of analysis",
       "deck": "Every legal package is lab-tested. Here is what the numbers mean.",
-      "mins": 8
+      "mins": 8,
+      "sections": [
+        {
+          "h": "What a COA is for",
+          "p": [
+            "A certificate of analysis is the lab report for the specific batch in your hand. In licensed markets it is not optional: a batch cannot be sold until an accredited third-party laboratory has tested it and the results have passed the state's thresholds.",
+            "It exists to answer two separate questions. What is in this, and is anything in it that should not be? Most people read only the first half."
+          ]
+        },
+        {
+          "h": "Check the identifiers first",
+          "p": [
+            "Before any result matters, confirm the document describes the thing you bought. A COA is batch-specific, and a producer with twenty batches has twenty certificates.",
+            "Match the batch or lot number on the package to the one on the report. Check the sample date — flower degrades, and a certificate from fourteen months ago describes a product that no longer exists in quite that form. Check that a named, accredited laboratory issued it, not the producer's own facility."
+          ]
+        },
+        {
+          "h": "The cannabinoid panel",
+          "p": [
+            "This is the potency section. Expect THCA and delta-9 THC listed separately, with a calculated total; the same treatment for CBDA and CBD; and often minor cannabinoids such as CBG, CBN and CBC.",
+            "Two conventions are worth knowing. Results are given per gram for flower and concentrates, but per package or per serving for edibles — reading one as the other is how people take ten times what they meant to. And \"ND\" means not detected, while \"<LOQ\" means present but below the limit of quantitation, which is not the same as absent.",
+            "CBN is worth a glance for a different reason: it forms as THC oxidises. A high CBN reading on flower is a reasonable proxy for age or poor storage."
+          ]
+        },
+        {
+          "h": "The safety panels are the point",
+          "p": [
+            "Four screens matter here, and a pass on each is the actual value of the document.",
+            "Pesticides. State lists run to dozens of compounds with individual action limits. This is the panel that most often fails, and the one least visible to a buyer without a report.",
+            "Residual solvents. Relevant to anything extracted with butane, propane or ethanol. Solventless products — rosin, dry sift, ice water hash — should show nothing, and if they do, something has gone wrong upstream.",
+            "Heavy metals. Cannabis is a hyperaccumulator: it draws lead, cadmium, arsenic and mercury out of soil and concentrates them. This panel is about where the plant grew.",
+            "Microbials and mycotoxins. Yeast, mould, aspergillus, E. coli, salmonella. Most relevant for flower, and the reason poorly cured product is a health question rather than a taste one."
+          ]
+        },
+        {
+          "h": "Terpenes, when they bother",
+          "p": [
+            "Terpene analysis is optional in most states, so its presence signals a producer who expects to be read closely. Totals usually fall between 1% and 4%, with the top three accounting for most of the aroma.",
+            "This is the section to read if you are trying to work out why you liked something, because it is the part that varies audibly between two jars with identical potency."
+          ]
+        },
+        {
+          "h": "Reasonable suspicion",
+          "p": [
+            "A few things should slow you down. A certificate with no laboratory name or accreditation number. Potency reported without any safety panels at all. A sample date long before the packaging date. An image of a report rather than a document you can verify — most labs publish results against a sample ID, and a producer confident in the batch will tell you where to look.",
+            "None of these prove anything is wrong. They do tell you how much the producer expects to be checked."
+          ]
+        }
+      ]
     },
     {
+      "slug": "edibles-start-at-2-5mg-and-wait",
       "title": "Edibles: start at 2.5mg and wait",
       "deck": "Onset runs 45 to 90 minutes. Most bad nights are a dosing error.",
-      "mins": 5
+      "mins": 5,
+      "sections": [
+        {
+          "h": "The mistake is almost always timing",
+          "p": [
+            "Very few difficult edible experiences come from a faulty product. Nearly all of them come from the same sequence: take a dose, feel nothing, conclude it is not working, take more, and then meet both doses at once.",
+            "Smoking reaches you in minutes, so it teaches a feedback loop that edibles quietly break. Eaten THC has to pass through the digestive system and the liver before it reaches circulation. That takes time, and the time is not consistent."
+          ]
+        },
+        {
+          "h": "Why eating it is different",
+          "p": [
+            "In the liver, THC is converted into 11-hydroxy-THC, a metabolite that crosses into the brain readily and is generally experienced as stronger and more physical than inhaled THC. This is why 5mg eaten is not comparable to 5mg smoked.",
+            "It is also why the curve is different: onset typically 45 to 90 minutes, though a full meal beforehand can push it past two hours. The peak lands around two to four hours in, and meaningful effects often last six to eight, with some residual grogginess after that."
+          ]
+        },
+        {
+          "h": "A dosing ladder that works",
+          "p": [
+            "Start at 2.5mg if you have little or no recent tolerance. Many packages are scored into 5mg or 10mg pieces; halving a 5mg piece is normal and sensible.",
+            "Wait two full hours before considering more. Not ninety minutes, not \"it has been a while\". Two hours, with the packet out of reach.",
+            "If you want more after two hours, add another 2.5mg rather than doubling. Tolerance builds quickly and unevenly, so a dose that suited you last month is a starting point, not a promise.",
+            "Eat something first. An empty stomach speeds onset and sharpens the peak, which is exactly the combination that surprises people."
+          ]
+        },
+        {
+          "h": "If you have taken too much",
+          "p": [
+            "It is uncomfortable and it is not dangerous. There are no cannabinoid receptors in the brainstem regions that govern breathing, which is why there is no established lethal dose in humans. That fact is genuinely reassuring at three in the morning.",
+            "What helps: somewhere quiet and dim, water, sitting or lying down, and someone sober nearby. Anxiety and a racing heart are the usual presentation, and both pass.",
+            "What does not help: more cannabis, alcohol, or driving anywhere.",
+            "Seek medical attention if there is chest pain, persistent vomiting, or the person cannot be roused. Uncontrollable vomiting in a frequent heavy user can be cannabinoid hyperemesis syndrome, which is a real condition and worth a doctor."
+          ]
+        },
+        {
+          "h": "Two practical notes",
+          "p": [
+            "Read the label as milligrams per piece, not per package. A 100mg bag holding ten 10mg gummies and a 100mg bag holding four 25mg gummies look identical on the shelf.",
+            "Store them where children and pets cannot reach, in the original labelled packaging. Edibles are designed to look like confectionery, and that is the single most common route to an accidental paediatric exposure."
+          ]
+        }
+      ]
     },
     {
+      "slug": "what-actually-happens-after-you-hit-order",
       "title": "What actually happens after you hit order",
       "deck": "Manifests, drivers, and why the window is a window.",
-      "mins": 7
+      "mins": 7,
+      "sections": [
+        {
+          "h": "The order becomes a legal document",
+          "p": [
+            "When a delivery service accepts your order, it does not simply appear on a driver's phone. It enters the state's track-and-trace system, where every gram is followed from the cultivator through the distributor to you.",
+            "Each product carries a package tag that stays with it through the entire chain. The moment your order is assembled, those tags are attached to a delivery manifest — a document listing exactly what is in the vehicle, what it is worth, and where it is going. A driver carrying inventory not on the manifest is carrying untracked cannabis, which is the thing the entire licensing regime exists to prevent."
+          ]
+        },
+        {
+          "h": "Why the window is a window",
+          "p": [
+            "Delivery drivers do not run one order at a time. A vehicle leaves with a manifest covering several orders and works a route, which is what makes delivery economically possible at all.",
+            "So your arrival estimate depends on where you fall in a route that is still being assembled when you order. Traffic, a slow ID check three stops ahead, or another customer not answering the door all propagate down the line. A service quoting a firm minute is guessing; one quoting a range is being honest about a route it does not fully control yet.",
+            "Most jurisdictions also cap the value a vehicle may carry at once. When a driver's manifest is full, later orders wait for the next run regardless of how close you are."
+          ]
+        },
+        {
+          "h": "At the door",
+          "p": [
+            "The driver checks a government-issued photo ID against the name on the order. This is not a formality they can waive as a favour — it is the condition of the licence, and delivery services are subject to compliance checks using underage decoys.",
+            "The recipient must be 21 or over, or 18 or over with a valid medical recommendation. Someone of age has to be physically present to receive it: the driver cannot leave cannabis on a doorstep, with a neighbour, or in a lobby.",
+            "Deliveries generally cannot be made to a public place, a school, a federal building, or, in most states, a college dormitory — student housing usually sits on land governed by federal rules, under which cannabis remains prohibited."
+          ]
+        },
+        {
+          "h": "Cash, cards and the banking problem",
+          "p": [
+            "Because cannabis is still federally controlled, most banks and both major card networks will not process the transactions. That is why so many services are cash-first, why card acceptance appears and disappears, and why ATM-style fees show up at the door.",
+            "It is worth confirming the payment method before the driver arrives rather than after."
+          ]
+        },
+        {
+          "h": "When something is wrong",
+          "p": [
+            "Check the package before the driver leaves. Every legal package carries a batch number that ties it to a certificate of analysis, and a mismatch between the label and the order is far easier to resolve at the door than by phone afterwards.",
+            "Return policies are narrower than in ordinary retail: once cannabis leaves a licensed premises it usually cannot re-enter inventory, so services handle problems with credits and replacements rather than restocking. Reputable ones handle them quickly, because a compliance complaint is a licence risk."
+          ]
+        }
+      ]
     }
   ]
 }

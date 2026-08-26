@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Reveal from "./Reveal";
 import Icon from "./Icons";
 
@@ -29,11 +30,19 @@ export default function Learn({ learn }) {
         </div>
 
         <div>
-          <h2 className="u-heading text-[clamp(1.75rem,3.2vw,2.6rem)]">Worth reading first.</h2>
+          <div className="flex items-baseline justify-between gap-4">
+            <h2 className="u-heading text-[clamp(1.75rem,3.2vw,2.6rem)]">Worth reading first.</h2>
+            <Link
+              href="/learn"
+              className="u-meta shrink-0 text-mute decoration-orange/60 underline-offset-4 hover:text-ink hover:underline"
+            >
+              All articles
+            </Link>
+          </div>
           <ul className="mt-8">
             {learn.reads.map((read, i) => (
               <Reveal as="li" key={read.title} index={i} className="border-t border-rule">
-                <a href="#learn" className="group flex items-start gap-5 py-5">
+                <Link href={`/learn/${read.slug}`} className="group flex items-start gap-5 py-5">
                   <span className="min-w-0 flex-1">
                     <span className="block text-[1.05rem] font-bold leading-snug tracking-[-0.025em] text-ink decoration-orange/60 underline-offset-4 group-hover:underline">
                       {read.title}
@@ -46,7 +55,7 @@ export default function Learn({ learn }) {
                   <span className="mt-0.5 grid h-11 w-11 shrink-0 place-items-center rounded-full border border-rule text-ink transition-colors duration-200 group-hover:border-ink group-hover:bg-ink group-hover:text-linen">
                     <Icon name="arrowUpRight" size={16} />
                   </span>
-                </a>
+                </Link>
               </Reveal>
             ))}
           </ul>

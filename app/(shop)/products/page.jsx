@@ -1,23 +1,39 @@
 import Link from "next/link";
-import { canonical } from "@/lib/seo";
-import { getCategoryIndex, getAllProducts } from "@/db/queries";
+import { notFound } from "next/navigation";
+import { canonicalPage } from "@/lib/seo";
+import { getCategoryIndex, getAllProducts, pageNumber } from "@/db/queries";
 import PageHeader from "@/components/PageHeader";
 import ProductGrid from "@/components/ProductGrid";
+import Pager from "@/components/Pager";
 import Reveal from "@/components/Reveal";
 import Icon from "@/components/Icons";
 
 export const revalidate = 60;
 
-export const metadata = {
-  alternates: canonical("/products"),
-  title: "Shop every category — Weedmaps",
-  description: "Every cannabis product delivering to you right now, across all nine categories.",
-};
+export async function generateMetadata({ searchParams }) {
+  const sp = await searchParams;
+  const page = pageNumber(sp.page);
+  return {
+    alternates: canonicalPage("/products", page),
+    title: page > 1
+      ? `Shop every category — page ${page} — Weedmaps`
+      : "Shop every category — Weedmaps",
+    description:
+      "Every cannabis product delivering to you right now, across all nine categories.",
+  };
+}
 
 export default async function ProductsPage({ searchParams }) {
   const sp = await searchParams;
   const sort = typeof sp.sort === "string" ? sp.sort : "price_asc";
-  const [cats, items] = await Promise.all([getCategoryIndex(), getAllProducts({ sort })]);
+  const page = pageNumber(sp.page);
+  const [cats, listing] = await Promise.all([
+    getCategoryIndex(),
+    getAllProducts({ sort, page }),
+  ]);
+
+  // A page past the end is not an empty shelf, it is a wrong address.
+  if (page > listing.pages) notFound();
 
   return (
     <>
@@ -25,7 +41,7 @@ export default async function ProductsPage({ searchParams }) {
         trail={[{ label: "Home", href: "/" }, { label: "Shop" }]}
         title="Everything on the shelf"
         blurb="Nine categories, every one of them delivered. Pick a shelf, or scroll the whole catalogue below."
-        meta={`${items.length} products delivering now`}
+        meta={`${listing.total} products delivering now`}
       />
 
       <section className="u-tooth border-y border-rule bg-linen-deep">
@@ -57,7 +73,15 @@ export default async function ProductsPage({ searchParams }) {
 
       <section className="u-shell py-[clamp(2.5rem,5vw,4rem)]">
         <h2 className="u-heading mb-6 text-[clamp(1.55rem,3.1vw,2.6rem)]">The whole catalogue</h2>
-        <ProductGrid products={items} />
+        <ProductGrid products={listing.items} />
+        <Pager
+          page={listing.page}
+          pages={listing.pages}
+          total={listing.total}
+          perPage={listing.perPage}
+          basePath="/products"
+          params={{ sort: sort === "price_asc" ? null : sort }}
+        />
       </section>
     </>
   );

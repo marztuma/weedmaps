@@ -197,38 +197,83 @@ export async function getCategory(slug) {
   return { ...cat, subs, count };
 }
 
+/* Every sort ends on products.id.
+
+   None of these columns is unique — dozens of products share a price, a
+   potency, an ETA. Without a deterministic final key, Postgres may order tied
+   rows differently between two queries, and since paging is LIMIT/OFFSET over
+   separate queries, that shows the same product on two pages while another
+   never appears at all. The id breaks every tie the same way each time. */
 const SORTS = {
-  price_asc: asc(products.priceCents),
-  price_desc: desc(products.priceCents),
-  potency: desc(products.thc),
-  fastest: asc(shops.etaMinMinutes),
-  rated: desc(shops.rating),
+  price_asc: [asc(products.priceCents), asc(products.id)],
+  price_desc: [desc(products.priceCents), asc(products.id)],
+  potency: [desc(products.thc), asc(products.id)],
+  fastest: [asc(shops.etaMinMinutes), asc(products.id)],
+  rated: [desc(shops.rating), asc(products.id)],
 };
 
-/** Filtered, sorted products for a category page. */
+/* Listings are paged rather than capped.
+
+   These two queries used to take a flat .limit(120) and .limit(200). That is
+   not a page size, it is a silent truncation: with the catalogue at 553
+   products, /products showed 200 and quietly dropped the other 353, and there
+   was no route to them from anywhere on the site. A page size plus a total
+   count means every product is reachable and the UI can say how many there are.
+
+   The count runs against the same joins and predicates as the rows, so the
+   total can never disagree with what the pages actually contain. */
+
+export const PER_PAGE = 60;
+
+/** Clamp a ?page= value to a whole number of at least 1. */
+export function pageNumber(raw) {
+  const n = Number.parseInt(raw, 10);
+  return Number.isFinite(n) && n >= 1 ? n : 1;
+}
+
+const paged = (total, page) => ({
+  total,
+  page,
+  perPage: PER_PAGE,
+  pages: Math.max(1, Math.ceil(total / PER_PAGE)),
+});
+
+/** Filtered, sorted products for a category page, one page at a time. */
 export async function getCategoryProducts(slug, opts = {}) {
-  const { sub, sort = "price_asc", liveOnly = true, brand } = opts;
+  const { sub, sort = "price_asc", liveOnly = true, brand, page = 1 } = opts;
   const where = [eq(categories.slug, slug)];
   if (sub) where.push(eq(subcategories.name, sub));
   if (brand) where.push(eq(brands.slug, brand));
   if (liveOnly) where.push(eq(shops.deliveringNow, true));
 
-  const rows = await withJoins(db.select(productSelect))
-    .where(and(...where))
-    .orderBy(SORTS[sort] ?? SORTS.price_asc)
-    .limit(120);
-  return rows.map(shapeProduct);
+  const [rows, [{ total }]] = await Promise.all([
+    withJoins(db.select(productSelect))
+      .where(and(...where))
+      .orderBy(...(SORTS[sort] ?? SORTS.price_asc))
+      .limit(PER_PAGE)
+      .offset((page - 1) * PER_PAGE),
+    withJoins(db.select({ total: sql`count(*)`.mapWith(Number) })).where(and(...where)),
+  ]);
+
+  return { items: rows.map(shapeProduct), ...paged(total, page) };
 }
 
-/** Everything, for the /products index. */
+/** Everything, for the /products index, one page at a time. */
 export async function getAllProducts(opts = {}) {
-  const { sort = "price_asc", liveOnly = true } = opts;
+  const { sort = "price_asc", liveOnly = true, page = 1 } = opts;
   const where = liveOnly ? [eq(shops.deliveringNow, true)] : [];
-  const rows = await withJoins(db.select(productSelect))
-    .where(where.length ? and(...where) : undefined)
-    .orderBy(SORTS[sort] ?? SORTS.price_asc)
-    .limit(200);
-  return rows.map(shapeProduct);
+  const predicate = where.length ? and(...where) : undefined;
+
+  const [rows, [{ total }]] = await Promise.all([
+    withJoins(db.select(productSelect))
+      .where(predicate)
+      .orderBy(...(SORTS[sort] ?? SORTS.price_asc))
+      .limit(PER_PAGE)
+      .offset((page - 1) * PER_PAGE),
+    withJoins(db.select({ total: sql`count(*)`.mapWith(Number) })).where(predicate),
+  ]);
+
+  return { items: rows.map(shapeProduct), ...paged(total, page) };
 }
 
 /** One product, with everything a detail page shows. */

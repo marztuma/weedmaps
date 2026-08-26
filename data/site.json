@@ -24,6 +24,10 @@
       "href": "/deals"
     },
     {
+      "label": "Learn",
+      "href": "/learn"
+    },
+    {
       "label": "Search",
       "href": "/search"
     }
@@ -97,6 +101,10 @@
           {
             "label": "Search",
             "href": "/search"
+          },
+          {
+            "label": "Learn",
+            "href": "/learn"
           }
         ]
       },

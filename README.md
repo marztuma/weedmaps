@@ -111,16 +111,47 @@ statement and the service list; none is decorative.
 
 ## What is not built yet
 
-Honest list, so nothing here reads as finished when it is not:
+Honest list, so nothing here reads as finished when it is not.
 
-- **Checkout, accounts and payments.** The bag is real and persists; the
-  checkout button is a stub. No auth, no orders table, no payment.
+- **Customer accounts.** There is no sign-up, no sign-in and no order history
+  for shoppers. Checkout is a guest flow. The *admin* has its own login
+  (scrypt-hashed passwords, HMAC-signed session cookie); that is staff auth,
+  not customer auth.
 - **Real location.** The address field is free text. It does not geocode, and
   service coverage is not actually computed from it.
-- **Live inventory.** Everything is seeded. No integration with any real menu.
-- **Reviews.** Ratings and counts are seeded numbers with no reviews behind them.
-- **Strains and Learn.** Nav-level content that exists on the real site; the
-  editorial cards on the homepage do not link to articles yet.
-- **Pagination.** Category pages cap at 120 rows and the catalogue at 200.
+- **Live inventory.** Everything is seeded. No integration with any real menu,
+  and every price, potency figure and delivery ETA is demonstration data.
+- **Reviews.** Ratings and counts are seeded numbers with no reviews behind
+  them. This is why `AggregateRating` is never emitted for a product, and why
+  delivery-service ratings ship only behind `SEO_PUBLISH_RATINGS`. Publishing
+  invented review markup is the fastest way to earn a manual penalty.
+- **Strains.** A nav-level section on the real site that does not exist here.
+  Nothing links to it, so it is an absence rather than a broken link.
 - **Type ramp reconciliation.** The design detector reports advisory drift where
   small text uses three adjacent sizes for one job. See DESIGN.md.
+
+### Built since this list was first written
+
+- **Checkout, orders and payments.** `orders`, `order_items` and
+  `payment_methods` are real tables. Checkout takes Cash App, Zelle and crypto
+  (BTC, TRC20, ERC20), writes an order, and surfaces it in the admin with an
+  email notification. Prices are recomputed server-side at checkout — the
+  browser's cart is treated as a statement of intent, never as money.
+
+  No code path marks an order paid on its own. All three methods are
+  irreversible push payments with no callback, so an order stays
+  `awaiting_payment` until a human confirms receipt.
+
+- **Pagination.** Listings were capped at 120 rows per category and 200 for the
+  whole catalogue — a silent truncation that left 353 of 553 products with no
+  route to them from anywhere on the site. `/products` and every category page
+  now page at 60 with a server-rendered pager that needs no JavaScript, keeps
+  active filters, canonicalises each page to itself, and 404s past the end.
+
+  Every sort now ends on `products.id`. None of the sort columns is unique, and
+  without a deterministic final key Postgres may order tied rows differently
+  between queries — which, under `LIMIT`/`OFFSET`, showed some products twice
+  and hid others entirely.
+
+- **Learn.** `/learn` and four articles. The homepage editorial cards used to
+  point at `#learn`, an anchor back to the section containing them.
