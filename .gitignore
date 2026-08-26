@@ -14,3 +14,7 @@ yarn-error.log*
 .DS_Store
 Thumbs.db
 .env*.local
+!.env.example
+
+# Vercel project link (contains project + org ids)
+.vercel
