@@ -63,6 +63,28 @@ async function main() {
   // where each category's photography sits, and how far through it we are
   const cursor = {};
 
+  /* Slugs are the product's public URL and are unique in the database. Two
+     sizes of one product share a name, so the weight disambiguates them; if
+     even that repeats, a counter does. Seeded from what is already stored so a
+     re-run cannot collide with an earlier one. */
+  const takenSlugs = new Set(
+    (await db.select({ slug: schema.products.slug }).from(schema.products)).map((r) => r.slug)
+  );
+  function uniqueSlug(base, weight) {
+    const trim = (s) => s.slice(0, 150);
+    let candidate = trim(base);
+    if (!takenSlugs.has(candidate)) { takenSlugs.add(candidate); return candidate; }
+
+    if (weight) {
+      candidate = trim(`${base}-${slugify(String(weight))}`);
+      if (!takenSlugs.has(candidate)) { takenSlugs.add(candidate); return candidate; }
+    }
+    for (let n = 2; ; n++) {
+      candidate = trim(`${base}-${n}`);
+      if (!takenSlugs.has(candidate)) { takenSlugs.add(candidate); return candidate; }
+    }
+  }
+
   let created = 0, skipped = 0, cursorShop = 0;
 
   for (const [brand, listings] of Object.entries(BRAND_LISTINGS)) {
@@ -76,13 +98,17 @@ async function main() {
       console.log(`  + brand: ${brand}`);
     }
 
-    const existing = await db.select({ name: schema.products.name })
+    const existing = await db.select({ name: schema.products.name, weight: schema.products.weight })
       .from(schema.products).where(eq(schema.products.brandId, bid));
-    const have = new Set(existing.map((e) => e.name.toLowerCase()));
+    // Identity is name + weight: the same product in another size is another
+    // listing, not a duplicate.
+    const have = new Set(existing.map((e) => `${e.name.toLowerCase()}|${e.weight ?? ""}`));
 
     const values = [];
     for (const [name, category, sub, weight, strain] of listings) {
-      if (have.has(name.toLowerCase())) { skipped++; continue; }
+      const identity = `${name.toLowerCase()}|${weight ?? ""}`;
+      if (have.has(identity)) { skipped++; continue; }
+      have.add(identity);
 
       const cid = catId.get(category);
       if (!cid) { console.log(`  ! unknown category "${category}" for ${name}`); continue; }
@@ -99,7 +125,7 @@ async function main() {
       const isGear = strain === "Accessory";
 
       values.push({
-        slug: `${category}-${slugify(brand)}-${slugify(name)}`.slice(0, 150),
+        slug: uniqueSlug(`${category}-${slugify(brand)}-${slugify(name)}`, weight),
         name,
         brandId: bid,
         categoryId: cid,

@@ -17,10 +17,20 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const b = await getBrand(slug);
   if (!b) return {};
+  // A brand we carry but have no stock for is a real page and stays reachable,
+  // but it has nothing to rank for. Indexing it invites a thin-content judgement
+  // on the whole site, so it is kept out until the shelf is filled.
+  const stocked = b.items.length > 0;
+
   return {
-    title: `${b.name} — ${b.kind ?? "cannabis"} delivered — Weedmaps`,
-    description: `Every ${b.name} product delivering to you right now.`,
+    title: stocked
+      ? `${b.name} — ${b.kind ?? "cannabis"} delivered — Weedmaps`
+      : `${b.name} — Weedmaps`,
+    description: stocked
+      ? `Every ${b.name} product delivering to you right now.`
+      : `${b.name} on Weedmaps. No ${b.name} products are in stock for delivery right now.`,
     alternates: canonical(`/brand/${slug}`),
+    robots: stocked ? undefined : { index: false, follow: true },
     openGraph: { title: b.name, url: absolute(`/brand/${slug}`), type: "website" },
   };
 }
