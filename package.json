@@ -1,0 +1,37 @@
+{
+  "name": "weedmaps",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3100",
+    "build": "next build",
+    "start": "next start -p 3100",
+    "db:push": "drizzle-kit push",
+    "db:seed": "node db/seed.js",
+    "db:studio": "drizzle-kit studio",
+    "db:reset": "drizzle-kit push --force && node db/seed.js",
+    "images:import": "node scripts/import-images.mjs",
+    "images:upload": "node scripts/upload-cloudinary.mjs",
+    "images:check": "node scripts/upload-cloudinary.mjs --dry-run",
+    "brands:fill": "node scripts/fill-brands.mjs"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.1.0",
+    "cloudinary": "^2.10.1",
+    "drizzle-orm": "^0.45.2",
+    "motion": "^12.23.12",
+    "next": "15.5.4",
+    "nodemailer": "^9.0.5",
+    "qrcode": "^1.5.4",
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
+    "server-only": "^0.0.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.13",
+    "dotenv": "^17.4.2",
+    "drizzle-kit": "^0.31.10",
+    "puppeteer-core": "^25.8.0",
+    "tailwindcss": "^4.1.13"
+  }
+}

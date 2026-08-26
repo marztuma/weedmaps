@@ -1,0 +1,110 @@
+{
+  "banners": [
+    {
+      "slug": "weedmaps-hero-banner-may-2024-2560-x-800-px",
+      "avif": "/brands/banners/weedmaps-hero-banner-may-2024-2560-x-800-px.avif",
+      "webp": "/brands/banners/weedmaps-hero-banner-may-2024-2560-x-800-px.webp",
+      "brand": null,
+      "width": 2400,
+      "height": 750
+    },
+    {
+      "slug": "2026-02-17-ca-stiiizy-weedmaps-banner-2000x700-1",
+      "avif": "/brands/banners/2026-02-17-ca-stiiizy-weedmaps-banner-2000x700-1.avif",
+      "webp": "/brands/banners/2026-02-17-ca-stiiizy-weedmaps-banner-2000x700-1.webp",
+      "brand": "STIIIZY",
+      "width": 2400,
+      "height": 840
+    },
+    {
+      "slug": "herb-weed-maps",
+      "avif": "/brands/banners/herb-weed-maps.avif",
+      "webp": "/brands/banners/herb-weed-maps.webp",
+      "brand": null,
+      "width": 2400,
+      "height": 750
+    },
+    {
+      "slug": "weedmaps-2560-x-800-3-1",
+      "avif": "/brands/banners/weedmaps-2560-x-800-3-1.avif",
+      "webp": "/brands/banners/weedmaps-2560-x-800-3-1.webp",
+      "brand": null,
+      "width": 2400,
+      "height": 750
+    },
+    {
+      "slug": "weedmaps-2560-x-800-3",
+      "avif": "/brands/banners/weedmaps-2560-x-800-3.avif",
+      "webp": "/brands/banners/weedmaps-2560-x-800-3.webp",
+      "brand": null,
+      "width": 2400,
+      "height": 750
+    },
+    {
+      "slug": "select-liveresin-weedmaps-desktop-2560x800",
+      "avif": "/brands/banners/select-liveresin-weedmaps-desktop-2560x800.avif",
+      "webp": "/brands/banners/select-liveresin-weedmaps-desktop-2560x800.webp",
+      "brand": "Select",
+      "width": 2400,
+      "height": 750
+    },
+    {
+      "slug": "hero",
+      "avif": "/brands/banners/hero.avif",
+      "webp": "/brands/banners/hero.webp",
+      "brand": null,
+      "width": 2400,
+      "height": 500
+    }
+  ],
+  "logos": [
+    {
+      "slug": "revert-logo-01",
+      "avif": "/brands/logos/revert-logo-01.avif",
+      "webp": "/brands/logos/revert-logo-01.webp",
+      "brand": "Revert",
+      "width": 2550,
+      "height": 2180
+    },
+    {
+      "slug": "2023-ruby-farms-ny-logo",
+      "avif": "/brands/logos/2023-ruby-farms-ny-logo.avif",
+      "webp": "/brands/logos/2023-ruby-farms-ny-logo.webp",
+      "brand": "Ruby Farms",
+      "width": 438,
+      "height": 358
+    },
+    {
+      "slug": "attachment-145140261-1",
+      "avif": "/brands/logos/attachment-145140261-1.avif",
+      "webp": "/brands/logos/attachment-145140261-1.webp",
+      "brand": null,
+      "width": 500,
+      "height": 500
+    },
+    {
+      "slug": "attachment-145140261",
+      "avif": "/brands/logos/attachment-145140261.avif",
+      "webp": "/brands/logos/attachment-145140261.webp",
+      "brand": null,
+      "width": 500,
+      "height": 500
+    },
+    {
+      "slug": "oip-1",
+      "avif": "/brands/logos/oip-1.avif",
+      "webp": "/brands/logos/oip-1.webp",
+      "brand": null,
+      "width": 474,
+      "height": 474
+    },
+    {
+      "slug": "oip",
+      "avif": "/brands/logos/oip.avif",
+      "webp": "/brands/logos/oip.webp",
+      "brand": null,
+      "width": 474,
+      "height": 474
+    }
+  ]
+}

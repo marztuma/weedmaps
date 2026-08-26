@@ -1,0 +1,16 @@
+node_modules/
+.next/
+out/
+build/
+
+# Impeccable working files: review captures and the local decision-round payloads
+.impeccable/review/
+.impeccable/round-out.txt
+.impeccable/server.log
+.impeccable/*.mjs
+
+npm-debug.log*
+yarn-error.log*
+.DS_Store
+Thumbs.db
+.env*.local

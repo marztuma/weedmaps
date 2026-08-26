@@ -1,0 +1,672 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-22T17:26:00.466Z",
+  "title": "Design System: Weedmaps — The Shelf",
+  "extensions": {
+    "colorMeta": {
+      "linen": {
+        "role": "neutral",
+        "displayName": "Linen",
+        "canonical": "#f9f5f2",
+        "tonalRamp": [
+          "#1a1614",
+          "#332c27",
+          "#4d443c",
+          "#6b6157",
+          "#948a80",
+          "#c4bbb2",
+          "#e6dfd8",
+          "#f9f5f2"
+        ]
+      },
+      "linen-deep": {
+        "role": "neutral",
+        "displayName": "Deep Linen",
+        "canonical": "#f2ece7",
+        "tonalRamp": [
+          "#191512",
+          "#312a25",
+          "#4a413a",
+          "#675c53",
+          "#918780",
+          "#c0b6ad",
+          "#e2dad3",
+          "#f2ece7"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper White",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#1a1a1a",
+          "#333333",
+          "#4d4d4d",
+          "#6b6b6b",
+          "#949494",
+          "#c4c4c4",
+          "#e8e8e8",
+          "#ffffff"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#141314",
+        "tonalRamp": [
+          "#141314",
+          "#252325",
+          "#3c3a40",
+          "#5f5c66",
+          "#807d88",
+          "#a09da6",
+          "#cfccd3",
+          "#eeecf0"
+        ]
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Ink Soft",
+        "canonical": "#3c3a40",
+        "tonalRamp": [
+          "#131215",
+          "#232128",
+          "#3c3a40",
+          "#565360",
+          "#77737f",
+          "#9c98a4",
+          "#c6c3cc",
+          "#e9e7ec"
+        ]
+      },
+      "shade": {
+        "role": "neutral",
+        "displayName": "Shade",
+        "canonical": "#5f5c66",
+        "tonalRamp": [
+          "#161519",
+          "#282730",
+          "#3f3d47",
+          "#5f5c66",
+          "#807d8a",
+          "#a3a0ac",
+          "#c9c7d0",
+          "#eae9ee"
+        ]
+      },
+      "mute": {
+        "role": "neutral",
+        "displayName": "Mute",
+        "canonical": "#656170",
+        "tonalRamp": [
+          "#17161b",
+          "#2a2832",
+          "#423f4c",
+          "#656170",
+          "#868294",
+          "#a9a5b3",
+          "#ccc9d5",
+          "#ecebf0"
+        ]
+      },
+      "fade": {
+        "role": "neutral",
+        "displayName": "Fade",
+        "canonical": "#a09da6",
+        "tonalRamp": [
+          "#1b1a1d",
+          "#2f2e33",
+          "#474549",
+          "#615f66",
+          "#807d86",
+          "#a09da6",
+          "#c8c6cc",
+          "#e9e8eb"
+        ]
+      },
+      "rule": {
+        "role": "neutral",
+        "displayName": "Rule",
+        "canonical": "#d6d5d9",
+        "tonalRamp": [
+          "#1c1b1f",
+          "#312f36",
+          "#4a484f",
+          "#67656d",
+          "#8e8c94",
+          "#b4b2ba",
+          "#d6d5d9",
+          "#f0f0f2"
+        ]
+      },
+      "rule-soft": {
+        "role": "neutral",
+        "displayName": "Rule Soft",
+        "canonical": "#e6e2e0",
+        "tonalRamp": [
+          "#1c1a19",
+          "#312e2c",
+          "#4a4643",
+          "#67625f",
+          "#8e8985",
+          "#b6b1ad",
+          "#e6e2e0",
+          "#f5f3f2"
+        ]
+      },
+      "orange": {
+        "role": "primary",
+        "displayName": "Signal Orange",
+        "canonical": "#f15a26",
+        "tonalRamp": [
+          "#2a0d05",
+          "#4a1808",
+          "#6f240d",
+          "#94320f",
+          "#b8431a",
+          "#f15a26",
+          "#f9c5b3",
+          "#fde9e2"
+        ]
+      },
+      "orange-text": {
+        "role": "primary",
+        "displayName": "Kiln Orange",
+        "canonical": "#b8431a",
+        "tonalRamp": [
+          "#2a0d05",
+          "#421509",
+          "#5f200c",
+          "#8f3312",
+          "#b8431a",
+          "#dc5b2c",
+          "#f0a487",
+          "#fbe3d9"
+        ]
+      },
+      "orange-tint": {
+        "role": "primary",
+        "displayName": "Orange Wash",
+        "canonical": "#f9c5b3",
+        "tonalRamp": [
+          "#331409",
+          "#4f1e0d",
+          "#742d14",
+          "#9c3f1e",
+          "#c4653f",
+          "#e2937a",
+          "#f9c5b3",
+          "#fdeae3"
+        ]
+      },
+      "ember": {
+        "role": "primary",
+        "displayName": "Ember",
+        "canonical": "#3a1408",
+        "tonalRamp": [
+          "#1c0904",
+          "#2a0f06",
+          "#3a1408",
+          "#57200d",
+          "#7a2f14",
+          "#a3441f",
+          "#cf7551",
+          "#eebda9"
+        ]
+      },
+      "purple": {
+        "role": "secondary",
+        "displayName": "Dusk Purple",
+        "canonical": "#7755a3",
+        "tonalRamp": [
+          "#1d1129",
+          "#301c44",
+          "#452763",
+          "#5c3681",
+          "#7755a3",
+          "#9b7fbe",
+          "#c3aed8",
+          "#ddd2ea"
+        ]
+      },
+      "purple-tint": {
+        "role": "secondary",
+        "displayName": "Purple Bloom",
+        "canonical": "#ddd2ea",
+        "tonalRamp": [
+          "#22183017",
+          "#3c2b52",
+          "#523a6f",
+          "#6b5090",
+          "#8f74b0",
+          "#b39dcd",
+          "#ddd2ea",
+          "#f1ecf7"
+        ]
+      },
+      "green": {
+        "role": "tertiary",
+        "displayName": "Licence Green",
+        "canonical": "#419b45",
+        "tonalRamp": [
+          "#0d1f0e",
+          "#14251a",
+          "#1f4a21",
+          "#2f7a34",
+          "#419b45",
+          "#6cba6f",
+          "#a3d6a5",
+          "#cfe4d0"
+        ]
+      },
+      "green-text": {
+        "role": "tertiary",
+        "displayName": "Sage Green",
+        "canonical": "#2f7a34",
+        "tonalRamp": [
+          "#0b1c0c",
+          "#122f14",
+          "#1f4a21",
+          "#2f7a34",
+          "#409c45",
+          "#68b96c",
+          "#a2d5a4",
+          "#d6ecd7"
+        ]
+      },
+      "green-tint": {
+        "role": "tertiary",
+        "displayName": "Green Wash",
+        "canonical": "#cfe4d0",
+        "tonalRamp": [
+          "#0f1f10",
+          "#1a331b",
+          "#264a28",
+          "#356739",
+          "#4d8d51",
+          "#7bb47e",
+          "#cfe4d0",
+          "#eaf4ea"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The masthead statement at clamp(2.05rem, 6.2vw, 4.75rem) over a 20ch measure, the age gate at clamp(1.9rem, 5vw, 2.5rem), the product-detail h1 at clamp(2rem, 5vw, 3.5rem) over 16ch, and the strain name on the product label. Manrope 800, -0.04em, 0.92 leading, balanced wrap."
+      },
+      "display-page": {
+        "displayName": "Display Page",
+        "purpose": "The h1 of every interior route, set by PageHeader over an 18ch measure and reused verbatim by the brand and delivery detail pages. What makes ten routes read as one site."
+      },
+      "display-thin": {
+        "displayName": "Display Thin",
+        "purpose": "Headlines on drenched bands — deals (7vw/5rem) and app CTA (6.5vw/4.5rem). The 200 cut is what makes a flooded section read as printing rather than as a banner."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Top-level section titles: the delivery-service list, brands, learn."
+      },
+      "headline-section": {
+        "displayName": "Headline Section",
+        "purpose": "Shelf names and in-page section titles on the product, delivery and products routes — one step down, used where a section sits inside a page that already has an h1."
+      },
+      "index": {
+        "displayName": "Index",
+        "purpose": "2rem, 3 uses. Mobile nav links, the A–Z letter marker on the brands page, and the hero price on product detail. Navigation furniture rather than a heading."
+      },
+      "stat": {
+        "displayName": "Stat",
+        "purpose": "1.5rem mono, 4 uses. Counted figures standing alone: the three deals-page counters on the orange strip and the cart's grand total."
+      },
+      "panel": {
+        "displayName": "Panel",
+        "purpose": "1.35rem, 7 uses. The wordmark in header, footer and mobile sheet, plus the heading of a panel or empty state — cart drawer title, empty grid, empty service list."
+      },
+      "subhead": {
+        "displayName": "Subhead",
+        "purpose": "1.15rem, 6 uses. The rank above a title: service names in the delivery list, delivery-page group heads, related-product names, and the deals-band price."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "1.05rem, 9 uses. Row and card names — categories, brands, article titles, how-it-works steps, and the search field's own input text."
+      },
+      "spec": {
+        "displayName": "Spec",
+        "purpose": "1rem mono, 6 uses. The dd figure of a definition pair on the product and delivery pages, app-feature titles, the stepper quantity, and the service name heading a cart group. Never running copy."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "0.95rem, 18 uses. Standing copy, primary control text, product names in a card or cart line. Capped at 68ch via .u-prose."
+      },
+      "body-small": {
+        "displayName": "Body Small",
+        "purpose": "0.9rem, 17 uses. Copy that sits inside chrome rather than in a column: nav links, subtitles under a section heading, the descriptive line on an index or empty state."
+      },
+      "control": {
+        "displayName": "Control",
+        "purpose": "0.85rem, 11 uses. Every pill and button label — outlined pills, search submit, back link, sort segments, the Delivering-now filter, a cart checkout button."
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "0.8rem, 15 uses. Fine print and dense secondary controls: struck former prices, counts, legal lines, the footer disclosure, filter chips and quick-add."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Non-measurement small caps in the sans: footer column heads, 'Sort', 'Change', store-button superscript."
+      },
+      "meta": {
+        "displayName": "Meta",
+        "purpose": "Measured small caps in mono: arrival windows and ETAs, fees, order minimums, item counts, weights, potency, read time, breadcrumbs."
+      },
+      "data": {
+        "displayName": "Data",
+        "purpose": "A face, not a size. Tabular figures with slashed zero for prices, ratings and counts, composing with Stat, Subhead, Spec, Body or Caption depending on what the figure is doing."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "ease-out-expo",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "The print-wipe reveal and the product-label hover lift. The system's only expressive easing."
+      },
+      {
+        "name": "ease-std",
+        "value": "cubic-bezier(0.22, 0.61, 0.36, 1)",
+        "purpose": "Every control state transition (200ms): background, color, border, transform."
+      },
+      {
+        "name": "reveal",
+        "value": "opacity 0.5s linear, transform 0.9s var(--ease-out-expo), clip-path 0.9s var(--ease-out-expo)",
+        "purpose": "The one authored gesture: clip-path inset(12% 0 0 0) + translateY(14px) resolving to zero, fired once by an IntersectionObserver."
+      },
+      {
+        "name": "stagger",
+        "value": "0.055s",
+        "purpose": "Per-item reveal delay along a row, multiplied by the --i index. Rows cap their index so a long list never stalls."
+      },
+      {
+        "name": "marquee-drift",
+        "value": "translateX(0) → translateX(-50%) over 46s linear infinite",
+        "purpose": "The brand ribbon. The only ambient motion; pauses on host hover, stopped entirely under reduced motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "xl",
+        "value": "1280px"
+      },
+      {
+        "name": "shell",
+        "value": "1250px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Pill",
+      "kind": "button",
+      "refersTo": "pill-solid",
+      "description": "The solid call to action: ink ground, linen text, full pill. Used for the deals band CTA, the age gate, and the mobile sign-in.",
+      "html": "<button class=\"ds-pill-solid\">Every deal within 5 miles<svg class=\"ds-pill-solid-i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 12h15\"/><path d=\"m13 6 6 6-6 6\"/></svg></button>",
+      "css": ".ds-pill-solid { display: inline-flex; align-items: center; gap: 8px; height: 48px; padding: 0 24px; border: none; border-radius: 50px; background: var(--color-ink, #141314); color: var(--color-linen, #f9f5f2); font-family: var(--font-sans, Manrope, sans-serif); font-size: 0.95rem; font-weight: 700; letter-spacing: -0.01em; cursor: pointer; transition: background-color 0.2s cubic-bezier(0.22,0.61,0.36,1), color 0.2s cubic-bezier(0.22,0.61,0.36,1), transform 0.2s cubic-bezier(0.22,0.61,0.36,1); } .ds-pill-solid-i { width: 17px; height: 17px; } .ds-pill-solid:hover { background: var(--color-ink-soft, #3c3a40); } .ds-pill-solid:focus-visible { outline: 2px solid var(--color-purple, #7755a3); outline-offset: 3px; border-radius: 50px; } .ds-pill-solid:active { transform: translateY(1px); }"
+    },
+    {
+      "name": "Outlined Pill",
+      "kind": "button",
+      "refersTo": "pill-outline",
+      "description": "The secondary control: 1px ink hairline on the paper, filling to ink on hover. Section 'All …' links, 'View on map', 'Sign in'.",
+      "html": "<button class=\"ds-pill-outline\">All flower<svg class=\"ds-pill-outline-i\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 17 17 7\"/><path d=\"M8 7h9v9\"/></svg></button>",
+      "css": ".ds-pill-outline { display: inline-flex; align-items: center; gap: 6px; height: 44px; padding: 0 16px; border: 1px solid var(--color-ink, #141314); border-radius: 50px; background: transparent; color: var(--color-ink, #141314); font-family: var(--font-sans, Manrope, sans-serif); font-size: 0.85rem; font-weight: 700; letter-spacing: -0.01em; cursor: pointer; transition: background-color 0.2s cubic-bezier(0.22,0.61,0.36,1), color 0.2s cubic-bezier(0.22,0.61,0.36,1); } .ds-pill-outline-i { width: 15px; height: 15px; } .ds-pill-outline:hover { background: var(--color-ink, #141314); color: var(--color-linen, #f9f5f2); } .ds-pill-outline:focus-visible { outline: 2px solid var(--color-purple, #7755a3); outline-offset: 3px; } .ds-pill-outline:active { transform: translateY(1px); }"
+    },
+    {
+      "name": "Delivering-Now Filter",
+      "kind": "chip",
+      "refersTo": "pill-toggle-on",
+      "description": "The status chip made interactive at 44px. A role=switch pill in the sticky address bar: green-wash fill with a green border and dot when on, hairline border with shade text and a fade dot when off. Ships on by default and really filters the service list.",
+      "html": "<button class=\"ds-live ds-live-on\" type=\"button\" role=\"switch\" aria-checked=\"true\"><i class=\"ds-live-dot\"></i>Delivering now</button> <button class=\"ds-live\" type=\"button\" role=\"switch\" aria-checked=\"false\"><i class=\"ds-live-dot\"></i>Delivering now</button>",
+      "css": ".ds-live { display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border: 1px solid var(--color-rule, #d6d5d9); border-radius: 50px; background: transparent; color: var(--color-shade, #5f5c66); font-family: var(--font-sans, Manrope, sans-serif); font-size: 0.85rem; font-weight: 600; letter-spacing: -0.01em; cursor: pointer; transition: background-color 0.2s cubic-bezier(0.22,0.61,0.36,1), color 0.2s cubic-bezier(0.22,0.61,0.36,1), border-color 0.2s cubic-bezier(0.22,0.61,0.36,1); } .ds-live-dot { display: block; width: 6px; height: 6px; border-radius: 50%; background: var(--color-fade, #a09da6); } .ds-live-on { border-color: #2f7a34; background: #cfe4d0; color: #1f4a21; } .ds-live-on .ds-live-dot { background: #2f7a34; } .ds-live:focus-visible { outline: 2px solid var(--color-purple, #7755a3); outline-offset: 3px; } .ds-live:active { transform: translateY(1px); }"
+    },
+    {
+      "name": "Sort Segments",
+      "kind": "nav",
+      "refersTo": "pill-segment-active",
+      "description": "The page's ranking control: a two-segment radiogroup (Fastest / Top rated) inside a single ink-outlined pill track, in the sticky address bar. Reorders the delivery-service list from the same state the masthead count reads.",
+      "html": "<div class=\"ds-sort\" role=\"radiogroup\" aria-label=\"Sort delivery services\"><button class=\"ds-sort-seg ds-sort-on\" role=\"radio\" aria-checked=\"true\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"8\"/><path d=\"M12 8v4l3 2\"/></svg>Fastest</button><button class=\"ds-sort-seg\" role=\"radio\" aria-checked=\"false\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m12 4 2.5 5.2 5.5.8-4 4 .9 5.6L12 17l-4.9 2.6.9-5.6-4-4 5.5-.8Z\"/></svg>Top rated</button></div>",
+      "css": ".ds-sort { display: inline-flex; padding: 3px; border: 1px solid var(--color-ink, #141314); border-radius: 50px; } .ds-sort-seg { display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 20px; border: none; border-radius: 50px; background: transparent; color: var(--color-ink-soft, #3c3a40); font-family: var(--font-sans, Manrope, sans-serif); font-size: 0.85rem; font-weight: 700; letter-spacing: -0.01em; cursor: pointer; transition: background-color 0.2s cubic-bezier(0.22,0.61,0.36,1), color 0.2s cubic-bezier(0.22,0.61,0.36,1); } .ds-sort-seg svg { width: 15px; height: 15px; } .ds-sort-seg:hover { color: var(--color-ink, #141314); } .ds-sort-on, .ds-sort-on:hover { background: var(--color-ink, #141314); color: var(--color-linen, #f9f5f2); } .ds-sort-seg:focus-visible { outline: 2px solid var(--color-purple, #7755a3); outline-offset: 3px; }"
+    },
+    {
+      "name": "Delivery Address Field",
+      "kind": "input",
+      "refersTo": null,
+      "description": "The hairline delivery-address input, the primary action of the page. Not a box: a transparent field on a transparent underline that goes orange on focus, behind a kiln-orange truck mark. Deliberately not a filled search pill.",
+      "html": "<label class=\"ds-loc\"><svg class=\"ds-loc-pin\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 7h11v9H3Z\"/><path d=\"M14 11h4l3 3v2h-7Z\"/><circle cx=\"7\" cy=\"18\" r=\"1.6\"/><circle cx=\"17\" cy=\"18\" r=\"1.6\"/></svg><input class=\"ds-loc-in\" value=\"Los Angeles, CA\" placeholder=\"Enter your delivery address\"/></label>",
+      "css": ".ds-loc { display: inline-flex; align-items: center; gap: 10px; } .ds-loc-pin { width: 18px; height: 18px; flex: 0 0 auto; color: var(--color-orange-text, #b8431a); } .ds-loc-in { min-width: 0; width: 17ch; padding-bottom: 2px; border: 0; border-bottom: 1px solid transparent; background: transparent; outline: none; font-family: var(--font-sans, Manrope, sans-serif); font-size: 0.95rem; font-weight: 600; color: var(--color-ink, #141314); caret-color: var(--color-orange, #f15a26); transition: border-color 0.2s cubic-bezier(0.22,0.61,0.36,1); } .ds-loc-in::placeholder { font-weight: 400; color: var(--color-mute, #656170); } .ds-loc:hover .ds-loc-in { border-bottom-color: var(--color-rule, #d6d5d9); } .ds-loc-in:focus { border-bottom-color: var(--color-orange, #f15a26); }"
+    },
+    {
+      "name": "Status Chip",
+      "kind": "chip",
+      "refersTo": "status-chip-live",
+      "description": "Delivery state on a service row. Tinted ground with a darkened text pair and a dot; never a bare accent on a bare ground. There is no open/closed state in this product.",
+      "html": "<span class=\"ds-chip ds-chip-live\"><i class=\"ds-chip-dot\"></i>Delivering</span> <span class=\"ds-chip ds-chip-paused\"><i class=\"ds-chip-dot\"></i>Paused</span>",
+      "css": ".ds-chip { display: inline-flex; align-items: center; gap: 6px; padding: 2px 8px; border-radius: 50px; font-family: var(--font-mono, ui-monospace, monospace); font-size: 0.6875rem; letter-spacing: 0.09em; text-transform: uppercase; font-variant-numeric: tabular-nums; } .ds-chip-dot { display: block; width: 6px; height: 6px; border-radius: 50%; background: currentColor; } .ds-chip-live { background: #cfe4d0; color: #1f4a21; } .ds-chip-live .ds-chip-dot { background: #2f7a34; } .ds-chip-paused { background: var(--color-rule-soft, #e6e2e0); color: var(--color-shade, #5f5c66); } .ds-chip-paused .ds-chip-dot { background: var(--color-fade, #a09da6); }"
+    },
+    {
+      "name": "Product Label",
+      "kind": "custom",
+      "refersTo": "product-label",
+      "description": "The signature component. Every product is an authored 4:5 package face in one of five measured colorways — there is no product photography in this system and none is planned.",
+      "html": "<div class=\"ds-label\"><i class=\"ds-label-tooth\"></i><i class=\"ds-label-die\"></i><div class=\"ds-label-in\"><div class=\"ds-label-top\"><span class=\"ds-label-brand\">Sundae School</span></div><h4 class=\"ds-label-name\">Blue Dream Haze</h4><div class=\"ds-label-foot\"><div class=\"ds-label-row\"><div class=\"ds-label-spec\"><span class=\"ds-label-type\">Sativa</span><br/>3.5g</div><span class=\"ds-label-seal\">S</span></div><div class=\"ds-label-batch\"><span>THC 24.6%</span><span class=\"ds-label-dim\">CBD 0.1%</span></div></div></div></div>",
+      "css": ".ds-label { position: relative; width: 212px; aspect-ratio: 4/5; overflow: hidden; border-radius: 6px; background: var(--color-ink, #141314); color: var(--color-linen, #f9f5f2); font-family: var(--font-sans, Manrope, sans-serif); transition: transform 0.5s cubic-bezier(0.16,1,0.3,1); } .ds-label:hover { transform: translateY(-6px); } .ds-label-tooth { position: absolute; inset: 0; pointer-events: none; opacity: 0.13; mix-blend-mode: overlay; background-image: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23g)'/%3E%3C/svg%3E\"); } .ds-label-die { position: absolute; inset: 7px; border: 1px solid currentColor; border-radius: 2px; opacity: 0.28; pointer-events: none; } .ds-label-in { position: relative; display: flex; flex-direction: column; justify-content: space-between; height: 100%; padding: 9%; box-sizing: border-box; } .ds-label-brand, .ds-label-spec, .ds-label-batch { font-family: var(--font-mono, ui-monospace, monospace); font-size: 0.6875rem; letter-spacing: 0.09em; text-transform: uppercase; font-variant-numeric: tabular-nums; } .ds-label-brand { opacity: 0.85; } .ds-label-name { margin: 0; font-size: 1.6rem; font-weight: 800; letter-spacing: -0.04em; line-height: 0.92; } .ds-label-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; } .ds-label-spec { color: #a09da6; line-height: 1.5; } .ds-label-type { color: var(--color-linen, #f9f5f2); } .ds-label-seal { display: grid; place-items: center; width: 44px; height: 44px; flex: 0 0 auto; border-radius: 50%; background: var(--color-orange, #f15a26); color: var(--color-ink, #141314); font-family: var(--font-mono, ui-monospace, monospace); font-size: 13px; font-weight: 600; } .ds-label-batch { display: flex; align-items: baseline; justify-content: space-between; margin-top: 6%; padding-top: 5%; border-top: 1px solid currentColor; font-size: 11px; } .ds-label-dim { color: #a09da6; }"
+    },
+    {
+      "name": "Price Ticket",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "The commercial line under every product: current price in mono data, struck former price in mute, discount in kiln orange meta, then the service and its delivery ETA. The thesis in one component — who brings it and how soon, never how far away it is.",
+      "html": "<div class=\"ds-ticket\"><span class=\"ds-ticket-now\">$42</span><s class=\"ds-ticket-was\">$55</s><span class=\"ds-ticket-off\">−24%</span></div>",
+      "css": ".ds-ticket { display: flex; align-items: baseline; gap: 8px; font-family: var(--font-mono, ui-monospace, monospace); font-variant-numeric: tabular-nums; font-feature-settings: \"tnum\" 1, \"zero\" 1; } .ds-ticket-now { font-size: 1.15rem; font-weight: 600; color: var(--color-ink, #141314); } .ds-ticket-was { font-size: 0.8rem; color: var(--color-mute, #656170); } .ds-ticket-off { font-size: 0.6875rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--color-orange-text, #b8431a); }"
+    },
+    {
+      "name": "Index Row",
+      "kind": "card",
+      "refersTo": null,
+      "description": "What this system uses instead of a card. A hairline-topped full-width anchor whose hover is an orange-tinted underline plus a filling arrow circle. Carries shops, categories and articles alike.",
+      "html": "<a class=\"ds-row\" href=\"#\"><span class=\"ds-row-main\"><span class=\"ds-row-title\">Cookies Melrose</span><span class=\"ds-row-meta\">West Hollywood · Retail licence</span></span><span class=\"ds-row-arrow\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 17 17 7\"/><path d=\"M8 7h9v9\"/></svg></span></a>",
+      "css": ".ds-row { display: flex; align-items: center; gap: 20px; padding: 20px 0; border-top: 1px solid var(--color-rule, #d6d5d9); text-decoration: none; font-family: var(--font-sans, Manrope, sans-serif); } .ds-row-main { flex: 1 1 auto; min-width: 0; } .ds-row-title { display: block; font-size: 1.1rem; font-weight: 700; letter-spacing: -0.025em; color: var(--color-ink, #141314); text-decoration-color: rgba(241,90,38,0.6); text-underline-offset: 4px; } .ds-row:hover .ds-row-title { text-decoration-line: underline; } .ds-row-meta { display: block; margin-top: 6px; font-family: var(--font-mono, ui-monospace, monospace); font-size: 0.6875rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--color-shade, #5f5c66); } .ds-row-arrow { display: grid; place-items: center; width: 44px; height: 44px; flex: 0 0 auto; border: 1px solid var(--color-rule, #d6d5d9); border-radius: 50%; color: var(--color-ink, #141314); transition: background-color 0.2s cubic-bezier(0.22,0.61,0.36,1), color 0.2s cubic-bezier(0.22,0.61,0.36,1), border-color 0.2s cubic-bezier(0.22,0.61,0.36,1); } .ds-row-arrow svg { width: 17px; height: 17px; } .ds-row:hover .ds-row-arrow { background: var(--color-ink, #141314); border-color: var(--color-ink, #141314); color: var(--color-linen, #f9f5f2); } .ds-row:focus-visible { outline: 2px solid var(--color-purple, #7755a3); outline-offset: 3px; }"
+    },
+    {
+      "name": "Drenched Band",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "A full-bleed section flooded in a single accent, carrying ink type at 5.4:1 and ember secondary text. The loudest surface on the page is also the most readable one. Never toothed, never white-on-orange, never opacity-faded.",
+      "html": "<section class=\"ds-band\"><h2 class=\"ds-band-h\">Cheaper today than yesterday.</h2><p class=\"ds-band-meta\">Ends in 4h 12m</p></section>",
+      "css": ".ds-band { padding: 56px 40px; background: var(--color-orange, #f15a26); color: var(--color-ink, #141314); font-family: var(--font-sans, Manrope, sans-serif); } .ds-band-h { max-width: 13ch; margin: 0; font-size: 3.4rem; font-weight: 200; letter-spacing: -0.04em; line-height: 0.92; text-wrap: balance; } .ds-band-meta { margin: 20px 0 0; font-family: var(--font-mono, ui-monospace, monospace); font-size: 0.6875rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--color-ember, #3a1408); }"
+    },
+    {
+      "name": "Icon Button",
+      "kind": "button",
+      "refersTo": "icon-button",
+      "description": "Every icon-only control in the system: a 44px circle, transparent at rest, filling on hover. Rail arrows disable at the ends rather than wrapping silently.",
+      "html": "<button class=\"ds-iconbtn\" aria-label=\"Scroll right\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m10 6 6 6-6 6\"/></svg></button> <button class=\"ds-iconbtn\" aria-label=\"Scroll left\" disabled><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m14 6-6 6 6 6\"/></svg></button>",
+      "css": ".ds-iconbtn { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--color-rule, #d6d5d9); border-radius: 50%; background: transparent; color: var(--color-ink, #141314); cursor: pointer; transition: background-color 0.2s cubic-bezier(0.22,0.61,0.36,1), color 0.2s cubic-bezier(0.22,0.61,0.36,1), border-color 0.2s cubic-bezier(0.22,0.61,0.36,1); } .ds-iconbtn svg { width: 18px; height: 18px; } .ds-iconbtn:hover { background: var(--color-ink, #141314); border-color: var(--color-ink, #141314); color: var(--color-linen, #f9f5f2); } .ds-iconbtn:focus-visible { outline: 2px solid var(--color-purple, #7755a3); outline-offset: 3px; } .ds-iconbtn:disabled { cursor: not-allowed; border-color: var(--color-rule-soft, #e6e2e0); color: var(--color-fade, #a09da6); } .ds-iconbtn:disabled:hover { background: transparent; border-color: var(--color-rule-soft, #e6e2e0); color: var(--color-fade, #a09da6); }"
+    },
+    {
+      "name": "Filter Chip",
+      "kind": "chip",
+      "refersTo": "filter-chip-active",
+      "description": "The catalogue filter: a subcategory pill carrying its result count in mono. Selected is a solid ink pill; unselected is a rule hairline going ink on hover. Writes to the query string, so a filtered view is a shareable address.",
+      "html": "<button class=\"ds-fchip ds-fchip-on\" type=\"button\" aria-pressed=\"true\">All</button> <button class=\"ds-fchip\" type=\"button\" aria-pressed=\"false\">Pre-rolls<span class=\"ds-fchip-n\">14</span></button>",
+      "css": ".ds-fchip { display: inline-flex; align-items: center; gap: 6px; height: 44px; padding: 0 14px; border: 1px solid var(--color-rule, #d6d5d9); border-radius: 50px; background: transparent; color: var(--color-ink-soft, #3c3a40); font-family: var(--font-sans, Manrope, sans-serif); font-size: 0.8rem; font-weight: 600; letter-spacing: -0.01em; cursor: pointer; transition: background-color 0.2s cubic-bezier(0.22,0.61,0.36,1), color 0.2s cubic-bezier(0.22,0.61,0.36,1), border-color 0.2s cubic-bezier(0.22,0.61,0.36,1); } .ds-fchip-n { font-family: var(--font-mono, ui-monospace, monospace); font-variant-numeric: tabular-nums; color: var(--color-mute, #656170); } .ds-fchip:hover { border-color: var(--color-ink, #141314); color: var(--color-ink, #141314); } .ds-fchip-on, .ds-fchip-on:hover { border-color: var(--color-ink, #141314); background: var(--color-ink, #141314); color: var(--color-linen, #f9f5f2); } .ds-fchip:focus-visible { outline: 2px solid var(--color-purple, #7755a3); outline-offset: 3px; } .ds-fchip:active { transform: translateY(1px); }"
+    },
+    {
+      "name": "Quick Add",
+      "kind": "button",
+      "refersTo": "quick-add",
+      "description": "The full-width outlined pill beneath every product ticket in a rail or grid. Fills to ink on hover, flips to a check and 'Added' for 1.5s, and is not rendered at all when the service is not delivering.",
+      "html": "<button class=\"ds-qadd\" type=\"button\" aria-label=\"Add Blue Dream Haze to bag\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 5v14\"/><path d=\"M5 12h14\"/></svg>Add to bag</button>",
+      "css": ".ds-qadd { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; height: 44px; border: 1px solid var(--color-ink, #141314); border-radius: 50px; background: transparent; color: var(--color-ink, #141314); font-family: var(--font-sans, Manrope, sans-serif); font-size: 0.8rem; font-weight: 700; letter-spacing: -0.01em; cursor: pointer; transition: background-color 0.2s cubic-bezier(0.22,0.61,0.36,1), color 0.2s cubic-bezier(0.22,0.61,0.36,1); } .ds-qadd svg { width: 14px; height: 14px; } .ds-qadd:hover { background: var(--color-ink, #141314); color: var(--color-linen, #f9f5f2); } .ds-qadd:focus-visible { outline: 2px solid var(--color-purple, #7755a3); outline-offset: 3px; } .ds-qadd:active { transform: translateY(1px); }"
+    },
+    {
+      "name": "Cart Service Group",
+      "kind": "custom",
+      "refersTo": "shortfall-note",
+      "description": "The bag's organising unit. One driver cannot carry another company's stock, so each delivery service is its own section with its own subtotal, fee, minimum and checkout — and a group under its minimum states the shortfall instead of offering a checkout that would fail.",
+      "html": "<section class=\"ds-cgroup\"><div class=\"ds-cgroup-h\"><h3>Green Route LA</h3><p class=\"ds-cgroup-eta\">45&ndash;60 min</p></div><div class=\"ds-cgroup-sums\"><p><span>Subtotal</span><span class=\"ds-cgroup-fig\">$38</span></p><p><span>Delivery</span><span class=\"ds-cgroup-fig\">$5</span></p></div><p class=\"ds-cgroup-short\">Add $12 more to reach Green Route LA&rsquo;s $50 minimum.</p></section>",
+      "css": ".ds-cgroup { font-family: var(--font-sans, Manrope, sans-serif); color: var(--color-ink, #141314); } .ds-cgroup-h { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; padding-bottom: 8px; border-bottom: 1px solid var(--color-ink, #141314); } .ds-cgroup-h h3 { margin: 0; font-size: 1rem; font-weight: 700; letter-spacing: -0.025em; } .ds-cgroup-eta, .ds-cgroup-sums p, .ds-cgroup-short { font-family: var(--font-mono, ui-monospace, monospace); font-size: 0.6875rem; letter-spacing: 0.09em; text-transform: uppercase; font-variant-numeric: tabular-nums; } .ds-cgroup-eta { margin: 0; color: var(--color-shade, #5f5c66); } .ds-cgroup-sums { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; } .ds-cgroup-sums p { display: flex; justify-content: space-between; margin: 0; color: var(--color-shade, #5f5c66); } .ds-cgroup-fig { color: var(--color-ink, #141314); } .ds-cgroup-short { margin: 6px 0 0; padding: 8px 12px; border-radius: 4px; background: var(--color-orange-tint, #f9c5b3); color: #8f3312; line-height: 1.5; }"
+    },
+    {
+      "name": "Breadcrumb",
+      "kind": "nav",
+      "refersTo": null,
+      "description": "Descending navigation on every interior route: mono meta with rule-colored slashes, ancestors in mute with an orange-tinted hover underline, the current page in ink. A single ancestor gets an outlined BackLink pill instead.",
+      "html": "<nav aria-label=\"Breadcrumb\" class=\"ds-crumb\"><ol><li><a href=\"#\">Home</a></li><li><span class=\"ds-crumb-sep\" aria-hidden=\"true\">/</span><a href=\"#\">Flower</a></li><li><span class=\"ds-crumb-sep\" aria-hidden=\"true\">/</span><span class=\"ds-crumb-now\">Blue Dream Haze</span></li></ol></nav>",
+      "css": ".ds-crumb ol { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin: 0; padding: 0; list-style: none; } .ds-crumb li { display: flex; align-items: center; gap: 8px; } .ds-crumb, .ds-crumb a, .ds-crumb span { font-family: var(--font-mono, ui-monospace, monospace); font-size: 0.6875rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--color-mute, #656170); } .ds-crumb a { text-decoration: none; text-decoration-color: rgba(241,90,38,0.6); text-underline-offset: 4px; transition: color 0.2s cubic-bezier(0.22,0.61,0.36,1); } .ds-crumb a:hover { color: var(--color-ink, #141314); text-decoration-line: underline; } .ds-crumb-sep { color: var(--color-rule, #d6d5d9); } .ds-crumb-now { color: var(--color-ink, #141314); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Printed Shelf Ticket",
+    "overview": "This is a paper world. The ground is linen (#f9f5f2) under a real, visible tooth, ruled by hairlines rather than boxed by cards, and set in Manrope pulled to its two extremes — 200 and 800 — at a hard −0.04em. Everything commercial is printed onto it like a shop ticket: the price in tabular mono, the service that brings it and how soon it arrives directly beneath, the strain seal stamped in a circle. There is no product photography anywhere in the build, and none is coming; each product renders as an authored package label instead. That is the signature and the constraint at once.\n\nThe palette and type were extracted from a reference the user pinned by name (ryeisland.com), read out of that site's own stylesheets rather than guessed at. The user explicitly rejected Weedmaps' own visual design; only the name and the information architecture carry across. The world's loudest move is the drenched band — a whole section flooded in orange, purple or ink, edge to edge, carrying its type in the opposite value rather than in a tinted panel.\n\nThe site is no longer one page: ten routes ship, and app/layout.jsx is the shell that makes them one place — it owns the header, the sticky delivery bar, the footer, the age gate and the cart drawer, and reads the delivery services itself so the bar is true on every route. Interior pages introduce no new visual language. They compose the same parts: a page header over a breadcrumb, a filter bar that writes to the URL, a grid of the same product card the shelves use, and the same hairline index rows. Density is high and legible: long rules, tight leading, small mono meta, one gesture of motion.",
+    "keyCharacteristics": [
+      "Linen paper ground with a genuinely visible tooth, not a flat fill",
+      "Manrope 200/800 at −0.04em; nothing lives in the middle weights at display size",
+      "Hairline rules and index rows instead of cards and shadows",
+      "Whole-section drenched color bands (orange, purple, ink) carrying inverse-value type",
+      "Mono reserved strictly for measurable figures",
+      "A closed type ramp of named steps, each carrying one role",
+      "Products drawn as printed package labels; never stock photography",
+      "One product card, shared by every shelf and every grid on every route",
+      "One authored motion gesture, honored down to prefers-reduced-motion"
+    ],
+    "rules": [
+      {
+        "name": "The Measured Ratio Rule",
+        "body": "Every pairing in this system carries a measured contrast ratio, not a nominal one. Orange and green sit near 3:1 on linen: permitted for large text and UI shape only, and small text must switch to orange-text / green-text. Purple is the one accent that may set small text on linen. If you introduce a pair, measure it before you ship it.",
+        "section": "colors"
+      },
+      {
+        "name": "The Drenched Band Rule",
+        "body": "A band takes the full section, edge to edge, and its type is ink — not white. Ink on orange is 5.4:1 and ink on green is 5.2:1; white on either fails. The ink and purple bands are the inverse case and take linen. There is no third option and no tinted-panel halfway house.",
+        "section": "colors"
+      },
+      {
+        "name": "The No-Opacity-On-Color Rule",
+        "body": "Text on a colored ground never gets its contrast from opacity. On orange, secondary text is ember; on purple, purple-tint. The ProductLabel colorway table carries a measured ratio for every foreground and every dim value, and a render-time opacity applied over that strip silently voids all of them at once. That bug shipped once already.",
+        "section": "colors"
+      },
+      {
+        "name": "The Named Step Rule",
+        "body": "Every type size in this system is one of the named steps, and every step carries one role. A new size is allowed only if it earns a name, a role and at least three uses; otherwise it is a singleton and gets snapped to the nearest step — the way a 1.1rem service heading went to Subhead and a 1.25rem deals price went to Subhead. Adjacent steps are not redundant: 0.8 is fine print, 0.85 is a control label, 0.9 is copy inside chrome, and the three are never interchanged because they look close.",
+        "section": "typography"
+      },
+      {
+        "name": "The Ruler Rule",
+        "body": "Mono is for things you could put a ruler to: prices, weights, potency, ETAs and arrival windows, fees, minimums, counts, ratings, review totals. Everything else at the same small-caps rhythm uses label, which is the sans at identical size and tracking. Mono is never a costume for \"technical\". This boundary erodes silently — check every new uppercase micro-label against it.",
+        "section": "typography"
+      },
+      {
+        "name": "The Two-Extremes Rule",
+        "body": "Display type is 800 or 200. Nothing at display size sits in between; the middle weights belong to titles and body.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tabular Figures Rule",
+        "body": "Every number that can be compared down a column carries tabular-nums and a slashed zero. Prices in a shelf must align, and so must ETAs down a service list.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Paper Rule",
+        "body": "No shadows, ever. If an element needs to separate, change its ground, rule it with a hairline, or give it the tooth. A shadow in this world is a foreign object. A panel that floats over the page is bounded by a 1px ink border and a blurred ink scrim, and that is the whole vocabulary for floating.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Visible Grain Rule",
+        "body": "If the tooth cannot be seen at 100% on a normal display, it is not shipping. Grain you have to be told about is a broken promise, not a subtlety.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Separate Drivers Rule",
+        "body": "The bag never shows a blended total, a single checkout, or a fee that averages two services. Every commercial figure in the cart belongs to exactly one delivery service, and a total nobody could actually order is not shown at all. A blocked group states the shortfall rather than offering a checkout that would fail.",
+        "section": "components"
+      },
+      {
+        "name": "The One Gesture Rule",
+        "body": "This site has exactly one authored entrance and one ambient drift. Everything else is a color transition. Scattered hover animations — scaling cards, sliding icons, parallax — are the failure mode this rule exists to prevent.",
+        "section": "components"
+      }
+    ],
+    "dos": [
+      "Do take every type size from a named step in the ramp, and give a new size a name, a role and three uses before it ships.",
+      "Do keep 0.8 / 0.85 / 0.9 distinct: fine print, control label, copy-inside-chrome. They are close in size and unrelated in role.",
+      "Do measure every new color pair and record the ratio next to the token, the way globals.css and the ProductLabel colorway table already do.",
+      "Do use orange-text (#b8431a) and green-text (#2f7a34) for any orange or green word below display size; the pure hues are large-text-and-UI only at ~3.1:1 and ~3.2:1.",
+      "Do set drenched bands in ink (5.4:1 on orange, 5.2:1 on green) and use ember for their secondary text.",
+      "Do reserve mono (meta / data) for measurable figures — including every ETA, arrival window, fee and order minimum — and route every other uppercase micro-label through label.",
+      "Do give every linen-deep band the .u-tooth utility, at the same tile and amplitude as the body ground.",
+      "Do open every interior route with PageHeader: breadcrumb, Display Page h1 at 18ch, optional blurb and meta. Chrome belongs to app/layout.jsx; a route supplies content only.",
+      "Do render every product through ProductCard, whether it lands in a rail or a grid. One card is the reason the two arrangements match.",
+      "Do write filter and sort state to the URL so a filtered view is a shareable address and the back button behaves.",
+      "Do group the bag by delivery service, with a per-service subtotal, fee, minimum and checkout, and state the shortfall when a group is under its minimum.",
+      "Do keep every control at 44px minimum. The 32px logo mark is the one documented exception, and it sits inside a larger anchor.",
+      "Do draw new icons in the existing single-stroke grammar: 24-unit box, no fill, 1.4 stroke, round caps and joins.",
+      "Do theme the browser's own surfaces — selection, caret, focus ring, scrollbars, underline offset, tabular numerals. They ship with the design, not with Chrome.",
+      "Do render products as authored package labels in one of the five committed colorways, and reach for size=\"hero\" when the label is set larger than a card.",
+      "Do let shelves bleed off the right edge; the cut card is what tells the reader there is more.",
+      "Do re-check the masthead clamp against the fold whenever the headline copy changes length; the first price is above the fold on the current build at 899px of 960px desktop and 825px of 844px mobile, and that margin is the constraint the clamp(2.05rem, 6.2vw, 4.75rem) / 20ch pairing was tuned to hold.",
+      "Do keep the placeholder-data disclosure in the footer and in data/README.md. Business and brand names are real; every rating, price, delivery window, fee and menu figure is invented, at the user's explicit direction, and that disclosure survives any future edit — including now that the figures are seeded into Postgres rather than held in JSON."
+    ],
+    "donts": [
+      "Don't invent a type size between two steps because something looks slightly off; snap it to the nearest step or argue the new step into the ramp.",
+      "Don't add a box-shadow. Depth comes from tooth, hairline and ground change.",
+      "Don't fade text with opacity on a colored ground; it voids the measured ratio. Use the named dim token for that ground.",
+      "Don't apply an opacity or a filter to the ProductLabel colorway strip — it silently breaks all five measured pairs at once.",
+      "Don't put #f15a26 or #419b45 behind body copy, and don't lighten mute back toward #777380; that value failed 4.5:1 on linen-deep.",
+      "Don't use white type on the orange or green bands.",
+      "Don't introduce stock photography, product photos or lifestyle imagery. The label system exists so that never becomes necessary.",
+      "Don't dress non-measurement text in mono because it looks technical.",
+      "Don't add a second motion gesture. One entrance, one drift.",
+      "Don't build a second product card, or a grid-only variant of the existing one. Rail and grid render the same component.",
+      "Don't hold filter or sort state where the URL cannot reconstruct it.",
+      "Don't show a blended cart total, a single checkout across services, or a checkout on a group under its minimum.",
+      "Don't build a card grid where an index row will do, or a filled search box where the hairline field will do — the search-box-over-a-tile-grid layout is the category default this world was built to refuse.",
+      "Don't reintroduce pickup vocabulary — a Pickup/Delivery fork, an Open/Closed chip, a store-distance figure on a ticket. This product delivers and only delivers; the ticket carries an arrival window, not a distance.",
+      "Don't hardcode a hex in a component where a token exists; the inline literals in the shipped build are a defect to reconcile, not a pattern to copy.",
+      "Don't ship a glyph character, an emoji or an icon font in place of a drawn mark."
+    ],
+    "provenance": {
+      "roll": "Degraded. impeccable.style was unreachable during the surface-concept round: no catalog challengers, no QUALITY BAR boards, no comp round. The user chose \"The Shelf\" (FORM index 2 of 7, seed key 4259fa8c) from three grounded structures only.",
+      "authority": "Code-led build. No approved comp exists for any region of this page; the shipped code and the validated captures are the only ground truth.",
+      "pinnedReference": "ryeisland.com — palette and type extracted from that site's actual stylesheets. Weedmaps' own visual design was explicitly rejected by the user; the name and information architecture are all that carry over.",
+      "finishReview": "Stale. Disposition ship, scoped to eight material fixes plus one regression and one residual — on the homepage, before the delivery-only change, before the Postgres migration, and before every route added in this pass. It reviewed none of them. Nine of the ten routes have never been through a finish review. Not a certification of this site and must not be cited as one.",
+      "notCanonized": "Carried by the build, not design-system rules: inline hex literals in LocationBar and ShopList (#1f4a21, #8f3312, #2f7a34) and in CartDrawer's shortfall note (#f9c5b3 / #8f3312); the opacity-70 label on the store buttons and the opacity-60 on the filter-chip count (contrast by opacity is exactly what The No-Opacity-On-Color Rule forbids); the deck line under each Learn article title; the 0.7rem filter-chip count, a single-use size outside the ramp; and the 36px (h-9) controls in FilterBar and the cart's quantity stepper and remove button, which sit under the 44px minimum and are a defect to reconcile, not a compact tier to inherit.",
+      "captures": [
+        ".impeccable/review/desktop.png (1440x7555)",
+        ".impeccable/review/mobile.png (390x11312)",
+        ".impeccable/review/desktop-hero.png (1440x960)",
+        ".impeccable/review/mobile-hero.png (390x844)",
+        ".impeccable/review/page-category.png",
+        ".impeccable/review/page-product.png",
+        ".impeccable/review/page-delivery.png",
+        ".impeccable/review/page-brands.png",
+        ".impeccable/review/page-deals.png",
+        "Fold probe (homepage): desktop first price bottom 899px vs 960px fold; mobile 825px vs 844px"
+      ],
+      "stackNote": "The motion package is installed but unused on this surface. What ships is the CSS plus IntersectionObserver reveal. Catalogue data now comes from Neon Postgres via Drizzle (revalidate 60); data/ holds site chrome and editorial copy only.",
+      "changes": "This pass reconciles two things, both changed in code by the user before re-recording. (1) THE TYPE RAMP WAS UNDER-DOCUMENTED, NOT SLOPPY: the previous record described it as three broad bands and the detector reported the gap as drift (67 advisory findings at peak). Each of 0.8 / 0.85 / 0.9 carries a distinct, consistently applied role, so they were kept and named rather than collapsed. Two subtitle lines wearing the control size were snapped from 0.85 to 0.9 (CategoryIndex.jsx, app/products/page.jsx); two genuine singletons were removed (ShopList service heading 1.1 to 1.15, DealsBand price 1.25 to 1.15). Counts recorded in Typography are the shipped counts across app/ and components/; no singletons remain. (2) THE SITE IS TEN ROUTES: /, /products, /products/[category], /product/[slug], /deliveries, /delivery/[slug], /brands, /brand/[slug], /deals, /search. app/layout.jsx became the shell (Header, LocationBar, Footer, AgeGate, CartDrawer, and the shop read). New components: PageHeader (+ Breadcrumb, BackLink), ProductGrid, ProductCard (extracted from Shelf so rails and grids share one card), FilterBar (subcategory chips with counts plus four sorts, all writing to the URL), SearchField, CartContext, CartDrawer, AddToCart. ProductLabel gained size=\"hero\" for the 420px product-detail label. Icons gained plus, minus and trash in the existing single-stroke grammar. No new visual language was introduced by any of it. Earlier changes still standing: delivery-only (no pickup anywhere; DeliveryContext replaced ModeContext) and the Postgres/Drizzle move (money in integer cents, a deal is a product carrying was_price_cents; data/ holds only site.json and learn.json).",
+      "cart": "The bag is grouped by delivery service, not blended: one driver cannot carry another company's stock, so each group carries its own subtotal, delivery fee, order minimum and checkout button, and a group under its minimum states the shortfall instead of offering a checkout that would fail. localStorage-persisted (key wm-cart-v1), verified working in a browser."
+    }
+  }
+}

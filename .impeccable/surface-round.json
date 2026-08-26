@@ -1,0 +1,62 @@
+{
+  "title": "Choose the homepage structure",
+  "question": "The Rye Island world is pinned by your brief, so this round is composition only. The roll dealt three structures for the Weedmaps homepage. Lock one.",
+  "options": [
+    {
+      "id": "territory",
+      "label": "The Territory",
+      "kicker": "THE ROLL",
+      "lineage": "the product is literally named for a map",
+      "thesis": "The page opens as the map itself; every listing docks to a place.",
+      "palette": ["#f9f5f2", "#141314", "#f15a26", "#419b45"],
+      "materials": ["cartographic linework", "docked card rail"],
+      "viewport": "A full-bleed area map in linen and ink, open shops pinned in orange, closed in grey. A floating pill bar holds location and the Pickup/Delivery fork. A horizontal rail of storefront cards docks to the bottom edge and scrubs in sync with the map.",
+      "risk": "Maps are heavy on cellular and hostile to a visitor who does not yet know what they want to buy.",
+      "wireframe": {"cols": 12, "rows": 10, "regions": [
+        {"label": "logo + nav", "x": 0, "y": 0, "w": 12, "h": 1},
+        {"label": "floating location + mode pill", "x": 2, "y": 1, "w": 8, "h": 1, "accent": true},
+        {"label": "full-bleed map with pins", "x": 0, "y": 2, "w": 12, "h": 5},
+        {"label": "docked storefront card rail", "x": 0, "y": 7, "w": 12, "h": 2, "accent": true},
+        {"label": "categories + footer", "x": 0, "y": 9, "w": 12, "h": 1}
+      ]}
+    },
+    {
+      "id": "counter",
+      "label": "The Counter",
+      "thesis": "The page asks the three questions a good budtender asks, then assembles the shortlist.",
+      "palette": ["#f9f5f2", "#141314", "#7755a3", "#f15a26"],
+      "materials": ["inline display-type selects", "assembling result stack"],
+      "viewport": "One sentence set large in Manrope across the first viewport, with effect, format and budget as inline dropdowns inside the line. As each is answered the sentence completes and a ranked shortlist of products and the shops carrying them assembles underneath.",
+      "risk": "An interstitial between the visitor and the inventory; a returning buyer who already knows what they want will resent being asked.",
+      "wireframe": {"cols": 12, "rows": 10, "regions": [
+        {"label": "logo + nav", "x": 0, "y": 0, "w": 12, "h": 1},
+        {"label": "display sentence with 3 inline selects", "x": 1, "y": 2, "w": 10, "h": 3, "accent": true},
+        {"label": "assembled shortlist", "x": 1, "y": 5, "w": 10, "h": 3},
+        {"label": "browse-everything escape hatch", "x": 1, "y": 8, "w": 10, "h": 1},
+        {"label": "footer", "x": 0, "y": 9, "w": 12, "h": 1}
+      ]}
+    },
+    {
+      "id": "shelf",
+      "label": "The Shelf",
+      "thesis": "You shop the product, not the shop. The retailer is the answer, not the question.",
+      "palette": ["#f9f5f2", "#141314", "#f15a26", "#7755a3"],
+      "materials": ["merchandised product rails", "mono price tickets"],
+      "viewport": "A compact location and mode bar, then the page becomes shelves: flower, pre-rolls, vape, edibles, each a horizontal rail of real products on linen with mono price tickets and the nearest shop that carries it named under each. Deals cut in as an orange-drenched band between shelves.",
+      "risk": "Buries the storefront identity retailers pay for, and needs dense product data before it looks alive.",
+      "wireframe": {"cols": 12, "rows": 10, "regions": [
+        {"label": "logo + nav", "x": 0, "y": 0, "w": 12, "h": 1},
+        {"label": "location + pickup/delivery bar", "x": 0, "y": 1, "w": 12, "h": 1, "accent": true},
+        {"label": "category index strip", "x": 0, "y": 2, "w": 12, "h": 1},
+        {"label": "flower shelf rail", "x": 0, "y": 3, "w": 12, "h": 2},
+        {"label": "deals band", "x": 0, "y": 5, "w": 12, "h": 1, "accent": true},
+        {"label": "vape + edibles shelves", "x": 0, "y": 6, "w": 12, "h": 2},
+        {"label": "shops near you", "x": 0, "y": 8, "w": 12, "h": 1},
+        {"label": "footer", "x": 0, "y": 9, "w": 12, "h": 1}
+      ]}
+    }
+  ],
+  "reroll": true,
+  "steer": true,
+  "buildPath": {"value": "code", "toggle": true}
+}

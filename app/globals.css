@@ -1,0 +1,267 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────
+   Weedmaps — design tokens
+   Palette lifted from the pinned reference (ryeisland.com) and
+   contrast-checked against the linen ground:
+     ink #141314 on linen ......... 16.7:1  body
+     shade #5f5c66 on linen ......  6.0:1   secondary body
+     mute  #656170 on linen-deep .  4.6:1   smallest labels
+     purple #7755a3 on linen .....  5.4:1   text-safe accent
+     orange #f15a26 on linen .....  3.1:1   LARGE + UI ONLY
+     green  #419b45 on linen .....  3.2:1   LARGE + UI ONLY
+     ink on orange ...............  5.4:1   drenched bands
+     ink on green ................  5.2:1
+   Small text on linen therefore uses the darkened pair
+   --color-orange-text / --color-green-text (5.0:1, 4.9:1).
+   ───────────────────────────────────────────────────────────── */
+
+@theme {
+  --color-linen: #f9f5f2;
+  --color-linen-deep: #f2ece7;
+  --color-paper: #ffffff;
+  --color-ink: #141314;
+  --color-ink-soft: #3c3a40;
+  --color-shade: #5f5c66;
+  --color-mute: #656170;
+  --color-fade: #a09da6;
+  --color-rule: #d6d5d9;
+  --color-rule-soft: #e6e2e0;
+
+  --color-orange: #f15a26;
+  --color-orange-text: #b8431a;
+  --color-orange-tint: #f9c5b3;
+  --color-orange-deep: #8f3312;
+  --color-ember: #3a1408;
+  --color-purple: #7755a3;
+  --color-purple-tint: #ddd2ea;
+  --color-green: #419b45;
+  --color-green-text: #2f7a34;
+  --color-green-tint: #cfe4d0;
+  --color-green-deep: #1f4a21;
+
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", monospace;
+
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-pill: 50px;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-std: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+:root {
+  --shell: 1250px;
+  --gutter: clamp(1rem, 0.55rem + 2.25vw, 2.5rem);
+  --stagger: 0.055s;
+  --rail-fade: 3rem;
+  color-scheme: light;
+}
+
+/* ── Base ─────────────────────────────────────────────────── */
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-linen);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* Paper tooth. Keeps the linen from reading as flat #f9f5f2 fill. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.9;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.14'/%3E%3C/svg%3E");
+}
+
+/* ── Browser surfaces: these ship with the design, not with Chrome ── */
+
+::selection {
+  background: var(--color-orange);
+  color: var(--color-linen);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-purple);
+  outline-offset: 3px;
+  border-radius: var(--radius-xs);
+}
+
+* {
+  caret-color: var(--color-orange);
+}
+
+a { text-underline-offset: 0.22em; text-decoration-thickness: from-font; }
+
+@supports (scrollbar-color: auto) {
+  html { scrollbar-color: var(--color-fade) var(--color-linen-deep); scrollbar-width: thin; }
+}
+::-webkit-scrollbar { width: 11px; height: 11px; }
+::-webkit-scrollbar-track { background: var(--color-linen-deep); }
+::-webkit-scrollbar-thumb { background: var(--color-fade); border: 3px solid var(--color-linen-deep); border-radius: var(--radius-pill); }
+::-webkit-scrollbar-thumb:hover { background: var(--color-mute); }
+
+/* The linen-deep bands sat dead flat next to the toothed linen ground once the
+   grain became visible. Same paper, same tile, so the ground reads as one stock. */
+.u-tooth { position: relative; }
+.u-tooth::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.9;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.14'/%3E%3C/svg%3E");
+}
+.u-tooth > * { position: relative; z-index: 1; }
+
+/* ── Type roles ───────────────────────────────────────────── */
+
+.u-display {
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.92;
+  text-wrap: balance;
+}
+
+.u-display-thin {
+  font-weight: 200;
+  letter-spacing: -0.04em;
+  line-height: 0.92;
+}
+
+.u-heading {
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
+/* Mono is reserved for measurement: prices, weights, potency, distance,
+   counts, ratings. Never as a costume for "technical". */
+.u-data {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "zero" 1;
+}
+
+/* Non-measurement labels. Same small-caps rhythm as .u-meta, but in the sans —
+   mono stays reserved for figures you could put a ruler to. */
+.u-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.u-meta {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
+.u-prose { max-width: 68ch; line-height: 1.6; }
+
+.u-shell {
+  width: 100%;
+  max-width: var(--shell);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.u-rule { border-top: 1px solid var(--color-rule); }
+
+/* ── Controls ─────────────────────────────────────────────── */
+
+.u-pill {
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  transition: background-color 0.2s var(--ease-std), color 0.2s var(--ease-std),
+    border-color 0.2s var(--ease-std), transform 0.2s var(--ease-std);
+}
+.u-pill:active { transform: translateY(1px); }
+
+/* ── Horizontal shelf rails ───────────────────────────────── */
+
+.u-rail {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scroll-padding-left: var(--gutter);
+  scrollbar-width: none;
+  padding-block: 0.25rem 1.5rem;
+}
+.u-rail::-webkit-scrollbar { display: none; }
+.u-rail > * { scroll-snap-align: start; flex: 0 0 auto; }
+
+/* ── Motion: one authored gesture, a print-wipe from the baseline ── */
+
+.u-reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  clip-path: inset(12% 0 0 0);
+  transition:
+    opacity 0.5s linear,
+    transform 0.9s var(--ease-out-expo),
+    clip-path 0.9s var(--ease-out-expo);
+  transition-delay: calc(var(--i, 0) * var(--stagger));
+}
+.u-reveal[data-shown="true"] {
+  opacity: 1;
+  transform: none;
+  clip-path: inset(0 0 0 0);
+}
+
+/* Failsafe. The reveal hides content until JS says otherwise, so a script that
+   never arrives — a stale chunk, a blocked bundle, a slow phone — would leave a
+   page that renders perfectly on the server looking blank. If the client never
+   marks itself ready, every revealed element un-hides itself shortly after
+   paint. Content is never permanently invisible because of JavaScript. */
+@keyframes u-reveal-failsafe {
+  to { opacity: 1; transform: none; clip-path: inset(0 0 0 0); }
+}
+.u-reveal {
+  animation: u-reveal-failsafe 0.4s ease-out 2s forwards;
+}
+html.js-ready .u-reveal {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .u-reveal {
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+    transition: none;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Marquee for the brand ribbon */
+@keyframes u-drift { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.u-marquee { animation: u-drift 46s linear infinite; }
+.u-marquee-host:hover .u-marquee { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .u-marquee { animation: none; } }

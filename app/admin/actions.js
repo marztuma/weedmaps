@@ -1,0 +1,594 @@
+"use server";
+
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { eq, and, inArray, sql, isNull as sqlIsNull } from "drizzle-orm";
+import { db, schema } from "@/db/client";
+import { authenticate, createSession, destroySession, getSession } from "@/lib/auth";
+import { audit, auditDestructive } from "@/lib/audit";
+
+const { products, categories, subcategories, brands, shops, customers, customerNotes, orders } = schema;
+
+/** Every mutation goes through this. No action trusts the caller. */
+async function requireSession() {
+  const session = await getSession();
+  if (!session) redirect("/admin/login");
+  return session;
+}
+
+const slugify = (s) =>
+  String(s).toLowerCase().normalize("NFKD").replace(/[^\w\s-]/g, "")
+    .trim().replace(/\s+/g, "-").slice(0, 150);
+
+const str = (fd, k) => String(fd.get(k) ?? "").trim();
+const num = (fd, k, fallback = 0) => {
+  const v = Number(String(fd.get(k) ?? "").replace(/[^0-9.-]/g, ""));
+  return Number.isFinite(v) ? v : fallback;
+};
+const bool = (fd, k) => fd.get(k) === "on" || fd.get(k) === "true";
+
+/* ── Auth ──────────────────────────────────────────────────── */
+
+export async function login(_prev, formData) {
+  const result = await authenticate(formData.get("username"), formData.get("password"));
+  if (!result.ok) return { error: result.error };
+  await createSession(result.user);
+  await audit({ actor: result.user.displayName, action: "login", entity: "session", summary: "Signed in to the admin." });
+  redirect("/admin");
+}
+
+export async function logout() {
+  await destroySession();
+  redirect("/admin/login");
+}
+
+/* ── Products ──────────────────────────────────────────────── */
+
+function productFields(fd) {
+  const name = str(fd, "name");
+  const price = num(fd, "price");
+  const was = str(fd, "was") ? num(fd, "was") : null;
+  return {
+    name,
+    brandId: num(fd, "brandId") || null,
+    categoryId: num(fd, "categoryId") || null,
+    subcategoryId: num(fd, "subcategoryId") || null,
+    shopId: num(fd, "shopId") || null,
+    strainType: str(fd, "strainType") || "Hybrid",
+    weight: str(fd, "weight") || "1g",
+    thc: String(num(fd, "thc")),
+    cbd: String(num(fd, "cbd")),
+    priceCents: Math.round(price * 100),
+    wasPriceCents: was != null ? Math.round(was * 100) : null,
+    distanceMi: String(num(fd, "distance", 2)),
+    colorway: str(fd, "colorway") || "linen",
+    description: str(fd, "description") || null,
+    effects: str(fd, "effects") ? str(fd, "effects").split(",").map((t) => t.trim()).filter(Boolean) : [],
+    flavors: str(fd, "flavors") ? str(fd, "flavors").split(",").map((t) => t.trim()).filter(Boolean) : [],
+    imageAvif: str(fd, "imageAvif") || null,
+    imageWebp: str(fd, "imageWebp") || null,
+    tags: str(fd, "tags") ? str(fd, "tags").split(",").map((t) => t.trim()).filter(Boolean) : [],
+    featured: bool(fd, "featured"),
+  };
+}
+
+function validateProduct(f) {
+  const errors = [];
+  if (!f.name) errors.push("Product name is required.");
+  if (!f.brandId) errors.push("Choose a brand.");
+  if (!f.categoryId) errors.push("Choose a category.");
+  if (!f.shopId) errors.push("Choose a delivery service.");
+  if (!(f.priceCents > 0)) errors.push("Price must be greater than zero.");
+  if (f.wasPriceCents != null && f.wasPriceCents <= f.priceCents) {
+    errors.push("The “was” price must be higher than the current price, or left empty.");
+  }
+  if (Number(f.thc) < 0 || Number(f.thc) > 100) errors.push("THC must be between 0 and 100.");
+  if (Number(f.cbd) < 0 || Number(f.cbd) > 100) errors.push("CBD must be between 0 and 100.");
+  return errors;
+}
+
+export async function createProduct(_prev, formData) {
+  await requireSession();
+  const f = productFields(formData);
+  const errors = validateProduct(f);
+  if (errors.length) return { errors, values: Object.fromEntries(formData) };
+
+  const [cat] = await db.select({ slug: categories.slug }).from(categories)
+    .where(eq(categories.id, f.categoryId)).limit(1);
+  const [brand] = await db.select({ name: brands.name }).from(brands)
+    .where(eq(brands.id, f.brandId)).limit(1);
+
+  let slug = `${cat?.slug ?? "item"}-${slugify(brand?.name ?? "brand")}-${slugify(f.name)}`;
+  const [clash] = await db.select({ id: products.id }).from(products)
+    .where(eq(products.slug, slug)).limit(1);
+  if (clash) slug = `${slug}-${Date.now().toString(36).slice(-4)}`;
+
+  await db.insert(products).values({ ...f, slug });
+
+  revalidatePath("/admin/products");
+  revalidatePath("/");
+  redirect("/admin/products?created=1");
+}
+
+export async function updateProduct(_prev, formData) {
+  await requireSession();
+  const id = num(formData, "id");
+  if (!id) return { errors: ["Missing product id."] };
+
+  const f = productFields(formData);
+  const errors = validateProduct(f);
+  if (errors.length) return { errors, values: Object.fromEntries(formData) };
+
+  await db.update(products).set(f).where(eq(products.id, id));
+
+  const [row] = await db.select({ slug: products.slug, category: categories.slug })
+    .from(products)
+    .innerJoin(categories, eq(products.categoryId, categories.id))
+    .where(eq(products.id, id)).limit(1);
+
+  revalidatePath("/admin/products");
+  revalidatePath(`/admin/products/${id}`);
+  revalidatePath("/");
+  revalidatePath("/products");
+  if (row?.slug) revalidatePath(`/product/${row.slug}`);
+  if (row?.category) revalidatePath(`/products/${row.category}`);
+  return { ok: true, message: "Product updated." };
+}
+
+export async function deleteProduct(formData) {
+  const session = await requireSession();
+  const id = Number(formData.get("id"));
+  if (id) {
+    const [row] = await db.select({ slug: products.slug, name: products.name }).from(products).where(eq(products.id, id)).limit(1);
+    await db.delete(products).where(eq(products.id, id));
+    await auditDestructive({ actor: session.name, action: "delete", entity: "product", entityId: id,
+      summary: `Deleted product “${row?.name ?? id}”.` });
+    if (row?.slug) revalidatePath(`/product/${row.slug}`);
+  }
+  revalidatePath("/admin/products");
+  revalidatePath("/");
+  revalidatePath("/products");
+  redirect("/admin/products?deleted=1");
+}
+
+export async function duplicateProduct(formData) {
+  await requireSession();
+  const id = Number(formData.get("id"));
+  const [row] = await db.select().from(products).where(eq(products.id, id)).limit(1);
+  if (!row) redirect("/admin/products");
+  const { id: _drop, createdAt: _drop2, ...rest } = row;
+  await db.insert(products).values({
+    ...rest,
+    name: `${row.name} (copy)`,
+    slug: `${row.slug}-copy-${Date.now().toString(36).slice(-4)}`,
+    featured: false,
+  });
+  revalidatePath("/admin/products");
+  redirect("/admin/products?duplicated=1");
+}
+
+export async function bulkDeleteProducts(formData) {
+  const session = await requireSession();
+  const ids = formData.getAll("selected").map(Number).filter(Boolean);
+  if (ids.length) {
+    await auditDestructive({ actor: session.name, action: "bulk_delete", entity: "product",
+      summary: `Deleted ${ids.length} product(s) in bulk.` });
+  }
+  for (const id of ids) {
+    const [row] = await db.select({ slug: products.slug }).from(products).where(eq(products.id, id)).limit(1);
+    await db.delete(products).where(eq(products.id, id));
+    if (row?.slug) revalidatePath(`/product/${row.slug}`);
+  }
+  revalidatePath("/admin/products");
+  revalidatePath("/");
+  revalidatePath("/products");
+  redirect(`/admin/products?bulk=${ids.length}`);
+}
+
+/* ── Brands ────────────────────────────────────────────────── */
+
+export async function saveBrand(_prev, formData) {
+  await requireSession();
+  const id = num(formData, "id");
+  const name = str(formData, "name");
+  if (!name) return { errors: ["Brand name is required."] };
+  const values = { name, kind: str(formData, "kind") || null, featured: bool(formData, "featured") };
+
+  if (id) {
+    await db.update(brands).set(values).where(eq(brands.id, id));
+  } else {
+    const slug = slugify(name);
+    const [clash] = await db.select({ id: brands.id }).from(brands).where(eq(brands.slug, slug)).limit(1);
+    if (clash) return { errors: [`A brand called “${name}” already exists.`] };
+    await db.insert(brands).values({ ...values, slug });
+  }
+  revalidatePath("/admin/brands");
+  revalidatePath("/brands");
+  return { ok: true, message: id ? "Brand updated." : "Brand added." };
+}
+
+export async function deleteBrand(formData) {
+  await requireSession();
+  const id = Number(formData.get("id"));
+  if (id) await db.delete(brands).where(eq(brands.id, id));
+  revalidatePath("/admin/brands");
+  revalidatePath("/brands");
+  redirect("/admin/brands?deleted=1");
+}
+
+/* ── Categories ────────────────────────────────────────────── */
+
+export async function saveCategory(_prev, formData) {
+  await requireSession();
+  const id = num(formData, "id");
+  const name = str(formData, "name");
+  if (!name) return { errors: ["Category name is required."] };
+  const values = { name, blurb: str(formData, "blurb") || null, sortOrder: num(formData, "sortOrder", 99) };
+
+  if (id) {
+    await db.update(categories).set(values).where(eq(categories.id, id));
+  } else {
+    const slug = slugify(name);
+    const [clash] = await db.select({ id: categories.id }).from(categories).where(eq(categories.slug, slug)).limit(1);
+    if (clash) return { errors: [`A category called “${name}” already exists.`] };
+    await db.insert(categories).values({ ...values, slug });
+  }
+  revalidatePath("/admin/categories");
+  revalidatePath("/products");
+  return { ok: true, message: id ? "Category updated." : "Category added." };
+}
+
+export async function deleteCategory(formData) {
+  await requireSession();
+  const id = Number(formData.get("id"));
+  if (id) await db.delete(categories).where(eq(categories.id, id));
+  revalidatePath("/admin/categories");
+  revalidatePath("/products");
+  redirect("/admin/categories?deleted=1");
+}
+
+export async function addSubcategory(_prev, formData) {
+  await requireSession();
+  const categoryId = num(formData, "categoryId");
+  const name = str(formData, "name");
+  if (!categoryId || !name) return { errors: ["Pick a category and enter a name."] };
+  const slug = slugify(name);
+  const [clash] = await db.select({ id: subcategories.id }).from(subcategories)
+    .where(and(eq(subcategories.categoryId, categoryId), eq(subcategories.slug, slug))).limit(1);
+  if (clash) return { errors: [`“${name}” already exists in that category.`] };
+  await db.insert(subcategories).values({ categoryId, name, slug, sortOrder: 99 });
+  revalidatePath("/admin/categories");
+  return { ok: true, message: "Subcategory added." };
+}
+
+export async function deleteSubcategory(formData) {
+  await requireSession();
+  const id = Number(formData.get("id"));
+  if (id) await db.delete(subcategories).where(eq(subcategories.id, id));
+  revalidatePath("/admin/categories");
+  redirect("/admin/categories?sub_deleted=1");
+}
+
+/* ── Delivery services ─────────────────────────────────────── */
+
+export async function saveShop(_prev, formData) {
+  await requireSession();
+  const id = num(formData, "id");
+  const name = str(formData, "name");
+  if (!name) return { errors: ["Service name is required."] };
+
+  const values = {
+    name,
+    serviceArea: str(formData, "serviceArea") || "—",
+    license: str(formData, "license") || "Adult use · C9",
+    rating: String(Math.min(5, Math.max(0, num(formData, "rating", 4)))),
+    reviewCount: Math.max(0, num(formData, "reviewCount")),
+    deliveringNow: bool(formData, "deliveringNow"),
+    windowLabel: str(formData, "windowLabel") || "Until 10:00 PM",
+    etaMinMinutes: Math.max(0, num(formData, "etaMin", 30)),
+    etaMaxMinutes: Math.max(0, num(formData, "etaMax", 60)),
+    minOrderCents: Math.round(num(formData, "minOrder") * 100),
+    deliveryFeeCents: Math.round(num(formData, "fee") * 100),
+    freeDeliveryOverCents: str(formData, "freeOver") ? Math.round(num(formData, "freeOver") * 100) : null,
+    deal: str(formData, "deal") || null,
+  };
+  if (values.etaMaxMinutes < values.etaMinMinutes) {
+    return { errors: ["The maximum arrival time cannot be lower than the minimum."] };
+  }
+
+  if (id) {
+    await db.update(shops).set(values).where(eq(shops.id, id));
+  } else {
+    await db.insert(shops).values({ ...values, slug: slugify(name), menuCount: 0 });
+  }
+  revalidatePath("/admin/deliveries");
+  revalidatePath("/deliveries");
+  return { ok: true, message: id ? "Delivery service updated." : "Delivery service added." };
+}
+
+export async function deleteShop(formData) {
+  await requireSession();
+  const id = Number(formData.get("id"));
+  if (id) await db.delete(shops).where(eq(shops.id, id));
+  revalidatePath("/admin/deliveries");
+  revalidatePath("/deliveries");
+  redirect("/admin/deliveries?deleted=1");
+}
+
+/* ── CRM ───────────────────────────────────────────────────── */
+
+export async function saveCustomer(_prev, formData) {
+  await requireSession();
+  const id = num(formData, "id");
+  const name = str(formData, "name");
+  const email = str(formData, "email").toLowerCase();
+  if (!name) return { errors: ["Customer name is required."] };
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return { errors: ["Enter a valid email address."] };
+
+  const values = {
+    name, email,
+    phone: str(formData, "phone") || null,
+    address: str(formData, "address") || null,
+    city: str(formData, "city") || null,
+    stage: str(formData, "stage") || "lead",
+    tags: str(formData, "tags") ? str(formData, "tags").split(",").map((t) => t.trim()).filter(Boolean) : [],
+    ageVerified: bool(formData, "ageVerified"),
+    marketingOptIn: bool(formData, "marketingOptIn"),
+    notes: str(formData, "notes") || null,
+  };
+
+  if (id) {
+    await db.update(customers).set(values).where(eq(customers.id, id));
+  } else {
+    const [clash] = await db.select({ id: customers.id }).from(customers).where(eq(customers.email, email)).limit(1);
+    if (clash) return { errors: [`A customer with ${email} already exists.`] };
+    await db.insert(customers).values(values);
+  }
+  revalidatePath("/admin/customers");
+  return { ok: true, message: id ? "Customer updated." : "Customer added." };
+}
+
+export async function deleteCustomer(formData) {
+  const session = await requireSession();
+  const id = Number(formData.get("id"));
+  if (id) {
+    const [row] = await db.select({ name: customers.name }).from(customers).where(eq(customers.id, id)).limit(1);
+    await db.delete(customers).where(eq(customers.id, id));
+    await auditDestructive({ actor: session.name, action: "delete", entity: "customer", entityId: id,
+      summary: `Deleted customer ${row?.name ?? id} with their orders and notes.` });
+  }
+  revalidatePath("/admin/customers");
+  redirect("/admin/customers?deleted=1");
+}
+
+export async function addNote(_prev, formData) {
+  const session = await requireSession();
+  const customerId = num(formData, "customerId");
+  const body = str(formData, "body");
+  if (!customerId || !body) return { errors: ["Write something before saving the note."] };
+  await db.insert(customerNotes).values({
+    customerId, body, authorId: session.uid, authorName: session.name,
+  });
+  revalidatePath(`/admin/customers/${customerId}`);
+  return { ok: true, message: "Note added." };
+}
+
+export async function setOrderStatus(formData) {
+  await requireSession();
+  const id = Number(formData.get("id"));
+  const status = String(formData.get("status") ?? "");
+  const allowed = ["pending", "confirmed", "out_for_delivery", "delivered", "cancelled"];
+  if (id && allowed.includes(status)) {
+    await db.update(orders)
+      .set({ status, deliveredAt: status === "delivered" ? new Date() : null })
+      .where(eq(orders.id, id));
+  }
+  revalidatePath("/admin/orders");
+  return { ok: true };
+}
+
+/* ── Payments ──────────────────────────────────────────────── */
+
+const CRYPTO_RULES = {
+  btc: [/^([13][a-km-zA-HJ-NP-Z1-9]{25,34}|bc1[02-9ac-hj-np-z]{11,71})$/, "a Bitcoin address (starts 1, 3 or bc1)"],
+  usdt_trc20: [/^T[1-9A-HJ-NP-Za-km-z]{33}$/, "a Tron TRC20 address (starts T, 34 characters)"],
+  usdt_erc20: [/^0x[0-9a-fA-F]{40}$/, "an Ethereum ERC20 address (0x + 40 hex characters)"],
+};
+
+export async function savePaymentMethod(_prev, formData) {
+  await requireSession();
+  const id = num(formData, "id");
+  if (!id) return { errors: ["Missing payment method."] };
+
+  const [row] = await db.select().from(schema.paymentMethods)
+    .where(eq(schema.paymentMethods.id, id)).limit(1);
+  if (!row) return { errors: ["Unknown payment method."] };
+
+  const destination = str(formData, "destination");
+
+  // A mistyped wallet sends customer money somewhere nobody can retrieve it,
+  // so the format is checked before it is ever shown at checkout.
+  const rule = CRYPTO_RULES[row.code];
+  if (rule && destination && !rule[0].test(destination)) {
+    return { errors: [`That does not look like ${rule[1]}. Nothing was saved.`] };
+  }
+  if (row.kind === "crypto" && bool(formData, "active") && !destination) {
+    return { errors: ["A crypto method cannot be active without an address."] };
+  }
+
+  await db.update(schema.paymentMethods).set({
+    destination: destination || null,
+    instructions: str(formData, "instructions") || null,
+    confirmations: str(formData, "confirmations") ? num(formData, "confirmations") : null,
+    active: bool(formData, "active"),
+    updatedAt: new Date(),
+  }).where(eq(schema.paymentMethods.id, id));
+
+  const changedAddress = (row.destination ?? "") !== (destination || "");
+  await audit({
+    actor: (await getSession())?.name ?? "unknown",
+    action: "update", entity: "payment_method", entityId: id,
+    severity: changedAddress ? "money" : "info",
+    summary: changedAddress
+      ? `Changed the ${row.label} destination from ${row.destination ?? "(none)"} to ${destination || "(none)"}.`
+      : `Updated ${row.label} settings.`,
+  });
+
+  revalidatePath("/admin/payments");
+  revalidatePath("/checkout");
+  return { ok: true, message: `${row.label} updated.` };
+}
+
+/** Mark funds as actually received. Only a human ever calls this. */
+export async function confirmPayment(formData) {
+  const session = await requireSession();
+  const id = Number(formData.get("id"));
+  const next = String(formData.get("paymentStatus") ?? "");
+  const allowed = ["awaiting_payment", "paid", "failed", "refunded"];
+  if (!id || !allowed.includes(next)) return;
+
+  await db.update(orders).set({
+    paymentStatus: next,
+    paymentReference: String(formData.get("paymentReference") ?? "").trim() || null,
+    paymentConfirmedAt: next === "paid" ? new Date() : null,
+    paymentConfirmedBy: next === "paid" ? session.name : null,
+    // Confirming payment moves fulfilment forward, but never past it.
+    status: next === "paid" ? "confirmed" : next === "failed" ? "cancelled" : "pending",
+  }).where(eq(orders.id, id));
+
+  const [row] = await db.select({
+    reference: orders.reference, total: orders.totalCents, customerId: orders.customerId,
+  }).from(orders).where(eq(orders.id, id)).limit(1);
+
+  /* Move the customer along the pipeline automatically when a payment lands.
+     Stages are derived from paid orders, so the CRM reflects behaviour instead
+     of waiting for someone to remember. VIP is spend-based, not count-based —
+     three small orders is not the same customer as one large one. A stage set
+     by hand to "lapsed" is left alone; that is a judgement, not a count. */
+  if (next === "paid" && row?.customerId) {
+    const [stats] = await db.select({
+      paid: sql`count(*) filter (where ${orders.paymentStatus} = 'paid')`.mapWith(Number),
+      spend: sql`coalesce(sum(${orders.totalCents}) filter (where ${orders.paymentStatus} = 'paid'), 0)`.mapWith(Number),
+    }).from(orders).where(eq(orders.customerId, row.customerId));
+
+    const [cust] = await db.select({ stage: customers.stage, name: customers.name })
+      .from(customers).where(eq(customers.id, row.customerId)).limit(1);
+
+    const derived =
+      stats.spend >= 50000 ? "vip" :
+      stats.paid >= 3 ? "repeat" :
+      stats.paid >= 1 ? "first_order" : "lead";
+
+    if (cust && cust.stage !== derived && cust.stage !== "lapsed") {
+      await db.update(customers).set({ stage: derived }).where(eq(customers.id, row.customerId));
+      await audit({
+        actor: "system", action: "stage_change", entity: "customer", entityId: row.customerId,
+        summary: `${cust.name} moved ${cust.stage} → ${derived} after ${stats.paid} paid order(s), $${(stats.spend / 100).toFixed(2)} lifetime.`,
+      });
+      revalidatePath("/admin/customers");
+    }
+  }
+  await audit({
+    actor: session.name,
+    action: next === "paid" ? "confirm_payment" : `payment_${next}`,
+    entity: "order", entityId: id,
+    severity: next === "paid" ? "money" : "info",
+    summary: next === "paid"
+      ? `Confirmed payment of ${((row?.total ?? 0) / 100).toFixed(2)} on ${row?.reference}.`
+      : `Set payment on ${row?.reference} to ${next.replace(/_/g, " ")}.`,
+  });
+
+  revalidatePath("/admin/orders");
+  revalidatePath("/admin");
+}
+
+export async function markNotificationsRead() {
+  await requireSession();
+  await db.update(schema.adminNotifications)
+    .set({ readAt: new Date() })
+    .where(sqlIsNull(schema.adminNotifications.readAt));
+  revalidatePath("/admin");
+  revalidatePath("/admin/orders");
+}
+
+/* ── CRM bulk actions ──────────────────────────────────────── */
+
+const CUSTOMER_STAGES = ["lead", "first_order", "repeat", "vip", "lapsed"];
+
+/**
+ * Apply one action to every ticked customer. Deleting a customer takes their
+ * orders and notes with it, so the count is reported back rather than the
+ * screen silently changing.
+ */
+export async function bulkCustomerAction(formData) {
+  const session = await requireSession();
+  const ids = formData.getAll("selected").map(Number).filter(Boolean);
+  const action = String(formData.get("bulkAction") ?? "");
+
+  if (!ids.length || !action) redirect("/admin/customers?bulk_none=1");
+
+  if (action === "delete") {
+    const doomed = await db.select({ name: customers.name }).from(customers).where(inArray(customers.id, ids));
+    await db.delete(customers).where(inArray(customers.id, ids));
+    await auditDestructive({ actor: session.name, action: "bulk_delete", entity: "customer",
+      summary: `Deleted ${ids.length} customer(s) with their orders and notes: ${doomed.map((d) => d.name).slice(0, 6).join(", ")}${doomed.length > 6 ? "…" : ""}.` });
+    revalidatePath("/admin/customers");
+    revalidatePath("/admin/orders");
+    revalidatePath("/admin");
+    redirect(`/admin/customers?bulk_deleted=${ids.length}`);
+  }
+
+  if (action.startsWith("stage:")) {
+    const stage = action.slice(6);
+    if (!CUSTOMER_STAGES.includes(stage)) redirect("/admin/customers");
+    await db.update(customers).set({ stage }).where(inArray(customers.id, ids));
+    revalidatePath("/admin/customers");
+    redirect(`/admin/customers?bulk_staged=${ids.length}`);
+  }
+
+  if (action === "verify" || action === "unverify") {
+    await db.update(customers)
+      .set({ ageVerified: action === "verify" })
+      .where(inArray(customers.id, ids));
+    revalidatePath("/admin/customers");
+    redirect(`/admin/customers?bulk_verified=${ids.length}`);
+  }
+
+  redirect("/admin/customers");
+}
+
+/** Same shape for orders. Cancelling is offered before deleting, deliberately. */
+export async function bulkOrderAction(formData) {
+  const session = await requireSession();
+  const ids = formData.getAll("selected").map(Number).filter(Boolean);
+  const action = String(formData.get("bulkAction") ?? "");
+
+  if (!ids.length || !action) redirect("/admin/orders?bulk_none=1");
+
+  if (action === "delete") {
+    await auditDestructive({ actor: session.name, action: "bulk_delete", entity: "order",
+      summary: `Deleted ${ids.length} order(s) in bulk.` });
+    await db.delete(orders).where(inArray(orders.id, ids));
+    revalidatePath("/admin/orders");
+    revalidatePath("/admin");
+    redirect(`/admin/orders?bulk_deleted=${ids.length}`);
+  }
+
+  if (action === "cancel") {
+    await db.update(orders)
+      .set({ status: "cancelled", paymentStatus: "failed" })
+      .where(inArray(orders.id, ids));
+    revalidatePath("/admin/orders");
+    redirect(`/admin/orders?bulk_cancelled=${ids.length}`);
+  }
+
+  if (action === "mark_delivered") {
+    await db.update(orders)
+      .set({ status: "delivered", deliveredAt: new Date() })
+      .where(inArray(orders.id, ids));
+    revalidatePath("/admin/orders");
+    redirect(`/admin/orders?bulk_delivered=${ids.length}`);
+  }
+
+  redirect("/admin/orders");
+}

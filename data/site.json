@@ -1,0 +1,182 @@
+{
+  "_placeholder": "Invented figures for UI demo. See data/README.md.",
+  "name": "Weedmaps",
+  "tagline": "Shop the shelf. We drive.",
+  "location": {
+    "label": "Los Angeles, CA",
+    "radiusMi": 4
+  },
+  "nav": [
+    {
+      "label": "Shop",
+      "href": "/products"
+    },
+    {
+      "label": "Delivery",
+      "href": "/deliveries"
+    },
+    {
+      "label": "Brands",
+      "href": "/brands"
+    },
+    {
+      "label": "Deals",
+      "href": "/deals"
+    },
+    {
+      "label": "Search",
+      "href": "/search"
+    }
+  ],
+  "footer": {
+    "columns": [
+      {
+        "title": "Shop",
+        "links": [
+          {
+            "label": "Flower",
+            "href": "/products/flower"
+          },
+          {
+            "label": "Pre-rolls",
+            "href": "/products/pre-rolls"
+          },
+          {
+            "label": "Vape pens",
+            "href": "/products/vape"
+          },
+          {
+            "label": "Concentrates",
+            "href": "/products/concentrates"
+          },
+          {
+            "label": "Edibles",
+            "href": "/products/edibles"
+          },
+          {
+            "label": "Beverages",
+            "href": "/products/beverages"
+          },
+          {
+            "label": "Wellness",
+            "href": "/products/wellness"
+          },
+          {
+            "label": "Gear",
+            "href": "/products/gear"
+          },
+          {
+            "label": "Genetics",
+            "href": "/products/genetics"
+          }
+        ]
+      },
+      {
+        "title": "Discover",
+        "links": [
+          {
+            "label": "Delivery near me",
+            "href": "/deliveries"
+          },
+          {
+            "label": "Services delivering now",
+            "href": "/deliveries"
+          },
+          {
+            "label": "Deals tonight",
+            "href": "/deals"
+          },
+          {
+            "label": "Everything on the shelf",
+            "href": "/products"
+          },
+          {
+            "label": "Brands A–Z",
+            "href": "/brands"
+          },
+          {
+            "label": "Search",
+            "href": "/search"
+          }
+        ]
+      },
+      {
+        "title": "For business",
+        "links": [
+          {
+            "label": "List your delivery service",
+            "href": "/deliveries"
+          },
+          {
+            "label": "Brand partnerships",
+            "href": "/brands"
+          },
+          {
+            "label": "Advertising",
+            "href": "/deliveries"
+          },
+          {
+            "label": "WM Store",
+            "href": "/products/gear"
+          },
+          {
+            "label": "Point of sale",
+            "href": "/deliveries"
+          },
+          {
+            "label": "Support",
+            "href": "/search"
+          }
+        ]
+      },
+      {
+        "title": "Company",
+        "links": [
+          {
+            "label": "About",
+            "href": "/"
+          },
+          {
+            "label": "Careers",
+            "href": "/"
+          },
+          {
+            "label": "Newsroom",
+            "href": "/"
+          },
+          {
+            "label": "Investor relations",
+            "href": "/"
+          },
+          {
+            "label": "Responsibility",
+            "href": "/"
+          },
+          {
+            "label": "Contact",
+            "href": "/"
+          }
+        ]
+      }
+    ],
+    "cities": [
+      "Los Angeles",
+      "San Diego",
+      "San Francisco",
+      "Sacramento",
+      "Oakland",
+      "Long Beach",
+      "Denver",
+      "Portland",
+      "Seattle",
+      "Phoenix",
+      "Las Vegas",
+      "Chicago",
+      "Detroit",
+      "Boston",
+      "New York",
+      "Toronto"
+    ],
+    "legal": "Delivery only. You must be 21+ (or 18+ with a valid medical recommendation) to order, and someone 21+ must be present to receive the delivery. Keep out of reach of children. Do not drive or operate machinery under the influence."
+  }
+}

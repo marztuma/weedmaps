@@ -1,0 +1,2518 @@
+{
+  "gear": [
+    {
+      "slug": "349922943-3476e3c7-0d0d-47e7-953d-214bc336b3a1",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1 unit",
+      "named": false
+    },
+    {
+      "slug": "goodlife-logo200x200",
+      "name": "Logo200x200",
+      "brand": "Good Life",
+      "strain": "Hybrid",
+      "sub": "Apparel",
+      "weight": "1 unit",
+      "named": true
+    },
+    {
+      "slug": "437073497-7f947b49-cf5c-4ac5-8450-8f104a80bb4e",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1 unit",
+      "named": false
+    },
+    {
+      "slug": "440636458-product-images-989c1968-3974-48d1-8843-ea206338809d-f8ce11d6",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1 unit",
+      "named": false
+    },
+    {
+      "slug": "rawtips-02-14-23",
+      "name": null,
+      "brand": "RAW",
+      "strain": "Hybrid",
+      "sub": "Rolling papers",
+      "weight": "1 unit",
+      "named": false
+    },
+    {
+      "slug": "grav-r-mini-classic-sherlock-10",
+      "name": "Mini Classic Sherlock",
+      "brand": "GRAV",
+      "strain": "Hybrid",
+      "sub": "Hand pipes",
+      "weight": "1 unit",
+      "named": true
+    },
+    {
+      "slug": "6e9a7183copy",
+      "name": "6e9a7183copy",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1 unit",
+      "named": true
+    },
+    {
+      "slug": "444030802-b682ba55-50dd-4691-b042-4f754864c442",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1 unit",
+      "named": false
+    }
+  ],
+  "concentrates": [
+    {
+      "slug": "gelato-diamonds-hybrid-jetpacks",
+      "name": "Gelato Diamonds",
+      "brand": "Jetpacks",
+      "strain": "Hybrid",
+      "sub": "Diamonds",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "sourdiesel-1g-diamonds-sativa-jetpacks",
+      "name": "Sourdiesel Diamonds",
+      "brand": "Jetpacks",
+      "strain": "Sativa",
+      "sub": "Diamonds",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "mfny-concentrates-liveresin-honeybanana-awards",
+      "name": "Liveresin Honeybanana",
+      "brand": "MFNY",
+      "strain": "Hybrid",
+      "sub": "Live rosin",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "3993486-screenshot-2025-01-23-at-6-58-09-pm",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "download",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "silly-nice-bubble-hash",
+      "name": "Bubble Hash",
+      "brand": "Silly Nice",
+      "strain": "Hybrid",
+      "sub": "Ice water hash",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "brown-hash-sativa-hash-product-w-package",
+      "name": "Brown Hash Hash",
+      "brand": null,
+      "strain": "Sativa",
+      "sub": "Ice water hash",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "download-1",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "download-2",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "download-3",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "olio-mmccpr-600x600",
+      "name": "Mmccpr",
+      "brand": "Olio",
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "jaunty-icecreamsouffle-badder",
+      "name": "Icecreamsouffle Badder",
+      "brand": "Jaunty",
+      "strain": "Hybrid",
+      "sub": "Badder & batter",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "banana-og-2",
+      "name": "Banana",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "nyh-1g-sugar-gelato-4",
+      "name": "Sugar Gelato",
+      "brand": "NYH",
+      "strain": "Hybrid",
+      "sub": "Sugar",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "436382610-0de33412-4758-4481-b681-cc001ce6d6b4-1",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "436382610-0de33412-4758-4481-b681-cc001ce6d6b4",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "440908320-1765559823124-940708518-concentrate-templeball-lilacdiesel-i",
+      "name": "Templeball Lilacdiesel",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "442420225-7540daea-c115-4efd-b2f3-e79a3f6f55fe",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "jaunty-strawberrymeltz-badder-1",
+      "name": "Strawberrymeltz Badder",
+      "brand": "Jaunty",
+      "strain": "Hybrid",
+      "sub": "Badder & batter",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "jaunty-strawberrymeltz-badder",
+      "name": "Strawberrymeltz Badder",
+      "brand": "Jaunty",
+      "strain": "Hybrid",
+      "sub": "Badder & batter",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "437144736-130d027e-981b-471d-9133-c839aac0ba8b",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "1616598421-rythm-logo-w",
+      "name": "Rythm Logo",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "1741631335-house-of-sacci-logo-suite-2500-x-2500-px-1",
+      "name": "House Sacci Logo Suite",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "1741631335-house-of-sacci-logo-suite-2500-x-2500-px-2",
+      "name": "House Sacci Logo Suite",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "1741631335-house-of-sacci-logo-suite-2500-x-2500-px",
+      "name": "House Sacci Logo Suite",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "441889931-a5fbec32-b8ff-49b0-9272-86c351ff4c3e",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "dd-grape-ape-new-packaging-3",
+      "name": "Grape Ape New Packaging",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "dd-wedding-crasher-new-packaging-3",
+      "name": "Wedding Crasher New Packaging",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "download-1-2",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "download-4",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "download-5",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "download-6",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "download-7",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "4000091-3993533-screenshot-2025-01-23-at-71428-pm",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "4072992-silly-nice-bubble-hash-2",
+      "name": "Bubble Hash",
+      "brand": "Silly Nice",
+      "strain": "Hybrid",
+      "sub": "Ice water hash",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "443656859-3db34c99-1ae9-4bdd-8c5d-5b1b22fd2ac2",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "443769469-efe7821d-fa76-4e57-b3e7-a8ac44ddef95",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "444407143-1b4832e2-99f0-4596-bd32-9ca9b529dc95",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "444417812-e5b93ea1-579e-4970-8793-c13c673ed806",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "4505867-jaunty-strawberry-meltz-cold-cure-live-rosin-badder-hero-shot-",
+      "name": "Strawberry Meltz Cold Cure Live",
+      "brand": "Jaunty",
+      "strain": "Hybrid",
+      "sub": "Live rosin",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "4505867-jaunty-strawberry-meltz-cold-cure-live-rosin-badder-hero-shot--2",
+      "name": "Strawberry Meltz Cold Cure Live",
+      "brand": "Jaunty",
+      "strain": "Hybrid",
+      "sub": "Live rosin",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "4996415-brown-hash-sativa-hash-product",
+      "name": "Brown Hash Hash",
+      "brand": null,
+      "strain": "Sativa",
+      "sub": "Ice water hash",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "4996416-brown-hash-sativa-hash-top",
+      "name": "Brown Hash Hash Top",
+      "brand": null,
+      "strain": "Sativa",
+      "sub": "Ice water hash",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "4996417-brown-hash-sativa-hash-detail",
+      "name": "Brown Hash Hash Detail",
+      "brand": null,
+      "strain": "Sativa",
+      "sub": "Ice water hash",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "uc-1",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "uc",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    }
+  ],
+  "beverages": [
+    {
+      "slug": "hiistix",
+      "name": null,
+      "brand": "Hii Stix",
+      "strain": "Hybrid",
+      "sub": "Drink powders",
+      "weight": "12 oz",
+      "named": false
+    },
+    {
+      "slug": "hiistix100mg-1",
+      "name": null,
+      "brand": "Hii Stix",
+      "strain": "Hybrid",
+      "sub": "Drink powders",
+      "weight": "100mg",
+      "named": false
+    },
+    {
+      "slug": "hiistix100mg",
+      "name": null,
+      "brand": "Hii Stix",
+      "strain": "Hybrid",
+      "sub": "Drink powders",
+      "weight": "100mg",
+      "named": false
+    },
+    {
+      "slug": "hp-lemonade-03w-1",
+      "name": "Lemonade",
+      "brand": "House Plant",
+      "strain": "Hybrid",
+      "sub": "Tonics",
+      "weight": "12 oz",
+      "named": true
+    },
+    {
+      "slug": "hp-lemonade-03w",
+      "name": "Lemonade",
+      "brand": "House Plant",
+      "strain": "Hybrid",
+      "sub": "Tonics",
+      "weight": "12 oz",
+      "named": true
+    },
+    {
+      "slug": "fireball-01w",
+      "name": null,
+      "brand": "Fireball",
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "12 oz",
+      "named": false
+    },
+    {
+      "slug": "drinks-tune-black-cherry-single-can-colored-background",
+      "name": "Black Cherry Can",
+      "brand": "Tune",
+      "strain": "Hybrid",
+      "sub": "Seltzers",
+      "weight": "12 oz",
+      "named": true
+    },
+    {
+      "slug": "drinks-tune-blackberry-cardamom-single-can-colored-background",
+      "name": "Blackberry Cardamom Can",
+      "brand": "Tune",
+      "strain": "Hybrid",
+      "sub": "Seltzers",
+      "weight": "12 oz",
+      "named": true
+    },
+    {
+      "slug": "440950750-bc5421af-1d53-4c9c-a702-a84c487f5ab6-1",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "12 oz",
+      "named": false
+    },
+    {
+      "slug": "440950750-bc5421af-1d53-4c9c-a702-a84c487f5ab6",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "12 oz",
+      "named": false
+    },
+    {
+      "slug": "440518868-441adfcd-eca2-459b-9a39-ad12c4f8baa3",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "12 oz",
+      "named": false
+    },
+    {
+      "slug": "ayr-10mg-beverages-rose-clear-circle-1",
+      "name": "Rose",
+      "brand": "AYR",
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10mg",
+      "named": true
+    },
+    {
+      "slug": "ayr-10mg-beverages-blackcherry-clear-circle-2",
+      "name": "Blackcherry",
+      "brand": "AYR",
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10mg",
+      "named": true
+    },
+    {
+      "slug": "ayr-10mg-beverages-half-half-clear-circle-2",
+      "name": "Half Half",
+      "brand": "AYR",
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10mg",
+      "named": true
+    },
+    {
+      "slug": "ayr-10mg-beverages-rootbeer-clear-circle-2",
+      "name": "Rootbeer",
+      "brand": "AYR",
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10mg",
+      "named": true
+    },
+    {
+      "slug": "ayr-tinctures-bevenhancer-clear-circle-2",
+      "name": "Tinctures Bevenhancer",
+      "brand": "AYR",
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "12 oz",
+      "named": true
+    },
+    {
+      "slug": "ayr-beverages-au-honeycrisp-clear-circle-1-1",
+      "name": "Honeycrisp",
+      "brand": "AYR",
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "12 oz",
+      "named": true
+    },
+    {
+      "slug": "ayr-beverages-au-honeycrisp-clear-circle-1",
+      "name": "Honeycrisp",
+      "brand": "AYR",
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "12 oz",
+      "named": true
+    },
+    {
+      "slug": "ayr-10mg-beverages-yuzucitrus-clear-circle-1",
+      "name": "Yuzucitrus",
+      "brand": "AYR",
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10mg",
+      "named": true
+    },
+    {
+      "slug": "442960636-product-images-c1f0d15a-b282-4424-b735-f0e1145bfb0a-cc0384fe",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "12 oz",
+      "named": false
+    }
+  ],
+  "edibles": [
+    {
+      "slug": "incredibles-chocolate-pbb-upright2-web",
+      "name": "Chocolate Peanut Butter",
+      "brand": "Incredibles",
+      "strain": "Hybrid",
+      "sub": "Chocolate",
+      "weight": "10 pk",
+      "named": true
+    },
+    {
+      "slug": "incredibles-chocolate-strawberrycrunch-upright2-wen",
+      "name": "Chocolate Strawberrycrunch",
+      "brand": "Incredibles",
+      "strain": "Hybrid",
+      "sub": "Chocolate",
+      "weight": "10 pk",
+      "named": true
+    },
+    {
+      "slug": "pink-lemonade-lr-belt",
+      "name": "Pink Lemonade Belt",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Gummies",
+      "weight": "10 pk",
+      "named": true
+    },
+    {
+      "slug": "3946903-screenshot-2025-01-08-at-5-54-23-pm",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10 pk",
+      "named": false
+    },
+    {
+      "slug": "4017549-screenshot-2025-01-30-at-7-04-35-pm",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10 pk",
+      "named": false
+    },
+    {
+      "slug": "download",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10 pk",
+      "named": false
+    },
+    {
+      "slug": "437533560-1742257068536-514930479-145c714690909516-1741781745305-5",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10 pk",
+      "named": false
+    },
+    {
+      "slug": "1231165796",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10 pk",
+      "named": false
+    },
+    {
+      "slug": "440126107-13f6b21d-e8e8-4b85-b83c-9eff5d3da651",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10 pk",
+      "named": false
+    },
+    {
+      "slug": "render-ff-gummies-peach-greentin-flat",
+      "name": "Render Gummies Peach Greentin",
+      "brand": "Farmer's Friend",
+      "strain": "Hybrid",
+      "sub": "Gummies",
+      "weight": "10 pk",
+      "named": true
+    },
+    {
+      "slug": "mm-dream-mints",
+      "name": "Dream Mints",
+      "brand": "MM",
+      "strain": "Hybrid",
+      "sub": "Mints",
+      "weight": "10 pk",
+      "named": true
+    },
+    {
+      "slug": "kiva-ca-cartonchocolate-onwhite-rgb-churro-201026",
+      "name": "Cartonchocolate Churro",
+      "brand": "Kiva Confections",
+      "strain": "Hybrid",
+      "sub": "Chocolate",
+      "weight": "10 pk",
+      "named": true
+    },
+    {
+      "slug": "sour-af-lemon-gummy-04t-2",
+      "name": "Lemon Gummy",
+      "brand": "Sour AF",
+      "strain": "Hybrid",
+      "sub": "Gummies",
+      "weight": "10 pk",
+      "named": true
+    },
+    {
+      "slug": "genericaf-blood-orange-bag-and-gummie-06w-1",
+      "name": "Blood Orange And Gummie",
+      "brand": "Generic AF",
+      "strain": "Hybrid",
+      "sub": "Gummies",
+      "weight": "10 pk",
+      "named": true
+    },
+    {
+      "slug": "442561655-1775058521514-384116882-screenshot-2026-04-01-114612",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10 pk",
+      "named": false
+    },
+    {
+      "slug": "442365019-7045bd9b-5223-47b5-8d2a-fb63aea28179",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10 pk",
+      "named": false
+    },
+    {
+      "slug": "1693312586-sps-main-logo",
+      "name": "Sps Main Logo",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10 pk",
+      "named": true
+    },
+    {
+      "slug": "437204827-de94a9ad-60a4-4456-bae9-915da1232d42",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10 pk",
+      "named": false
+    },
+    {
+      "slug": "wyld-10ct-box-us-fruit-marionberry-gummies-shadow",
+      "name": "Wyld 10ct Box Fruit Marionberry",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Gummies",
+      "weight": "10 pk",
+      "named": true
+    },
+    {
+      "slug": "1764136889-439524950-90bae31d-726d-4e38-ad0e-1b846b845ede",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10 pk",
+      "named": false
+    },
+    {
+      "slug": "441913850-aa4c0469-2df1-4237-984a-3ef4090f9564",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10 pk",
+      "named": false
+    },
+    {
+      "slug": "ayr-gummies-10pk-pillowtalk-clear-circle",
+      "name": "Gummies 10pk Pillowtalk",
+      "brand": "AYR",
+      "strain": "Hybrid",
+      "sub": "Gummies",
+      "weight": "10 pk",
+      "named": true
+    },
+    {
+      "slug": "ayrup-gummies-10pk-orchardsunrise-clear-circle",
+      "name": "Ayrup Gummies 10pk Orchardsunrise",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Gummies",
+      "weight": "10 pk",
+      "named": true
+    },
+    {
+      "slug": "ny-p-1",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10 pk",
+      "named": false
+    },
+    {
+      "slug": "ny-p",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10 pk",
+      "named": false
+    },
+    {
+      "slug": "offline-c10c59b7-d55e-499a-baae-dd7dfad55dfe",
+      "name": "Offline Baae",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10 pk",
+      "named": true
+    },
+    {
+      "slug": "euphoric-cabc5bbe-69e3-42ad-9039-1460cfc54e4b",
+      "name": "Euphoric",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10 pk",
+      "named": true
+    },
+    {
+      "slug": "2023-offhours-gummies-mirrors-9386",
+      "name": "Offhours Gummies Mirrors",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Gummies",
+      "weight": "10 pk",
+      "named": true
+    },
+    {
+      "slug": "2023-offhours-gummies-mirrors-9481",
+      "name": "Offhours Gummies Mirrors",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Gummies",
+      "weight": "10 pk",
+      "named": true
+    },
+    {
+      "slug": "252975-incredibles-chocolate-bar-pbb-web",
+      "name": "Chocolate Bar Peanut Butter",
+      "brand": "Incredibles",
+      "strain": "Hybrid",
+      "sub": "Chocolate",
+      "weight": "10 pk",
+      "named": true
+    },
+    {
+      "slug": "252977-incredibles-creative-chocolate-pbb-web",
+      "name": "Creative Chocolate Peanut Butter",
+      "brand": "Incredibles",
+      "strain": "Hybrid",
+      "sub": "Chocolate",
+      "weight": "10 pk",
+      "named": true
+    },
+    {
+      "slug": "252981-incredibles-chocolate-bar-strawberrycrunch-web",
+      "name": "Chocolate Bar Strawberrycrunch",
+      "brand": "Incredibles",
+      "strain": "Hybrid",
+      "sub": "Chocolate",
+      "weight": "10 pk",
+      "named": true
+    },
+    {
+      "slug": "252982-incredibles-chocolate-strawberrycrunch-upright2-wen",
+      "name": "Chocolate Strawberrycrunch",
+      "brand": "Incredibles",
+      "strain": "Hybrid",
+      "sub": "Chocolate",
+      "weight": "10 pk",
+      "named": true
+    },
+    {
+      "slug": "252983-incredibles-creative-chocolate-strawberrycrunch-web",
+      "name": "Creative Chocolate Strawberrycrunch",
+      "brand": "Incredibles",
+      "strain": "Hybrid",
+      "sub": "Chocolate",
+      "weight": "10 pk",
+      "named": true
+    },
+    {
+      "slug": "3567185-wana-universal-hero-rec-quick-ozsunrise-sativa",
+      "name": "Wana Universal Hero Rec Quick",
+      "brand": null,
+      "strain": "Sativa",
+      "sub": null,
+      "weight": "10 pk",
+      "named": true
+    },
+    {
+      "slug": "442804442-product-images-4e1a2d40-70a3-48c4-9507-865dc2186171-04505975",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10 pk",
+      "named": false
+    },
+    {
+      "slug": "442960636-product-images-c1f0d15a-b282-4424-b735-f0e1145bfb0a-cc0384fe",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10 pk",
+      "named": false
+    },
+    {
+      "slug": "442960636-product-images-c1f0d15a-b282-4424-b735-f0e1145bfb0a-cc0384fe-2",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10 pk",
+      "named": false
+    },
+    {
+      "slug": "442960637-product-images-350251d4-5fef-4feb-bf31-435e6176d051-794046bb",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10 pk",
+      "named": false
+    },
+    {
+      "slug": "443655638-product-images-5bc338f1-635b-4c6a-be5a-baed67eb59e0-e8fb5069",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10 pk",
+      "named": false
+    },
+    {
+      "slug": "444265807-product-images-fec20d19-7f3c-4dd2-b502-1f397881f2c1-e1d6c640",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10 pk",
+      "named": false
+    },
+    {
+      "slug": "444265807-product-images-fec20d19-7f3c-4dd2-b502-1f397881f2c1-e1d6c640-2",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10 pk",
+      "named": false
+    },
+    {
+      "slug": "444265815-product-images-f65ff6f3-6cdd-479e-8d93-e7989f08a1fb-ed83c537",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10 pk",
+      "named": false
+    },
+    {
+      "slug": "444265826-product-images-7f242e8e-4d96-4f74-bff7-d8bdcfb8bc1c-2336a9e6",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10 pk",
+      "named": false
+    },
+    {
+      "slug": "444265847-product-images-0b55f417-d179-4ae6-9b62-b9b7d68dcf4c-e57d499b",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10 pk",
+      "named": false
+    },
+    {
+      "slug": "6a3a80afeeb93bc84bc7a75b-20200821-kiva-ch-product-marquee",
+      "name": "Marquee",
+      "brand": "Kiva Confections",
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10 pk",
+      "named": true
+    },
+    {
+      "slug": "6a3a9f7eecda8e84e1040229-20200821-kiva-ch-marquee",
+      "name": "Marquee",
+      "brand": "Kiva Confections",
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10 pk",
+      "named": true
+    },
+    {
+      "slug": "euphoric2-1",
+      "name": "Euphoric2",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "10 pk",
+      "named": true
+    }
+  ],
+  "flower": [
+    {
+      "slug": "blueberry-muffin-moonrocks-2-1",
+      "name": "Blueberry Muffin Moonrocks",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Infused flower",
+      "weight": "3.5g",
+      "named": true
+    },
+    {
+      "slug": "blueberry-muffin-moonrocks-2",
+      "name": "Blueberry Muffin Moonrocks",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Infused flower",
+      "weight": "3.5g",
+      "named": true
+    },
+    {
+      "slug": "straberry-slushie-moonrocks-2",
+      "name": "Straberry Slushie Moonrocks",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Infused flower",
+      "weight": "3.5g",
+      "named": true
+    },
+    {
+      "slug": "grape-bubbly-moonrocks-2",
+      "name": "Grape Bubbly Moonrocks",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Infused flower",
+      "weight": "3.5g",
+      "named": true
+    },
+    {
+      "slug": "divorce-cake",
+      "name": "Divorce Cake",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": true
+    },
+    {
+      "slug": "devil-s-drip-indica-dimebag-bud-w-package-jpg",
+      "name": "Devil Drip Bud",
+      "brand": "Dimebag",
+      "strain": "Indica",
+      "sub": "Whole bud",
+      "weight": "3.5g",
+      "named": true
+    },
+    {
+      "slug": "product-images-29",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "cb-rolling-green-black-scotti-jar-wb-1651",
+      "name": "Black Scotti",
+      "brand": "CB Rolling Green",
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": true
+    },
+    {
+      "slug": "cb-rolling-green-code-red-jar-wb-1706-1",
+      "name": "Code Red",
+      "brand": "CB Rolling Green",
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": true
+    },
+    {
+      "slug": "cb-rolling-green-pop-tart-jar-wb-3522",
+      "name": "Pop Tart",
+      "brand": "CB Rolling Green",
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": true
+    },
+    {
+      "slug": "grape-gushers-1",
+      "name": "Grape Gushers",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": true
+    },
+    {
+      "slug": "grape-gushers",
+      "name": "Grape Gushers",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": true
+    },
+    {
+      "slug": "2",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "1",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "indica",
+      "name": null,
+      "brand": null,
+      "strain": "Indica",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "sativa",
+      "name": null,
+      "brand": null,
+      "strain": "Sativa",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "hybrid-1",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "hybrid",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "438097089-2567f492-c2a2-417c-9b45-71d8ae8fa062",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "moonbeamgelato-front",
+      "name": "Moonbeamgelato Front",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": true
+    },
+    {
+      "slug": "437746358-image",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "pink-grapefruit-sour-tangie0001",
+      "name": "Pink Grapefruit Sour Tangie0001",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": true
+    },
+    {
+      "slug": "439983981-product-images-5deae80b-15b4-424a-81d6-b74c7e49495a-d27da04b",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "sherbadelic-hybrid-1-8oz",
+      "name": "Sherbadelic",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": true
+    },
+    {
+      "slug": "441110935-1766623560486-162289393-nc-maui-macnut-glass-570x570",
+      "name": "Maui Macnut Glass",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": true
+    },
+    {
+      "slug": "bubblegum-runtz-front",
+      "name": "Bubblegum Runtz Front",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": true
+    },
+    {
+      "slug": "download",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "screenshot-2026-03-20-at-3-02-52-pm",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "download-2",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "download-3",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "download-4",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "438610930-cf8805e4-2822-45f8-aa62-ac4e9ceef114",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "melon-ball-moonrocks-3",
+      "name": "Melon Ball Moonrocks",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Infused flower",
+      "weight": "3.5g",
+      "named": true
+    },
+    {
+      "slug": "439891069-7a9fc8ba-85fb-4748-9b85-6d889c41fe5e",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "441257786-f14d279b-448a-4f11-ae3c-5579db41881a",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "pineapple-upside-down-cake-moonrocks",
+      "name": "Pineapple Upside Down Cake Moonrocks",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Infused flower",
+      "weight": "3.5g",
+      "named": true
+    },
+    {
+      "slug": "442225649-product-images-e1c5a61a-44ae-4580-934c-5f22a3de2efd-aac8e27c",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "441554825-10aeb86a-60a2-4215-b9f7-e96325615771",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "441905826-d0779da8-c1b6-45ee-988d-abff024f2020",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "442063633-b14f3591-0d60-4ab8-92ce-2a8ed525979f",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "442431757-image",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "441087421-0e2b0670-62eb-41eb-9290-ed3c78baf769",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "434205841-1371cbaa-2d44-42aa-8e95-7bda42f5292b",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "440516288-f494640a-26c1-4e36-9906-bd8d9b23d1c3-1",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "440516288-f494640a-26c1-4e36-9906-bd8d9b23d1c3",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "442125904-image",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "4-flav-14g-infused-ground-flower-mrniceguy-0001",
+      "name": "Flav Infused Ground",
+      "brand": "Mr Nice Guy",
+      "strain": "Hybrid",
+      "sub": "Infused flower",
+      "weight": "14g",
+      "named": true
+    },
+    {
+      "slug": "440033212-product-images-f94ed1f0-ed96-40ac-8828-7b3a3e163ec2-35bf2219",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "blue-cheeeeese",
+      "name": "Blue Cheeeeese",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": true
+    },
+    {
+      "slug": "download-1",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "download-5",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "untitled-28g-smalls",
+      "name": "Smalls",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Smalls",
+      "weight": "28g",
+      "named": true
+    },
+    {
+      "slug": "download-1-2",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "download-2-2",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "download-3-2",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "download-6",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "download-7",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "download-8",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "download-9",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    },
+    {
+      "slug": "download-10",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "3.5g",
+      "named": false
+    }
+  ],
+  "pre-rolls": [
+    {
+      "slug": "lemon-lime-squared-icon",
+      "name": "Lemon Lime",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "ayr-preroll-pinkrozay-clear-circle-2",
+      "name": "Pinkrozay",
+      "brand": "AYR",
+      "strain": "Hybrid",
+      "sub": "Singles",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "alien-icon-squared",
+      "name": "Alien",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "image",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "435510875-6229fc943aa88983-a051a5c9-590f-4107-8661-22850a670af5",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "432829522-copy-of-copy-of-pre-rolls-stockhdhdywyt3qea-6e9d5af1-f1b6-4b",
+      "name": "Pre Rolls Stockhdhdywyt3qea",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "437245239-cab191eae737f02f-1739573047889-908460393-pineapple-slushee-1",
+      "name": "Pineapple Slushee",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "download",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "sunny-z-indica-prerolls-w-package",
+      "name": "Sunny",
+      "brand": null,
+      "strain": "Indica",
+      "sub": "Multi-packs",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "439764965-1736462573849-817299859-145c714690909516-1733406650203-1",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "purple-hindu-kush-7-count-doobies",
+      "name": "Purple Hindu Kush Count Doobies",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "classic-pack-of-2-sativa-with-joint",
+      "name": "Classic Pack With Joint",
+      "brand": null,
+      "strain": "Sativa",
+      "sub": "Multi-packs",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "438543589-b2dd3715-bb36-443c-b562-016543b5bb27",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "gage-farms",
+      "name": "Gage Farms",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "441111544-product-images-d982ebeb-15f3-47e4-8f91-ed935d3b842f-a66d7a87",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "441478816-e96dc13c-4a0e-43e1-a22e-b5626e6005d8-1",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "441478816-e96dc13c-4a0e-43e1-a22e-b5626e6005d8",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "440060548-op-ny-14pack-pre-roll-indica-purple-sherbet-0f525e9c-fcd1-42",
+      "name": "14pack Pre Roll Purple Sherbet",
+      "brand": null,
+      "strain": "Indica",
+      "sub": "Multi-packs",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "screenshot-2026-06-12-at-11-02-10-am",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "permanent-marker-pre-roll",
+      "name": "Permanent Marker Pre Roll",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "sicilian-sunset-non-infused",
+      "name": "Sicilian Sunset Non Infused",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Infused pre-rolls",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "download-2",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "download-3",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    }
+  ],
+  "vape": [
+    {
+      "slug": "live-resin-honey-banana-510-vape",
+      "name": "Live Resin Honey Banana",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Live resin carts",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "hawaiiansnowcap-cru-1ml-sativa-disposable",
+      "name": "Hawaiiansnowcap Disposable",
+      "brand": "Cru",
+      "strain": "Sativa",
+      "sub": "Disposables",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "bluedream-all-in-one-palms",
+      "name": "Bluedream All One",
+      "brand": "Palms",
+      "strain": "Hybrid",
+      "sub": "Disposables",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "download",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "2",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "2-1",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "2-2",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "screenshot-2025-05-08-at-11-03-46-am",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "apple-jack-live-resin-diamonds-reload-rg-transparency-v2",
+      "name": "Apple Jack Live Resin Diamonds",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Live resin carts",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "maui-waui-live-resin-diamonds-reload-rg-transparency-v2",
+      "name": "Maui Waui Live Resin Diamonds",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Live resin carts",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "blue-dream-live-resin-diamonds-reload-rg-transparency-v2",
+      "name": "Blue Dream Live Resin Diamonds",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Live resin carts",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "grand-daddy-purp-live-resin-diamonds-reload-rg-transparency-v2",
+      "name": "Grand Daddy Purp Live Resin",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Live resin carts",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "northern-lights-live-resin-diamonds-reload-rg-transparency-v2",
+      "name": "Northern Lights Live Resin Diamonds",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Live resin carts",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "strawberry-cough-live-resin-diamonds-reload-rg-transparency-v2",
+      "name": "Strawberry Cough Live Resin Diamonds",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Live resin carts",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "cherryak-all-in-one-vape",
+      "name": "Cherryak All One",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Disposables",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "42",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "39",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "45",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "46-1",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "46",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "4",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "1-1",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "1-2",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "1",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "jaunty-blueberry-kush-4",
+      "name": "Blueberry Kush",
+      "brand": "Jaunty",
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "jaunty-amnesia-haze-4",
+      "name": "Amnesia Haze",
+      "brand": "Jaunty",
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "diamondbatteries-21",
+      "name": "Diamondbatteries",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "diamondbattery-bluedreamblue",
+      "name": "Diamondbattery Bluedreamblue",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Batteries",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "ca-fg-aio-og-i-purplepunch-3",
+      "name": "Aio Purplepunch",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "watermelon-burst-live-resin-diamonds-reload-rg-tansparency-v3",
+      "name": "Watermelon Burst Live Resin Diamonds",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Live resin carts",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "skywalker-og-live-resin-diamonds-reload-rg-tansparency-v3",
+      "name": "Skywalker Live Resin Diamonds Reload",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Live resin carts",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "pr-x-biscotti",
+      "name": "Biscotti",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "screenshot-2026-04-09-at-10-43-28-am",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "genericaf-blood-orange-bag-and-gummie-06w",
+      "name": "Blood Orange And Gummie",
+      "brand": "Generic AF",
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "1746124366-437696341-0bf4e013-6cdb-4b5c-b77a-5251eba6c38e",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "download-1",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "download-2",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "440614890-1762299005528-40982131-fernway-510-thread-black-stylus-white",
+      "name": "Fernway Thread Black Stylus White",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Cartridges",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "fernway-elderflower-510-1-0g-hybrid-smartpack-white-background-menu-ph",
+      "name": "Fernway Elderflower Smartpack White Menu",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Cartridges",
+      "weight": "1.0g",
+      "named": true
+    },
+    {
+      "slug": "ayr-vape-bombpopz-1-0-clear-circle",
+      "name": "Bombpopz",
+      "brand": "AYR",
+      "strain": "Hybrid",
+      "sub": "Cartridges",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "ayr-vape-atf-1-0-clear-circle",
+      "name": "Atf",
+      "brand": "AYR",
+      "strain": "Hybrid",
+      "sub": "Cartridges",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "aio-blue-dream-new-packaging-3",
+      "name": "Aio Blue Dream New Packaging",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "aio-blueberry-muffin-new-packaging-3",
+      "name": "Aio Blueberry Muffin New Packaging",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "510-barry-white-new-packaging-4-1",
+      "name": "Barry White New Packaging",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Cartridges",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "510-barry-white-new-packaging-4",
+      "name": "Barry White New Packaging",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Cartridges",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "510-mimosa-new-packaging-3",
+      "name": "Mimosa New Packaging",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Cartridges",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "slush-pop-melted-diamond-live-resin-vaporizer-1-0g-reload",
+      "name": "Slush Pop Melted Diamond Live",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Live resin carts",
+      "weight": "1.0g",
+      "named": true
+    },
+    {
+      "slug": "pntryismzmmezzxugduo",
+      "name": "Pntryismzmmezzxugduo",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "selectmenuupdates-flavor-red-1500x1500",
+      "name": "Selectmenuupdates Flavor Red",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "selectmenuupdates-legacy-black-1500x1500",
+      "name": "Selectmenuupdates Legacy Black",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "selectmenuupdates-legacy-black-1500x1500-1",
+      "name": "Selectmenuupdates Legacy Black",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "selectmenuupdates-legacy-black-1500x1500-2",
+      "name": "Selectmenuupdates Legacy Black",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "254765-blue-dream2",
+      "name": "Blue Dream2",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "4011919-honey-banana-510-live-resin-cart",
+      "name": "Honey Banana Live Resin Cart",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Live resin carts",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "443589997-acf9d197-78ff-4b5f-9298-05069a570d41",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "443589998-1a4a922d-5a3b-46c0-b762-4749f905d993",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "443589999-ce2c3296-3379-4eda-9dd2-86022d0d96e9",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "443590133-1c977d9f-7dae-4c24-8984-75b5f5cc2c76",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "444231390-e8b8a6a1-260c-4b10-a995-6c5715d43658",
+      "name": null,
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": false
+    },
+    {
+      "slug": "4755981-aio-full",
+      "name": "Aio Full",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "4755982-aio-bottom",
+      "name": "Aio Bottom",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "5193650-ca-fg-aio-og-i-purplepunch-1",
+      "name": "Aio Purplepunch",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "5235677-cura-41183-kv-briq2-red-1050x1050-rgb-v1-flavor-series",
+      "name": "Cura Briq2 Red Flavor Series",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "5235744-cura-41183-kv-briq2-blk-1050x1050-rgb-v1-legacy-series",
+      "name": "Cura Briq2 Blk Legacy Series",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "5240053-cura-41183-kv-briq2-blk-1050x1050-rgb-v1-legacy-series-1",
+      "name": "Cura Briq2 Blk Legacy Series",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "5240053-cura-41183-kv-briq2-blk-1050x1050-rgb-v1-legacy-series",
+      "name": "Cura Briq2 Blk Legacy Series",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "5461870-super-fog-flo-smart-battery-black-side",
+      "name": "Super Fog Flo Smart Battery",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Batteries",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "5461871-super-fog-flo-smart-battery-black-open",
+      "name": "Super Fog Flo Smart Battery",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Batteries",
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "5595444-5251382-fernway-product-diagram-510-cartridge-1-0g-white-backg",
+      "name": "Fernway Diagram Cartridge White Backg",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Cartridges",
+      "weight": "1.0g",
+      "named": true
+    },
+    {
+      "slug": "5595448-5261614-fernway-elderflower-510-1-0g-hybrid-recycling-badge-wh",
+      "name": "Fernway Elderflower Recycling Badge",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": "Cartridges",
+      "weight": "1.0g",
+      "named": true
+    },
+    {
+      "slug": "az-select-briq2-flavorseries",
+      "name": "Select Briq2 Flavorseries",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "az-select-briq2-legacyseries-1",
+      "name": "Select Briq2 Legacyseries",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    },
+    {
+      "slug": "az-select-briq2-legacyseries",
+      "name": "Select Briq2 Legacyseries",
+      "brand": null,
+      "strain": "Hybrid",
+      "sub": null,
+      "weight": "1g",
+      "named": true
+    }
+  ]
+}

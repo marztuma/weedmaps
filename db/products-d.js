@@ -1,0 +1,46 @@
+export const WELLNESS = [
+  ["Papa & Barkley", "Releaf Balm 1:3", "Balms & salves", "Topical", "50ml", 3.0, 9.0, 45, null, "green", ["Topical"]],
+  ["Care By Design", "4:1 Drops", "Tinctures", "Hybrid", "30ml", 5.0, 20.0, 55, null, "orange", ["1:1 CBD"]],
+  ["Mary's Medicinals", "Transdermal Patch Indica", "Patches", "Indica", "1 patch", 20.0, 0.0, 18, null, "ink", []],
+  ["Yummi Karma", "Deep Sleep Drops", "Tinctures", "Indica", "30ml", 12.0, 8.0, 40, null, "purple", ["Sleep"]],
+  ["Kush Queen", "Relieve CBD Bath Bomb", "Bath", "Topical", "1 unit", 0.0, 25.0, 20, null, "linen", ["Topical", "CBD only"]],
+  ["Foria", "Awaken Arousal Oil", "Lubricants", "Topical", "30ml", 0.0, 15.0, 48, null, "green", ["CBD only"]],
+  ["Proof", "1:1 Capsules", "Capsules", "Hybrid", "20 pk", 10.0, 10.0, 42, null, "orange", ["1:1 CBD"]],
+  ["Papa & Barkley", "Releaf Tincture 3:1", "Tinctures", "Indica", "30ml", 30.0, 10.0, 60, 72, "ink", ["Deal"]],
+  ["Care By Design", "Soft Gels 18:1", "Capsules", "Hybrid", "30 pk", 2.0, 36.0, 50, null, "purple", ["CBD forward"]],
+  ["Mary's Medicinals", "CBN Night Patch", "Patches", "Indica", "1 patch", 10.0, 5.0, 20, null, "linen", ["Sleep"]],
+  ["Kush Queen", "Ignite Lubricant", "Lubricants", "Topical", "50ml", 25.0, 25.0, 40, null, "green", ["Topical"]],
+  ["Yummi Karma", "Mood Magic Drops", "Tinctures", "Sativa", "30ml", 15.0, 0.0, 38, null, "orange", []],
+  ["Papa & Barkley", "Releaf Body Lotion", "Creams & lotions", "Topical", "100ml", 0.0, 12.0, 35, null, "ink", ["Topical", "CBD only"]],
+  ["Proof", "RSO Syringe", "RSO & extract oils", "Indica", "1g", 72.4, 1.8, 45, null, "purple", ["High potency"]],
+];
+
+export const GEAR = [
+  ["Santa Cruz Shredder", "4-Piece Grinder", "Grinders", "Accessory", "1 unit", 0.0, 0.0, 65, null, "ink", ["Hardware"]],
+  ["RAW", "Classic King Size Papers", "Rolling papers", "Accessory", "32 pk", 0.0, 0.0, 3, null, "linen", ["Under $10"]],
+  ["OCB", "Bamboo Slim Papers", "Rolling papers", "Accessory", "32 pk", 0.0, 0.0, 4, null, "green", ["Under $10"]],
+  ["Elements", "Rice Papers 1¼", "Rolling papers", "Accessory", "50 pk", 0.0, 0.0, 4, null, "orange", ["Under $10"]],
+  ["GRAV", "Helix Beaker Bong", "Bongs & water pipes", "Accessory", "1 unit", 0.0, 0.0, 130, null, "purple", ["Hardware"]],
+  ["Session Goods", "Bong — Charcoal", "Bongs & water pipes", "Accessory", "1 unit", 0.0, 0.0, 150, null, "ink", ["Hardware"]],
+  ["Session Goods", "Pipe — Sand", "Hand pipes", "Accessory", "1 unit", 0.0, 0.0, 60, null, "linen", ["Hardware"]],
+  ["Marley Natural", "Walnut Spoon Pipe", "Hand pipes", "Accessory", "1 unit", 0.0, 0.0, 45, null, "green", ["Hardware"]],
+  ["Puffco", "Peak Pro", "Dab rigs & tools", "Accessory", "1 unit", 0.0, 0.0, 400, null, "orange", ["Hardware"]],
+  ["Puffco", "Proxy", "Vaporizers", "Accessory", "1 unit", 0.0, 0.0, 300, 350, "purple", ["Deal", "Hardware"]],
+  ["Dr. Dabber", "Boost EVO", "Dab rigs & tools", "Accessory", "1 unit", 0.0, 0.0, 250, null, "ink", ["Hardware"]],
+  ["RYOT", "Small Rolling Tray", "Trays", "Accessory", "1 unit", 0.0, 0.0, 15, null, "linen", []],
+  ["RYOT", "Carbon Series Stash Bag", "Storage", "Accessory", "1 unit", 0.0, 0.0, 55, null, "green", []],
+  ["Santa Cruz Shredder", "Hemp Rolling Tray", "Trays", "Accessory", "1 unit", 0.0, 0.0, 25, null, "orange", []],
+  ["GRAV", "Upright Bubbler", "Bubblers", "Accessory", "1 unit", 0.0, 0.0, 90, null, "purple", ["Hardware"]],
+  ["Cookies", "Logo Hoodie", "Apparel", "Accessory", "1 unit", 0.0, 0.0, 80, null, "ink", []],
+];
+
+export const GENETICS = [
+  ["Humboldt Seed Company", "Blueberry Muffin Feminized", "Feminized seeds", "Indica", "6 pk", 0.0, 0.0, 60, null, "green", ["Seeds"]],
+  ["Humboldt Seed Company", "Squirt Autoflower", "Autoflower seeds", "Hybrid", "6 pk", 0.0, 0.0, 55, null, "orange", ["Seeds"]],
+  ["Ethos Genetics", "Mandarin Cookies R2", "Feminized seeds", "Hybrid", "10 pk", 0.0, 0.0, 90, null, "ink", ["Seeds"]],
+  ["Compound Genetics", "Jet Fuel Gelato", "Feminized seeds", "Hybrid", "6 pk", 0.0, 0.0, 120, null, "purple", ["Seeds", "Top shelf"]],
+  ["In House Genetics", "Platinum Banana", "Regular seeds", "Hybrid", "12 pk", 0.0, 0.0, 100, null, "linen", ["Seeds"]],
+  ["Ethos Genetics", "Planet of the Grapes", "Autoflower seeds", "Indica", "6 pk", 0.0, 0.0, 65, null, "green", ["Seeds"]],
+  ["Humboldt Seed Company", "Starter Clone — Blue Dream", "Clones", "Sativa", "1 plant", 0.0, 0.0, 25, null, "orange", ["Clone"]],
+  ["In House Genetics", "Mixed Pack", "Seed packs", "Hybrid", "24 pk", 0.0, 0.0, 180, 220, "ink", ["Deal", "Seeds"]],
+];

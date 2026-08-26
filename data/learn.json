@@ -1,0 +1,43 @@
+{
+  "_placeholder": "Editorial copy written for UI demo. See data/README.md.",
+  "steps": [
+    {
+      "n": "Set your delivery address",
+      "body": "Menus, prices and delivery windows change block by block. Nothing on this page is true until the page knows where the driver is going."
+    },
+    {
+      "n": "Check the window before the price",
+      "body": "Every service shows a live arrival window, a delivery fee and an order minimum before you commit. The cheapest menu is not always the one that reaches you tonight."
+    },
+    {
+      "n": "Shop the shelf",
+      "body": "Compare the same product across every licensed service that delivers to you. The cheapest price that can actually arrive is the one shown on the ticket."
+    },
+    {
+      "n": "Order and show ID at the door",
+      "body": "You order on the service's own menu. Have a government ID ready for the driver — 21+, or 18+ with a valid medical recommendation. Somebody over 21 has to be there to receive it."
+    }
+  ],
+  "reads": [
+    {
+      "title": "THC percentage is a bad way to pick flower",
+      "deck": "Terpenes, not potency, decide what the high feels like.",
+      "mins": 6
+    },
+    {
+      "title": "How to read a certificate of analysis",
+      "deck": "Every legal package is lab-tested. Here is what the numbers mean.",
+      "mins": 8
+    },
+    {
+      "title": "Edibles: start at 2.5mg and wait",
+      "deck": "Onset runs 45 to 90 minutes. Most bad nights are a dosing error.",
+      "mins": 5
+    },
+    {
+      "title": "What actually happens after you hit order",
+      "deck": "Manifests, drivers, and why the window is a window.",
+      "mins": 7
+    }
+  ]
+}

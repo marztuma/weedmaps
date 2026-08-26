@@ -1,0 +1,71 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          "app/admin/admin.css"
+        ],
+        "createdAt": "2026-08-24T15:29:58.524Z",
+        "reason": "user confirmed: client pinned the WordPress admin UI as the admin surface, a deliberately separate visual world from the storefront's Rye Island system; values taken from wordpress-develop colour tokens"
+      },
+      {
+        "rule": "design-system-color",
+        "value": "*",
+        "files": [
+          "app/admin/admin.css"
+        ],
+        "createdAt": "2026-08-24T15:29:59.690Z",
+        "reason": "user confirmed: client pinned the WordPress admin UI as the admin surface, a deliberately separate visual world from the storefront's Rye Island system; values taken from wordpress-develop colour tokens"
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "*",
+        "files": [
+          "app/admin/admin.css"
+        ],
+        "createdAt": "2026-08-24T15:30:01.166Z",
+        "reason": "user confirmed: client pinned the WordPress admin UI as the admin surface, a deliberately separate visual world from the storefront's Rye Island system; values taken from wordpress-develop colour tokens"
+      },
+      {
+        "rule": "design-system-radius",
+        "value": "*",
+        "files": [
+          "app/admin/admin.css"
+        ],
+        "createdAt": "2026-08-24T15:30:03.648Z",
+        "reason": "user confirmed: client pinned the WordPress admin UI as the admin surface, a deliberately separate visual world from the storefront's Rye Island system; values taken from wordpress-develop colour tokens"
+      },
+      {
+        "rule": "design-system-shadow",
+        "value": "*",
+        "files": [
+          "app/admin/admin.css"
+        ],
+        "createdAt": "2026-08-24T15:30:04.708Z",
+        "reason": "user confirmed: client pinned the WordPress admin UI as the admin surface, a deliberately separate visual world from the storefront's Rye Island system; values taken from wordpress-develop colour tokens"
+      },
+      {
+        "rule": "design-system-spacing",
+        "value": "*",
+        "files": [
+          "app/admin/admin.css"
+        ],
+        "createdAt": "2026-08-24T15:30:05.779Z",
+        "reason": "user confirmed: client pinned the WordPress admin UI as the admin surface, a deliberately separate visual world from the storefront's Rye Island system; values taken from wordpress-develop colour tokens"
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "app/admin/admin.css"
+        ],
+        "createdAt": "2026-08-24T16:15:16.851Z",
+        "reason": "user confirmed: client pinned the WordPress admin UI; verified against wordpress-develop src/wp-admin/css/common.css:1481 where core .notice is literally 'border-left: 4px solid #c3c4c7'. Scoped to the admin stylesheet only — the storefront remains subject to this rule."
+      }
+    ]
+  }
+}

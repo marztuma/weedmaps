@@ -1,0 +1,357 @@
+
+> weedmaps@0.1.0 dev
+> next dev -p 3100
+
+   ▲ Next.js 15.5.4
+   - Local:        http://localhost:3100
+   - Network:      http://192.168.1.223:3100
+   - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 27.2s
+ ○ Compiling / ...
+Request timed out after 3000ms
+
+Retrying 1/3...
+Request timed out after 3000ms
+
+Retrying 1/3...
+Request timed out after 3000ms
+
+Retrying 1/3...
+Request timed out after 3000ms
+
+Retrying 1/3...
+Request timed out after 3000ms
+
+Retrying 1/3...
+Request timed out after 3000ms
+
+Retrying 1/3...
+Request timed out after 3000ms
+
+Retrying 1/3...
+Request timed out after 3000ms
+
+Retrying 1/3...
+ ✓ Compiled / in 53.4s (1046 modules)
+ GET /checkout 200 in 60618ms
+ GET / 200 in 65014ms
+ ✓ Compiled in 1502ms (264 modules)
+ GET /checkout 200 in 505ms
+ ○ Compiling /products ...
+ ✓ Compiled /products in 2.2s (1038 modules)
+ GET /products 200 in 15095ms
+ ○ Compiling /products/[category] ...
+ ✓ Compiled /products/[category] in 5.7s (1037 modules)
+ ○ Compiling / ...
+ ✓ Compiled / in 995ms (801 modules)
+ ✓ Compiled in 899ms (267 modules)
+ GET / 200 in 12087ms
+ GET /products 200 in 30172ms
+ ✓ Compiled in 2.7s (267 modules)
+ ✓ Compiled in 1131ms (267 modules)
+ GET /products/concentrates 200 in 57234ms
+ ✓ Compiled in 1415ms (267 modules)
+ ✓ Compiled in 426ms (267 modules)
+ GET /products/concentrates 200 in 33914ms
+ ✓ Compiled in 777ms (267 modules)
+ ✓ Compiled in 939ms (267 modules)
+ GET /products/concentrates 200 in 4536ms
+ ✓ Compiled in 773ms (267 modules)
+ ✓ Compiled in 618ms (267 modules)
+ ✓ Compiled in 720ms (267 modules)
+ GET /checkout 200 in 7801ms
+ ✓ Compiled in 1200ms (267 modules)
+ ○ Compiling /admin/login ...
+ ✓ Compiled /admin/login in 8s (1104 modules)
+ GET /admin/login 200 in 9724ms
+ ○ Compiling /admin ...
+ GET /products/concentrates 200 in 11629ms
+ ✓ Compiled /admin in 4.6s (1123 modules)
+ GET /products/concentrates 200 in 9855ms
+ GET /products/concentrates 200 in 3791ms
+ GET /admin 307 in 12358ms
+ GET /products/concentrates 200 in 4627ms
+ GET /products/concentrates 200 in 3654ms
+ GET /products/concentrates 200 in 2634ms
+ GET /products/concentrates 200 in 2334ms
+ GET /products/concentrates 200 in 2361ms
+ GET /products/concentrates 200 in 1587ms
+ GET /products/concentrates 200 in 783ms
+ ✓ Compiled in 1213ms (278 modules)
+ GET /products/concentrates 200 in 1378ms
+ ✓ Compiled in 978ms (278 modules)
+ GET /products/concentrates 200 in 2051ms
+ ✓ Compiled in 886ms (278 modules)
+ GET /products/concentrates 200 in 958ms
+ ✓ Compiled in 686ms (278 modules)
+ GET /products/concentrates 200 in 1104ms
+ ✓ Compiled in 740ms (278 modules)
+ GET /products/concentrates 200 in 1066ms
+ ✓ Compiled in 682ms (278 modules)
+ ✓ Compiled in 742ms (278 modules)
+ ✓ Compiled in 793ms (278 modules)
+ GET /products/concentrates 200 in 3090ms
+ GET /products/concentrates 200 in 2195ms
+ GET /products/concentrates 200 in 903ms
+ ✓ Compiled in 813ms (278 modules)
+ GET /products/concentrates 200 in 877ms
+ ✓ Compiled in 568ms (278 modules)
+ GET /products/concentrates 200 in 1006ms
+ ✓ Compiled in 730ms (278 modules)
+ GET /products/concentrates 200 in 995ms
+ ✓ Compiled in 785ms (278 modules)
+ GET /products/concentrates 200 in 1015ms
+ ✓ Compiled in 1111ms (278 modules)
+ GET /products/concentrates 200 in 865ms
+ ✓ Compiled in 545ms (278 modules)
+ ✓ Compiled in 643ms (278 modules)
+ GET /products/concentrates 200 in 2088ms
+ GET /products/concentrates 200 in 1200ms
+ ✓ Compiled in 686ms (278 modules)
+ ✓ Compiled in 678ms (278 modules)
+ ✓ Compiled in 876ms (278 modules)
+ GET /products/concentrates 200 in 2708ms
+ ✓ Compiled in 1353ms (278 modules)
+ ✓ Compiled in 929ms (278 modules)
+ ✓ Compiled in 1155ms (278 modules)
+ ✓ Compiled in 917ms (278 modules)
+ ✓ Compiled in 1349ms (278 modules)
+ ✓ Compiled in 861ms (278 modules)
+ ✓ Compiled in 721ms (278 modules)
+ ✓ Compiled in 557ms (278 modules)
+ ✓ Compiled in 647ms (278 modules)
+ ✓ Compiled in 1177ms (278 modules)
+ ✓ Compiled in 774ms (278 modules)
+ ✓ Compiled in 653ms (278 modules)
+ ✓ Compiled in 730ms (278 modules)
+ ✓ Compiled in 777ms (278 modules)
+ ✓ Compiled in 624ms (278 modules)
+ ✓ Compiled in 796ms (278 modules)
+ ✓ Compiled in 730ms (278 modules)
+ ✓ Compiled in 770ms (278 modules)
+ ✓ Compiled in 1167ms (278 modules)
+ ✓ Compiled in 788ms (278 modules)
+ ✓ Compiled in 731ms (278 modules)
+ ✓ Compiled in 724ms (278 modules)
+ ✓ Compiled in 733ms (278 modules)
+ ✓ Compiled in 724ms (278 modules)
+ ✓ Compiled in 1384ms (278 modules)
+ ✓ Compiled in 864ms (278 modules)
+ ✓ Compiled in 759ms (278 modules)
+ ✓ Compiled in 1491ms (278 modules)
+ ✓ Compiled in 993ms (278 modules)
+ ✓ Compiled in 1099ms (278 modules)
+ ✓ Compiled in 1450ms (278 modules)
+ ✓ Compiled in 866ms (278 modules)
+ ✓ Compiled in 774ms (278 modules)
+ ✓ Compiled in 911ms (278 modules)
+ ✓ Compiled in 675ms (278 modules)
+ ✓ Compiled in 1165ms (278 modules)
+ ✓ Compiled in 805ms (278 modules)
+ ✓ Compiled in 1126ms (278 modules)
+ ✓ Compiled in 577ms (278 modules)
+ ✓ Compiled in 1271ms (278 modules)
+ ✓ Compiled in 774ms (278 modules)
+ ✓ Compiled in 1006ms (278 modules)
+ ✓ Compiled in 802ms (278 modules)
+ ✓ Compiled in 1375ms (278 modules)
+ ✓ Compiled in 696ms (278 modules)
+ ✓ Compiled in 874ms (278 modules)
+ ✓ Compiled in 866ms (278 modules)
+ ✓ Compiled in 980ms (278 modules)
+ ✓ Compiled in 1540ms (278 modules)
+ ✓ Compiled in 902ms (278 modules)
+ ✓ Compiled in 887ms (278 modules)
+ ✓ Compiled in 761ms (278 modules)
+ ✓ Compiled in 700ms (278 modules)
+ ✓ Compiled in 1125ms (278 modules)
+ ✓ Compiled in 906ms (278 modules)
+ ✓ Compiled in 704ms (278 modules)
+ ✓ Compiled in 1842ms (278 modules)
+ ✓ Compiled in 2.2s (278 modules)
+ ✓ Compiled in 952ms (278 modules)
+ ✓ Compiled in 760ms (278 modules)
+ ✓ Compiled in 1074ms (278 modules)
+ ⨯ [Error: EBUSY: resource busy or locked, open 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\admin\(panel)\page_client-reference-manifest.js'] {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'open',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\server\\app\\admin\\(panel)\\page_client-reference-manifest.js"
+}
+[Error: EBUSY: resource busy or locked, open 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\admin\(panel)\page_client-reference-manifest.js'] {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'open',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\server\\app\\admin\\(panel)\\page_client-reference-manifest.js"
+}
+[Error: EBUSY: resource busy or locked, open 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\admin\(panel)\page_client-reference-manifest.js'] {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'open',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\server\\app\\admin\\(panel)\\page_client-reference-manifest.js"
+}
+ ⨯ [Error: EBUSY: resource busy or locked, open 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\admin\(panel)\page_client-reference-manifest.js'] {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'open',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\server\\app\\admin\\(panel)\\page_client-reference-manifest.js"
+}
+[Error: EBUSY: resource busy or locked, open 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\admin\(panel)\page_client-reference-manifest.js'] {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'open',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\server\\app\\admin\\(panel)\\page_client-reference-manifest.js"
+}
+ ⨯ [Error: EBUSY: resource busy or locked, open 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\admin\(panel)\page_client-reference-manifest.js'] {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'open',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\server\\app\\admin\\(panel)\\page_client-reference-manifest.js"
+}
+[Error: EBUSY: resource busy or locked, open 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\admin\(panel)\page_client-reference-manifest.js'] {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'open',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\server\\app\\admin\\(panel)\\page_client-reference-manifest.js"
+}
+[Error: EBUSY: resource busy or locked, open 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\admin\(panel)\page_client-reference-manifest.js'] {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'open',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\server\\app\\admin\\(panel)\\page_client-reference-manifest.js"
+}
+[Error: EBUSY: resource busy or locked, open 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\admin\(panel)\page_client-reference-manifest.js'] {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'open',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\server\\app\\admin\\(panel)\\page_client-reference-manifest.js"
+}
+ ⨯ [Error: EBUSY: resource busy or locked, open 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\admin\(panel)\page_client-reference-manifest.js'] {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'open',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\server\\app\\admin\\(panel)\\page_client-reference-manifest.js"
+}
+[Error: EBUSY: resource busy or locked, open 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\admin\(panel)\page_client-reference-manifest.js'] {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'open',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\server\\app\\admin\\(panel)\\page_client-reference-manifest.js"
+}
+ ⨯ [Error: EBUSY: resource busy or locked, open 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\admin\(panel)\page_client-reference-manifest.js'] {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'open',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\server\\app\\admin\\(panel)\\page_client-reference-manifest.js"
+}
+ ⨯ [Error: EBUSY: resource busy or locked, open 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\admin\(panel)\page_client-reference-manifest.js'] {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'open',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\server\\app\\admin\\(panel)\\page_client-reference-manifest.js"
+}
+ ⨯ [Error: EBUSY: resource busy or locked, open 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\admin\(panel)\page_client-reference-manifest.js'] {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'open',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\server\\app\\admin\\(panel)\\page_client-reference-manifest.js"
+}
+ ⨯ [Error: EBUSY: resource busy or locked, open 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\admin\(panel)\page_client-reference-manifest.js'] {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'open',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\server\\app\\admin\\(panel)\\page_client-reference-manifest.js"
+}
+ ⨯ [Error: EBUSY: resource busy or locked, open 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\admin\(panel)\page_client-reference-manifest.js'] {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'open',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\server\\app\\admin\\(panel)\\page_client-reference-manifest.js"
+}
+[Error: EBUSY: resource busy or locked, open 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\admin\(panel)\page_client-reference-manifest.js'] {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'open',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\server\\app\\admin\\(panel)\\page_client-reference-manifest.js"
+}
+[Error: EBUSY: resource busy or locked, open 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\admin\(panel)\page_client-reference-manifest.js'] {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'open',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\server\\app\\admin\\(panel)\\page_client-reference-manifest.js"
+}
+[Error: EBUSY: resource busy or locked, open 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\admin\(panel)\page_client-reference-manifest.js'] {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'open',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\server\\app\\admin\\(panel)\\page_client-reference-manifest.js"
+}
+[Error: EBUSY: resource busy or locked, open 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\admin\(panel)\page_client-reference-manifest.js'] {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'open',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\server\\app\\admin\\(panel)\\page_client-reference-manifest.js"
+}
+[Error: EBUSY: resource busy or locked, open 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\admin\(panel)\page_client-reference-manifest.js'] {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'open',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\server\\app\\admin\\(panel)\\page_client-reference-manifest.js"
+}
+[Error: EBUSY: resource busy or locked, open 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\admin\(panel)\page_client-reference-manifest.js'] {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'open',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\server\\app\\admin\\(panel)\\page_client-reference-manifest.js"
+}
+[Error: EBUSY: resource busy or locked, open 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\admin\(panel)\page_client-reference-manifest.js'] {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'open',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\server\\app\\admin\\(panel)\\page_client-reference-manifest.js"
+}
+[Error: EBUSY: resource busy or locked, open 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\admin\(panel)\page_client-reference-manifest.js'] {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'open',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\server\\app\\admin\\(panel)\\page_client-reference-manifest.js"
+}
+[Error: EBUSY: resource busy or locked, open 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\admin\(panel)\page_client-reference-manifest.js'] {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'open',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\server\\app\\admin\\(panel)\\page_client-reference-manifest.js"
+}
+[Error: EBUSY: resource busy or locked, open 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\admin\(panel)\page_client-reference-manifest.js'] {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'open',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\server\\app\\admin\\(panel)\\page_client-reference-manifest.js"
+}
+[Error: EBUSY: resource busy or locked, open 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\admin\(panel)\page_client-reference-manifest.js'] {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'open',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\server\\app\\admin\\(panel)\\page_client-reference-manifest.js"
+}
+ ⨯ [Error: EBUSY: resource busy or locked, open 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\admin\(panel)\page_client-reference-manifest.js'] {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'open',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\server\\app\\admin\\(panel)\\page_client-reference-manifest.js"
+}
+[Error: EBUSY: resource busy or locked, open 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\admin\(panel)\page_client-reference-manifest.js'] {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'open',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\server\\app\\admin\\(panel)\\page_client-reference-manifest.js"
+}
+[Error: EBUSY: resource busy or locked, open 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\admin\(panel)\page_client-reference-manifest.js'] {
+  errno: -4082,
+  code: 'EBUSY',
+  syscall: 'open',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\server\\app\\admin\\(panel)\\page_client-reference-manifest.js"
+}
+[?25h
