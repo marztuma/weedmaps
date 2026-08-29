@@ -65,6 +65,33 @@
         ],
         "createdAt": "2026-08-24T16:15:16.851Z",
         "reason": "user confirmed: client pinned the WordPress admin UI; verified against wordpress-develop src/wp-admin/css/common.css:1481 where core .notice is literally 'border-left: 4px solid #c3c4c7'. Scoped to the admin stylesheet only — the storefront remains subject to this rule."
+      },
+      {
+        "rule": "design-system-font-size",
+        "value": "*",
+        "files": [
+          "lib/mail/templates.js"
+        ],
+        "createdAt": "2026-08-29T21:33:33.913Z",
+        "reason": "HTML email is not the web surface. Mail clients discard <style> blocks and ignore CSS custom properties, so every value must be an inline literal in absolute px — rem and the token layer are unavailable by construction. The palette here is the storefront palette written out longhand; the sizes are an email-specific scale (12px legal footnote, 13-15px body, 24px heading) chosen for mail-client rendering rather than the page ramp."
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          "lib/mail/templates.js"
+        ],
+        "createdAt": "2026-08-29T21:33:33.918Z",
+        "reason": "HTML email is not the web surface. Mail clients discard <style> blocks and ignore CSS custom properties, so every value must be an inline literal in absolute px — rem and the token layer are unavailable by construction. The palette here is the storefront palette written out longhand; the sizes are an email-specific scale (12px legal footnote, 13-15px body, 24px heading) chosen for mail-client rendering rather than the page ramp."
+      },
+      {
+        "rule": "design-system-color",
+        "value": "*",
+        "files": [
+          "lib/mail/templates.js"
+        ],
+        "createdAt": "2026-08-29T21:33:33.918Z",
+        "reason": "HTML email is not the web surface. Mail clients discard <style> blocks and ignore CSS custom properties, so every value must be an inline literal in absolute px — rem and the token layer are unavailable by construction. The palette here is the storefront palette written out longhand; the sizes are an email-specific scale (12px legal footnote, 13-15px body, 24px heading) chosen for mail-client rendering rather than the page ramp."
       }
     ]
   }

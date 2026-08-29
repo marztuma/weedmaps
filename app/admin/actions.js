@@ -6,6 +6,7 @@ import { eq, and, inArray, sql, isNull as sqlIsNull } from "drizzle-orm";
 import { db, schema } from "@/db/client";
 import { authenticate, createSession, destroySession, getSession } from "@/lib/auth";
 import { audit, auditDestructive } from "@/lib/audit";
+import { notifyPaymentConfirmed, notifyNewReview } from "@/lib/notify";
 
 const { products, categories, subcategories, brands, shops, customers, customerNotes, orders } = schema;
 
@@ -463,7 +464,28 @@ export async function confirmPayment(formData) {
 
   const [row] = await db.select({
     reference: orders.reference, total: orders.totalCents, customerId: orders.customerId,
-  }).from(orders).where(eq(orders.id, id)).limit(1);
+    contactEmail: orders.contactEmail, deliveryAddress: orders.deliveryAddress,
+    shopName: shops.name,
+  }).from(orders)
+    .leftJoin(shops, eq(orders.shopId, shops.id))
+    .where(eq(orders.id, id)).limit(1);
+
+  /* Tell the customer their money landed.
+
+     Only on the transition to paid, and only ever from a human pressing this
+     button — none of these payment rails confirms itself. The send is
+     best-effort and idempotent on the order id, so pressing twice does not
+     mail twice, and a mail failure cannot undo a confirmed payment. */
+  if (next === "paid" && row?.contactEmail) {
+    await notifyPaymentConfirmed({
+      id,
+      reference: row.reference,
+      totalCents: row.total,
+      contactEmail: row.contactEmail,
+      deliveryAddress: row.deliveryAddress,
+      shopName: row.shopName,
+    });
+  }
 
   /* Move the customer along the pipeline automatically when a payment lands.
      Stages are derived from paid orders, so the CRM reflects behaviour instead
@@ -699,4 +721,67 @@ export async function bulkReviewAction(formData) {
   }
 
   redirect("/admin/reviews");
+}
+
+/* ── Email ────────────────────────────────────────────────── */
+
+/** Send a test message.
+ *
+ *  It goes to ADMIN_EMAIL and nowhere else. There is deliberately no field to
+ *  type a recipient into: a form that mails an arbitrary address, behind a
+ *  login or not, is a spam relay with one credential between it and the world. */
+export async function sendTestEmail() {
+  const session = await requireSession();
+  const { sendMail, adminRecipient, mailConfigured } = await import("@/lib/mail/send");
+
+  if (!mailConfigured()) redirect("/admin/email?not_configured=1");
+  const to = adminRecipient();
+  if (!to) redirect("/admin/email?not_configured=1");
+
+  const stamp = new Date().toISOString();
+  const result = await sendMail({
+    template: "test",
+    to,
+    subject: "Weedmaps — email is working",
+    html: `<p style="font-family:sans-serif;font-size:15px;">Email is configured correctly. Sent from the admin by ${session.name} at ${stamp}.</p>`,
+    text: `Email is configured correctly.\n\nSent from the admin by ${session.name} at ${stamp}.`,
+    // Timestamped so a second test is a second email rather than a duplicate
+    // collapsed by the idempotency key.
+    key: `test:${stamp}`,
+  });
+
+  await audit({
+    actor: session.name, action: "test_email", entity: "email",
+    summary: result.sent ? "Sent a test email." : `Test email failed: ${result.reason}.`,
+  });
+
+  revalidatePath("/admin/email");
+  redirect(result.sent ? "/admin/email?test_sent=1" : "/admin/email?test_failed=1");
+}
+
+/** Take an address off the suppression list.
+ *
+ *  Destructive in the direction that matters: the address is there because it
+ *  bounced or somebody reported spam, and mailing it again risks the sending
+ *  domain's reputation. Audited so the decision has a name against it. */
+export async function unsuppressAddress(formData) {
+  const session = await requireSession();
+  const id = Number(formData.get("id"));
+  if (!id) redirect("/admin/email");
+
+  const [row] = await db.select({ email: schema.emailSuppressions.email, reason: schema.emailSuppressions.reason })
+    .from(schema.emailSuppressions).where(eq(schema.emailSuppressions.id, id)).limit(1);
+
+  await db.delete(schema.emailSuppressions).where(eq(schema.emailSuppressions.id, id));
+
+  if (row) {
+    const { maskEmail } = await import("@/lib/mail/safe");
+    await auditDestructive({
+      actor: session.name, action: "unsuppress", entity: "email", entityId: String(id),
+      summary: `Removed ${maskEmail(row.email)} from the suppression list (was ${row.reason}).`,
+    });
+  }
+
+  revalidatePath("/admin/email");
+  redirect("/admin/email?unsuppressed=1");
 }

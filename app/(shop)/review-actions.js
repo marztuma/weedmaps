@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { eq } from "drizzle-orm";
 import { db, schema } from "@/db/client";
+import { notifyNewReview } from "@/lib/notify";
 
 /* Submitting a review.
 
@@ -45,7 +46,7 @@ export async function submitReview(prev, formData) {
 
   const body = clean(formData.get("body"), 4000);
 
-  await db.insert(schema.reviews).values({
+  const [created] = await db.insert(schema.reviews).values({
     productId,
     shopId,
     rating,
@@ -55,12 +56,22 @@ export async function submitReview(prev, formData) {
     authorLocation: clean(formData.get("location"), 96),
     status: "pending",
     seeded: false,
-  });
+  }).returning({ id: schema.reviews.id });
 
   await db.insert(schema.adminNotifications).values({
     kind: "review",
     title: `New ${rating}★ review awaiting moderation`,
     body: `${handle} left ${rating} stars${body ? " with a comment" : " with no comment"}. Waiting in Reviews.`,
+  });
+
+  /* Best-effort, and after the row exists. A moderation queue nobody is told
+     about is a queue nobody empties. */
+  await notifyNewReview({
+    rating,
+    author: handle,
+    subject: productId ? "a product" : "a delivery service",
+    body,
+    reviewId: created.id,
   });
 
   const path = formData.get("path");

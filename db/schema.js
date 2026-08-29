@@ -319,3 +319,67 @@ export const reviews = pgTable("reviews", {
   statusIdx: index("reviews_status_idx").on(t.status),
   createdIdx: index("reviews_created_idx").on(t.createdAt),
 }));
+
+/* ─────────────────────────────────────────────────────────────
+   Outbound email
+
+   One row per send attempt, whether or not it left the building. Before this
+   a failure left a string in admin_notifications.emailError and nothing else,
+   so "did the customer ever get their payment instructions" had no answer.
+
+   It stores a reference, never a second copy of the message. The body already
+   lives on the notification; duplicating it here would mean a customer's
+   address and order sitting in two tables for no gain.
+
+   idempotencyKey is the same value sent to the provider, and is unique. A
+   double-submitted checkout, a retried server action or a replayed function
+   invocation all collapse onto the same row instead of mailing twice. */
+export const emailLog = pgTable("email_log", {
+  id: serial("id").primaryKey(),
+
+  template: varchar("template", { length: 48 }).notNull(),
+  recipient: varchar("recipient", { length: 254 }).notNull(),
+  subject: varchar("subject", { length: 200 }).notNull(),
+
+  // queued | sent | delivered | bounced | complained | failed | suppressed | skipped
+  status: varchar("status", { length: 16 }).notNull().default("queued"),
+  providerId: varchar("provider_id", { length: 64 }),
+  error: text("error"),
+
+  idempotencyKey: varchar("idempotency_key", { length: 256 }).notNull().unique(),
+
+  orderId: integer("order_id").references(() => orders.id, { onDelete: "set null" }),
+
+  sentAt: timestamp("sent_at", { withTimezone: true }),
+  deliveredAt: timestamp("delivered_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+}, (t) => ({
+  statusIdx: index("email_log_status_idx").on(t.status),
+  createdIdx: index("email_log_created_idx").on(t.createdAt),
+  recipientIdx: index("email_log_recipient_idx").on(t.recipient),
+}));
+
+/* Addresses that must not be mailed again.
+
+   A hard bounce means the address does not exist; a complaint means someone
+   pressed "spam". Continuing to send to either is how a sending domain's
+   reputation dies, and mailing after a complaint is a CAN-SPAM problem rather
+   than merely a rude one. Written by the webhook, honoured before every send. */
+export const emailSuppressions = pgTable("email_suppressions", {
+  id: serial("id").primaryKey(),
+  email: varchar("email", { length: 254 }).notNull().unique(),
+  reason: varchar("reason", { length: 32 }).notNull(),   // bounced | complained | manual
+  detail: text("detail"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+/* Webhook events already processed, keyed by the provider's own event id.
+
+   Svix retries on any non-2xx, and a replayed delivery notice must not be
+   applied twice. */
+export const emailEvents = pgTable("email_events", {
+  id: serial("id").primaryKey(),
+  eventId: varchar("event_id", { length: 128 }).notNull().unique(),
+  type: varchar("type", { length: 48 }).notNull(),
+  receivedAt: timestamp("received_at", { withTimezone: true }).notNull().defaultNow(),
+});

@@ -17,7 +17,9 @@
     "reviews:seed": "node scripts/seed-reviews.mjs",
     "reviews:clear": "node scripts/seed-reviews.mjs --clear",
     "stock:seed": "node scripts/seed-stock.mjs",
-    "stock:clear": "node scripts/seed-stock.mjs --clear"
+    "stock:clear": "node scripts/seed-stock.mjs --clear",
+    "mail:test": "node scripts/test-mail-safe.mjs",
+    "mail:webhook-test": "node scripts/test-webhook.mjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
@@ -26,11 +28,12 @@
     "drizzle-orm": "^0.45.2",
     "motion": "^12.23.12",
     "next": "^15.5.24",
-    "nodemailer": "^9.0.5",
     "qrcode": "^1.5.4",
     "react": "19.1.1",
     "react-dom": "19.1.1",
-    "server-only": "^0.0.1"
+    "resend": "^6.25.0",
+    "server-only": "^0.0.1",
+    "svix": "^2.1.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.13",

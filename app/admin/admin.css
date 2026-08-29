@@ -111,6 +111,7 @@
 }
 .wp-btn-plain:hover { color: var(--wp-blue-dark); text-decoration: underline; }
 .wp-btn-plain.is-danger { color: var(--wp-red); }
+.wp-help.is-danger { color: var(--wp-red); }
 
 /* ── Notices ───────────────────────────────────────────────── */
 

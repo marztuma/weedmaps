@@ -30,6 +30,7 @@ const MENU = [
   { label: "Reviews", href: "/admin/reviews", icon: "customers", countKey: "pendingReviews" },
   { sep: true },
   { label: "Payments", href: "/admin/payments", icon: "orders" },
+  { label: "Email", href: "/admin/email", icon: "orders" },
   { label: "Settings", href: "/admin/settings", icon: "settings" },
 ];
 
