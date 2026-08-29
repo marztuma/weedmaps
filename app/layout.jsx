@@ -2,6 +2,7 @@ import { Manrope, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import JsonLd from "@/components/JsonLd";
 import { SITE_URL, organizationSchema, websiteSchema } from "@/lib/seo";
+import { Analytics } from "@vercel/analytics/next";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -67,6 +68,7 @@ export default function RootLayout({ children }) {
         <div hidden dangerouslySetInnerHTML={{ __html: DIRECTION_CONTRACT }} />
         <JsonLd data={[organizationSchema(), websiteSchema()]} />
         {children}
+        <Analytics />
       </body>
     </html>
   );
