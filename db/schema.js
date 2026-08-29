@@ -258,3 +258,52 @@ export const auditLog = pgTable("audit_log", {
   createdIdx: index("audit_log_created_idx").on(t.createdAt),
   entityIdx: index("audit_log_entity_idx").on(t.entity),
 }));
+
+/* ─────────────────────────────────────────────────────────────
+   Reviews
+
+   Modelled on how the reference marketplace does it, because the distinction
+   it draws is a real one: a rating and a review are not the same object. Most
+   people leave a star and nothing else, so `body` is nullable and a listing
+   reports "N ratings · M reviews" — M being the subset that bothered to write.
+
+   Reviews attach to a product or to a delivery service, never both, and the
+   check constraint that would enforce that lives in the query layer here
+   rather than the DDL, because drizzle-kit push does not carry CHECK cleanly.
+
+   Everything arrives as `pending`. Nothing a stranger typed reaches a public
+   page without a human passing it, which is the whole point of having an
+   admin. Status is also how a review gets taken down after the fact without
+   destroying the record of it having existed. */
+export const reviews = pgTable("reviews", {
+  id: serial("id").primaryKey(),
+
+  productId: integer("product_id").references(() => products.id, { onDelete: "cascade" }),
+  shopId: integer("shop_id").references(() => shops.id, { onDelete: "cascade" }),
+
+  rating: integer("rating").notNull(),          // 1..5, validated on write
+  title: varchar("title", { length: 120 }),
+  body: text("body"),                            // null = a rating with no words
+
+  authorHandle: varchar("author_handle", { length: 48 }).notNull(),
+  authorLocation: varchar("author_location", { length: 96 }),
+
+  // pending | published | rejected
+  status: varchar("status", { length: 16 }).notNull().default("pending"),
+  moderatedBy: varchar("moderated_by", { length: 96 }),
+  moderatedAt: timestamp("moderated_at", { withTimezone: true }),
+
+  /* Marks rows created by scripts/seed-reviews.mjs rather than typed by a
+     person. Without this there is no way to tell demonstration content from
+     the real thing once both are in the same table — and no way to clear one
+     without the other. */
+  seeded: boolean("seeded").notNull().default(false),
+
+  helpfulCount: integer("helpful_count").notNull().default(0),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+}, (t) => ({
+  productIdx: index("reviews_product_idx").on(t.productId),
+  shopIdx: index("reviews_shop_idx").on(t.shopId),
+  statusIdx: index("reviews_status_idx").on(t.status),
+  createdIdx: index("reviews_created_idx").on(t.createdAt),
+}));

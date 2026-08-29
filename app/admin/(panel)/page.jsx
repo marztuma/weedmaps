@@ -43,6 +43,8 @@ export default async function Dashboard() {
       deals: sql`(select count(*) from ${products} where was_price_cents is not null)`.mapWith(Number),
       paused: sql`(select count(*) from ${shops} where not delivering_now)`.mapWith(Number),
       orphanShops: sql`(select count(*) from ${shops} s where not exists (select 1 from ${products} p where p.shop_id = s.id))`.mapWith(Number),
+      pendingReviews: sql`(select count(*) from reviews where status = 'pending')`.mapWith(Number),
+      publishedReviews: sql`(select count(*) from reviews where status = 'published')`.mapWith(Number),
     }).from(sql`(select 1) as t`),
 
     db.select({
@@ -121,10 +123,18 @@ export default async function Dashboard() {
       </div>
 
       {/* What needs a human, before anything else on the page. */}
-      {(stale.length > 0 || counts.paused > 0 || counts.orphanShops > 0) && (
+      {(stale.length > 0 || counts.paused > 0 || counts.orphanShops > 0 || counts.pendingReviews > 0) && (
         <div className="wp-box">
           <div className="wp-box-head">Needs attention</div>
           <div className="wp-box-body" style={{ display: "grid", gap: 10 }}>
+            {counts.pendingReviews > 0 && (
+              <p style={{ margin: 0 }}>
+                <strong>{counts.pendingReviews}</strong> review
+                {counts.pendingReviews === 1 ? " is" : "s are"} waiting to be checked — nobody
+                sees them until they are published.{" "}
+                <Link href="/admin/reviews?status=pending">Moderate</Link>
+              </p>
+            )}
             {stale.length > 0 && (
               <div className="wp-notice is-warning" style={{ margin: 0 }}>
                 <p style={{ marginBottom: 6 }}>
@@ -238,6 +248,10 @@ export default async function Dashboard() {
               <p className="wp-help" style={{ marginTop: 12 }}>
                 Delivery only — there is no pickup anywhere in this product.
               </p>
+            <p>
+              <Link href="/admin/reviews?status=published">{counts.publishedReviews} published review{counts.publishedReviews === 1 ? "" : "s"}</Link>
+              {counts.pendingReviews > 0 ? `, ${counts.pendingReviews} awaiting moderation` : ""}
+            </p>
             </div>
           </div>
 

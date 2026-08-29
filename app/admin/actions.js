@@ -592,3 +592,106 @@ export async function bulkOrderAction(formData) {
 
   redirect("/admin/orders");
 }
+
+/* ── Reviews ──────────────────────────────────────────────────
+
+   Moderation is the whole point of the queue: nothing a stranger typed
+   reaches a public page until someone here passes it. Rejecting keeps the row
+   so the decision is auditable and reversible; deleting is the only
+   irreversible option and is treated as destructive. */
+
+async function setReviewStatus(ids, status, session) {
+  await db
+    .update(schema.reviews)
+    .set({ status, moderatedBy: session.name, moderatedAt: new Date() })
+    .where(inArray(schema.reviews.id, ids));
+
+  // A published review changes an average, so the pages that quote one are stale.
+  const targets = await db
+    .select({
+      productSlug: products.slug,
+      shopSlug: shops.slug,
+    })
+    .from(schema.reviews)
+    .leftJoin(products, eq(schema.reviews.productId, products.id))
+    .leftJoin(shops, eq(schema.reviews.shopId, shops.id))
+    .where(inArray(schema.reviews.id, ids));
+
+  for (const t of targets) {
+    if (t.productSlug) revalidatePath(`/product/${t.productSlug}`);
+    if (t.shopSlug) revalidatePath(`/delivery/${t.shopSlug}`);
+  }
+  revalidatePath("/admin/reviews");
+  revalidatePath("/admin");
+}
+
+export async function moderateReview(formData) {
+  const session = await requireSession();
+  const id = Number(formData.get("id"));
+  const decision = String(formData.get("decision") ?? "");
+  if (!id || !["publish", "reject"].includes(decision)) redirect("/admin/reviews");
+
+  const status = decision === "publish" ? "published" : "rejected";
+  await setReviewStatus([id], status, session);
+
+  await audit({
+    actor: session.name,
+    action: decision,
+    entity: "review",
+    entityId: String(id),
+    summary: `Review ${id} ${status}.`,
+  });
+
+  redirect(`/admin/reviews?status=${status === "published" ? "published" : "rejected"}&done=1`);
+}
+
+export async function deleteReview(formData) {
+  const session = await requireSession();
+  const id = Number(formData.get("id"));
+  if (!id) redirect("/admin/reviews");
+
+  await auditDestructive({
+    actor: session.name,
+    action: "delete",
+    entity: "review",
+    entityId: String(id),
+    summary: `Deleted review ${id} permanently.`,
+  });
+  await db.delete(schema.reviews).where(eq(schema.reviews.id, id));
+  revalidatePath("/admin/reviews");
+  redirect("/admin/reviews?deleted=1");
+}
+
+export async function bulkReviewAction(formData) {
+  const session = await requireSession();
+  const ids = formData.getAll("selected").map(Number).filter(Boolean);
+  const action = String(formData.get("bulkAction") ?? "");
+  if (!ids.length || !action) redirect("/admin/reviews?bulk_none=1");
+
+  if (action === "delete") {
+    await auditDestructive({
+      actor: session.name,
+      action: "bulk_delete",
+      entity: "review",
+      summary: `Deleted ${ids.length} review(s) permanently.`,
+    });
+    await db.delete(schema.reviews).where(inArray(schema.reviews.id, ids));
+    revalidatePath("/admin/reviews");
+    revalidatePath("/admin");
+    redirect(`/admin/reviews?bulk_deleted=${ids.length}`);
+  }
+
+  if (action === "publish" || action === "reject") {
+    const status = action === "publish" ? "published" : "rejected";
+    await setReviewStatus(ids, status, session);
+    await audit({
+      actor: session.name,
+      action: `bulk_${action}`,
+      entity: "review",
+      summary: `${status === "published" ? "Published" : "Rejected"} ${ids.length} review(s).`,
+    });
+    redirect(`/admin/reviews?status=${status}&bulk_done=${ids.length}`);
+  }
+
+  redirect("/admin/reviews");
+}

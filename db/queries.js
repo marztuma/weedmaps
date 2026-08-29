@@ -1,5 +1,5 @@
 import "server-only";
-import { eq, and, sql, desc, asc, isNotNull } from "drizzle-orm";
+import { eq, and, sql, desc, asc, isNotNull, inArray } from "drizzle-orm";
 import { db, schema } from "./client.js";
 
 const { products, categories, subcategories, brands, shops } = schema;
@@ -468,4 +468,123 @@ export async function getAllSlugs() {
     db.select({ slug: shops.slug }).from(shops),
   ]);
   return { products: p, categories: c, brands: b, shops: s };
+}
+
+/* ── Reviews ──────────────────────────────────────────────────
+
+   Only `published` rows are ever counted or shown. A pending review does not
+   move an average, because if it did, posting would change the score before
+   anyone had looked at it. */
+
+const PUBLISHED = eq(schema.reviews.status, "published");
+
+/** Star distribution, average and counts for one target.
+ *
+ *  `ratings` counts every published row; `written` counts the subset with a
+ *  body. Reporting one as the other is the small lie most listings tell —
+ *  "412 reviews" where 380 of them are a star and nothing else. */
+async function reviewSummaryFor(where) {
+  const rows = await db
+    .select({ rating: schema.reviews.rating, hasBody: sql`(${schema.reviews.body} is not null and ${schema.reviews.body} <> '')`.mapWith(Boolean) })
+    .from(schema.reviews)
+    .where(and(PUBLISHED, where));
+
+  const dist = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+  let sum = 0, written = 0;
+  for (const r of rows) {
+    dist[r.rating] = (dist[r.rating] ?? 0) + 1;
+    sum += r.rating;
+    if (r.hasBody) written++;
+  }
+  const ratings = rows.length;
+  return {
+    ratings,
+    written,
+    average: ratings ? Math.round((sum / ratings) * 10) / 10 : null,
+    distribution: dist,
+  };
+}
+
+const shapeReview = (r) => ({
+  id: r.id,
+  rating: r.rating,
+  title: r.title,
+  body: r.body,
+  author: r.authorHandle,
+  location: r.authorLocation,
+  createdAt: r.createdAt,
+  seeded: r.seeded,
+});
+
+/** Published reviews for a product, newest first. `star` filters to one rating. */
+export async function getProductReviews(productId, { star, limit = 20 } = {}) {
+  const where = [eq(schema.reviews.productId, productId)];
+  if (star) where.push(eq(schema.reviews.rating, star));
+
+  const [rows, summary] = await Promise.all([
+    db.select().from(schema.reviews)
+      .where(and(PUBLISHED, ...where))
+      .orderBy(desc(schema.reviews.createdAt))
+      .limit(limit),
+    reviewSummaryFor(eq(schema.reviews.productId, productId)),
+  ]);
+  return { items: rows.map(shapeReview), ...summary };
+}
+
+/** Published reviews for a delivery service. */
+export async function getShopReviews(shopId, { star, limit = 20 } = {}) {
+  const where = [eq(schema.reviews.shopId, shopId)];
+  if (star) where.push(eq(schema.reviews.rating, star));
+
+  const [rows, summary] = await Promise.all([
+    db.select().from(schema.reviews)
+      .where(and(PUBLISHED, ...where))
+      .orderBy(desc(schema.reviews.createdAt))
+      .limit(limit),
+    reviewSummaryFor(eq(schema.reviews.shopId, shopId)),
+  ]);
+  return { items: rows.map(shapeReview), ...summary };
+}
+
+/** Averages for a batch of products, for grids. Keyed by product id. */
+export async function getProductRatings(productIds) {
+  if (!productIds?.length) return {};
+  const rows = await db
+    .select({
+      productId: schema.reviews.productId,
+      n: sql`count(*)`.mapWith(Number),
+      avg: sql`avg(${schema.reviews.rating})`.mapWith(Number),
+    })
+    .from(schema.reviews)
+    .where(and(PUBLISHED, inArray(schema.reviews.productId, productIds)))
+    .groupBy(schema.reviews.productId);
+
+  const out = {};
+  for (const r of rows) out[r.productId] = { count: r.n, average: Math.round(r.avg * 10) / 10 };
+  return out;
+}
+
+/** Rating summary counting ONLY reviews a person actually wrote.
+ *
+ *  Seeded rows are excluded deliberately. They exist so the review surfaces
+ *  can be seen working; they are not evidence of anything, and an average
+ *  built from them has no business in structured data where a search engine
+ *  will read it as a claim. This is what productSchema() uses, so the markup
+ *  starts shipping on its own the moment real reviews arrive — and never
+ *  before. */
+export async function getGenuineRating({ productId, shopId }) {
+  const target = productId
+    ? eq(schema.reviews.productId, productId)
+    : eq(schema.reviews.shopId, shopId);
+
+  const [row] = await db
+    .select({
+      n: sql`count(*)`.mapWith(Number),
+      avg: sql`coalesce(avg(${schema.reviews.rating}), 0)`.mapWith(Number),
+    })
+    .from(schema.reviews)
+    .where(and(PUBLISHED, eq(schema.reviews.seeded, false), target));
+
+  if (!row || row.n === 0) return null;
+  return { count: row.n, average: Math.round(row.avg * 10) / 10 };
 }

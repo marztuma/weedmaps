@@ -27,6 +27,8 @@ const MENU = [
     ],
   },
   { sep: true },
+  { label: "Reviews", href: "/admin/reviews", icon: "customers", countKey: "pendingReviews" },
+  { sep: true },
   { label: "Payments", href: "/admin/payments", icon: "orders" },
   { label: "Settings", href: "/admin/settings", icon: "settings" },
 ];

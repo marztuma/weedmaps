@@ -13,7 +13,9 @@
     "images:import": "node scripts/import-images.mjs",
     "images:upload": "node scripts/upload-cloudinary.mjs",
     "images:check": "node scripts/upload-cloudinary.mjs --dry-run",
-    "brands:fill": "node scripts/fill-brands.mjs"
+    "brands:fill": "node scripts/fill-brands.mjs",
+    "reviews:seed": "node scripts/seed-reviews.mjs",
+    "reviews:clear": "node scripts/seed-reviews.mjs --clear"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",

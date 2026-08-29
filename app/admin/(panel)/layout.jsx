@@ -14,9 +14,12 @@ export default async function PanelLayout({ children }) {
   const session = await getSession();
   if (!session) redirect("/admin/login");
 
-  const [{ awaiting }] = await db
-    .select({ awaiting: sql`count(*) filter (where ${schema.orders.paymentStatus} = 'awaiting_payment')`.mapWith(Number) })
-    .from(schema.orders);
+  const [[{ awaiting }], [{ pendingReviews }]] = await Promise.all([
+    db.select({ awaiting: sql`count(*) filter (where ${schema.orders.paymentStatus} = 'awaiting_payment')`.mapWith(Number) })
+      .from(schema.orders),
+    db.select({ pendingReviews: sql`count(*) filter (where ${schema.reviews.status} = 'pending')`.mapWith(Number) })
+      .from(schema.reviews),
+  ]);
 
   return (
     <>
@@ -42,7 +45,7 @@ export default async function PanelLayout({ children }) {
         </div>
       </header>
 
-      <AdminMenu counts={{ awaiting }} />
+      <AdminMenu counts={{ awaiting, pendingReviews }} />
 
       <main className="wp-content">{children}</main>
     </>

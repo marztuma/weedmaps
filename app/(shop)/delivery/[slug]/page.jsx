@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getShop, getShopMenu, getAllSlugs } from "@/db/queries";
+import { getShop, getShopMenu, getAllSlugs, getShopReviews } from "@/db/queries";
 import { Breadcrumb } from "@/components/PageHeader";
 import ProductCard from "@/components/ProductCard";
 import Reveal from "@/components/Reveal";
 import Icon from "@/components/Icons";
 import JsonLd from "@/components/JsonLd";
+import Reviews from "@/components/Reviews";
 import { deliveryServiceSchema, breadcrumbSchema, canonical, absolute } from "@/lib/seo";
 
 export const revalidate = 60;
@@ -42,6 +43,8 @@ export default async function DeliveryPage({ params }) {
   const { slug } = await params;
   const shop = await getShop(slug);
   if (!shop) notFound();
+
+  const reviews = await getShopReviews(shop.id, { limit: 60 });
   const menu = await getShopMenu(shop.id);
   const total = menu.reduce((n, g) => n + g.items.length, 0);
 
@@ -168,6 +171,12 @@ export default async function DeliveryPage({ params }) {
           </div>
         ))}
       </section>
+
+      <Reviews
+        summary={reviews}
+        subjectLabel={shop.name}
+        target={{ shopId: shop.id, path: `/delivery/${slug}` }}
+      />
     </>
   );
 }

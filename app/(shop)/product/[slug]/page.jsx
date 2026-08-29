@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getProduct, getRelated, getAllSlugs } from "@/db/queries";
+import { getProduct, getRelated, getAllSlugs, getProductReviews, getGenuineRating } from "@/db/queries";
 import { Breadcrumb } from "@/components/PageHeader";
 import { PriceTicket } from "@/components/ProductCard";
 import ProductLabel from "@/components/ProductLabel";
@@ -8,6 +8,7 @@ import ProductGrid from "@/components/ProductGrid";
 import AddToCart from "@/components/AddToCart";
 import Icon from "@/components/Icons";
 import JsonLd from "@/components/JsonLd";
+import Reviews from "@/components/Reviews";
 import { productSchema, breadcrumbSchema, canonical, absolute } from "@/lib/seo";
 import { resolveProductImage } from "@/lib/images";
 
@@ -64,6 +65,8 @@ export default async function ProductPage({ params }) {
   const p = await getProduct(slug);
   if (!p) notFound();
   const related = await getRelated(p.category, p.slug, 10);
+  const reviews = await getProductReviews(p.id, { limit: 60 });
+  const genuineRating = await getGenuineRating({ productId: p.id });
 
   const trail = [
     { label: "Home", href: "/" },
@@ -82,7 +85,7 @@ export default async function ProductPage({ params }) {
 
   return (
     <>
-      <JsonLd data={[productSchema(p, { imageUrl }), breadcrumbSchema(trail)]} />
+      <JsonLd data={[productSchema(p, { imageUrl, rating: genuineRating }), breadcrumbSchema(trail)]} />
 
       <div className="u-shell pt-[clamp(1.5rem,3vw,2.5rem)]">
         <Breadcrumb
@@ -233,6 +236,12 @@ export default async function ProductPage({ params }) {
           <ProductGrid products={related} />
         </div>
       </section>
+
+      <Reviews
+        summary={reviews}
+        subjectLabel={p.name}
+        target={{ productId: p.id, path: `/product/${slug}` }}
+      />
     </>
   );
 }
