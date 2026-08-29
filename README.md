@@ -96,8 +96,13 @@ Edit the data files in `db/` — `taxonomy.js` for categories and brands,
 
 **The demo data is placeholder.** Business and brand names are real companies;
 every price, rating, review count, arrival window, fee and menu figure attached
-to them is invented. See `data/README.md`. The footer disclosure should stay
-until live data replaces the seed.
+to them is invented. See `data/README.md`.
+
+The footer used to carry a notice saying so on every page. It was removed at the
+user's direction while preparing for launch. The figures did not change with it,
+so this file and `data/README.md` are now the only places that record which
+numbers are real — worth knowing before showing the site to anyone who might
+read a price or a rating as a quote.
 
 ## The structure
 

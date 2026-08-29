@@ -58,16 +58,6 @@ export default function Footer({ site }) {
           <p className="u-prose text-[0.8rem] leading-relaxed text-shade">{site.footer.legal}</p>
           <p className="u-label shrink-0 text-mute">© 2026 Weedmaps · Terms · Privacy</p>
         </div>
-
-        <p className="mt-6 flex items-start gap-2 border-t border-rule pt-6 text-[0.8rem] leading-relaxed text-mute">
-          <Icon name="lab" size={14} className="mt-px shrink-0" />
-          <span className="max-w-[80ch]">
-            Demonstration build. Business and brand names shown are real companies; every
-            price, rating, review count, arrival window, delivery fee and menu figure on this
-            page is placeholder data. Product photography is illustrative — an image shows
-            that kind of product, not necessarily that exact item.
-          </span>
-        </p>
       </div>
     </footer>
   );

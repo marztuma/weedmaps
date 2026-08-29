@@ -360,7 +360,7 @@ The ramp is discrete and closed. Below the fluid display steps it is a list of f
 - **Body** (400, 0.95rem, 1.6): Eighteen uses. Standing copy, primary control text, product names in a card or cart line. Capped at 68ch by `.u-prose`.
 - **Body Small** (400, 0.9rem, 1.6): Seventeen uses. Copy that sits inside chrome rather than in a column: nav links, subtitles under a section heading, the descriptive line on an index or an empty state.
 - **Control** (700, 0.85rem, −0.01em): Eleven uses. Every pill and button label — outlined pills, the search submit, the back link, the sort segments, the Delivering-now filter, a cart checkout button.
-- **Caption** (600, 0.8rem): Fifteen uses. Fine print and dense secondary controls: struck former prices, counts, legal lines, the footer disclosure, filter chips and the quick-add button.
+- **Caption** (600, 0.8rem): Fifteen uses. Fine print and dense secondary controls: struck former prices, counts, legal lines, filter chips and the quick-add button.
 - **Label** (600, 0.6875rem, +0.09em, uppercase): Non-measurement small caps — footer column heads, "Sort", "Change", the store-button superscript.
 - **Meta** (mono, 0.6875rem, +0.09em, uppercase, tabular): Measured small caps — arrival windows and ETAs, fees, order minimums, item counts, weights, potency, read time, breadcrumbs.
 - **Data** (mono, semibold, tabular with slashed zero): The family role for prices, ratings and counts at any size. `data` is a face, not a size: it composes with Stat, Subhead, Spec, Body or Caption depending on what the figure is doing.
@@ -507,7 +507,7 @@ The cart is grouped by delivery service, never blended, because one driver canno
 - **Do** render products as authored package labels in one of the five committed colorways, and reach for `size="hero"` when the label is set larger than a card.
 - **Do** let shelves bleed off the right edge; the cut card is what tells the reader there is more.
 - **Do** re-check the masthead clamp against the fold whenever the headline copy changes length; the first price is above the fold on the current build at 899px of 960px desktop and 825px of 844px mobile, and that margin is the constraint the `clamp(2.05rem, 6.2vw, 4.75rem)` / 20ch pairing was tuned to hold.
-- **Do** keep the placeholder-data disclosure in the footer and in `data/README.md`. Business and brand names are real; every rating, price, delivery window, fee and menu figure is invented, at the user's explicit direction, and that disclosure survives any future edit — including now that the figures are seeded into Postgres rather than held in JSON.
+- **Do** keep the placeholder-data disclosure in `data/README.md` and in the project README. Business and brand names are real; every rating, price, delivery window, fee and menu figure is invented. The on-page footer disclosure that used to carry this was removed at the user's explicit direction while preparing the site for launch, so the page no longer states it — the data is unchanged, only the notice is gone. Anyone restoring real figures should update both records rather than assume the absence of a notice means the numbers are real.
 
 ### Don't:
 - **Don't** invent a type size between two steps because something looks slightly off; snap it to the nearest step or argue the new step into the ramp.
