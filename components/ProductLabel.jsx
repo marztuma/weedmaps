@@ -30,6 +30,15 @@ const GRAIN =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23g)'/%3E%3C/svg%3E\")";
 
 function Seal({ c, product, size }) {
+  /* Hardware has no strain, so it gets no seal.
+
+     This used to fall back to "H" for anything unrecognised, which meant a box
+     of rolling tips wore a Hybrid seal and a tooltip reading "Accessory · 0%
+     THC". The seal states a property of cannabis; on a grinder or a battery it
+     states a property the goods do not have. */
+  const mark = TYPE_MARK[product.type];
+  if (!mark) return null;
+
   return (
     <div
       className={`grid shrink-0 place-items-center rounded-full ${size === "hero" ? "h-14 w-14" : "h-11 w-11"}`}
@@ -37,7 +46,7 @@ function Seal({ c, product, size }) {
       title={`${product.type} · ${product.thc}% THC`}
     >
       <span className={`u-data font-semibold leading-none ${size === "hero" ? "text-[17px]" : "text-[13px]"}`}>
-        {TYPE_MARK[product.type] || "H"}
+        {mark}
       </span>
     </div>
   );
@@ -167,8 +176,17 @@ export default function ProductLabel({ product, category = "flower", size = "car
             className="u-data mt-[6%] flex items-baseline justify-between border-t pt-[5%] text-[11px]"
             style={{ borderColor: c.fg, borderTopWidth: 1 }}
           >
-            <span>THC {product.thc}%</span>
-            <span style={{ color: c.dim }}>CBD {product.cbd}%</span>
+            {TYPE_MARK[product.type] ? (
+              <>
+                <span>THC {product.thc}%</span>
+                <span style={{ color: c.dim }}>CBD {product.cbd}%</span>
+              </>
+            ) : (
+              <>
+                <span>Hardware</span>
+                <span style={{ color: c.dim }}>No potency</span>
+              </>
+            )}
           </div>
         </div>
       </div>

@@ -1,5 +1,7 @@
 "use client";
 
+import { price } from "@/lib/money";
+
 import { useState } from "react";
 import { useCart } from "./CartContext";
 import Icon from "./Icons";
@@ -58,7 +60,7 @@ export default function AddToCart({ product, disabled, disabledLabel }) {
         className="u-pill flex h-12 flex-1 items-center justify-center gap-2 bg-ink px-6 text-[0.95rem] text-linen hover:bg-ink-soft"
       >
         <Icon name={added ? "check" : "bag"} size={17} />
-        {added ? "Added to bag" : `Add to bag · $${(product.price * qty).toFixed(0)}`}
+        {added ? "Added to bag" : `Add to bag · ${price(product.price * qty)}`}
       </button>
     </div>
   );

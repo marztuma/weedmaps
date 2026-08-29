@@ -2,17 +2,18 @@ import Link from "next/link";
 import { QuickAdd } from "./AddToCart";
 import ProductLabel from "./ProductLabel";
 import Icon from "./Icons";
+import { price } from "@/lib/money";
 
-export function PriceTicket({ price, was, size = "md" }) {
-  const off = was ? Math.round(((was - price) / was) * 100) : 0;
+export function PriceTicket({ price: value, was, size = "md" }) {
+  const off = was ? Math.round(((was - value) / was) * 100) : 0;
   return (
     <div className="flex items-baseline gap-2">
       <span className={`u-data font-semibold text-ink ${size === "lg" ? "text-[2rem]" : "text-[1.15rem]"}`}>
-        ${price}
+        {price(value)}
       </span>
       {was && (
         <>
-          <s className="u-data text-[0.8rem] text-mute decoration-mute/70">${was}</s>
+          <s className="u-data text-[0.8rem] text-mute decoration-mute/70">{price(was)}</s>
           <span className="u-meta text-orange-text">−{off}%</span>
         </>
       )}

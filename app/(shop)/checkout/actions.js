@@ -1,5 +1,7 @@
 "use server";
 
+import { priceFromCents } from "@/lib/money";
+
 import { randomInt } from "node:crypto";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
@@ -97,7 +99,7 @@ export async function placeOrder(_prev, formData) {
     g.deliveryFee = g.freeOver != null && g.subtotal >= g.freeOver ? 0 : g.fee;
     g.total = g.subtotal + g.deliveryFee;
     if (g.subtotal < g.min) {
-      under.push(`${g.shopName} needs $${(g.min / 100).toFixed(0)} minimum — you have $${(g.subtotal / 100).toFixed(0)}.`);
+      under.push(`${g.shopName} needs ${priceFromCents(g.min)} minimum — you have ${priceFromCents(g.subtotal)}.`);
     }
   }
   if (under.length) return { errors: under };
