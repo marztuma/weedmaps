@@ -164,6 +164,11 @@ export default async function ProductPage({ params }) {
               </dl>
 
               <AddToCart product={p} disabled={!p.shopLive} />
+              {p.lowStock && (
+                <p className="u-meta mt-3 text-center text-orange-text">
+                  Only {p.stock} left at this service
+                </p>
+              )}
               <p className="u-meta mt-3 text-center text-mute">
                 Checkout happens on the service&rsquo;s own menu. 21+ and ID at the door.
               </p>

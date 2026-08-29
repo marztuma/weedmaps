@@ -9,6 +9,8 @@ import PaymentConfirm from "@/components/admin/PaymentConfirm";
 
 export const dynamic = "force-dynamic";
 
+const PER_PAGE = 50;
+
 const { orders, orderItems, customers, shops, paymentMethods } = schema;
 const money = (c) => `$${((c ?? 0) / 100).toFixed(2)}`;
 const when = (d) => new Date(d).toLocaleDateString("en-US", { day: "numeric", month: "short", year: "numeric" });
@@ -41,13 +43,14 @@ export default async function OrdersAdmin({ searchParams }) {
   const sp = await searchParams;
   const status = typeof sp.status === "string" ? sp.status : "";
   const pay = typeof sp.pay === "string" ? sp.pay : "";
+  const page = Math.max(1, Number(sp.paged) || 1);
 
   const where = [];
   if (status) where.push(eq(orders.status, status));
   if (pay) where.push(eq(orders.paymentStatus, pay));
   const clause = where.length ? and(...where) : undefined;
 
-  const [rows, counts, [totals], payCounts, methods] = await Promise.all([
+  const [rows, [{ matching }], counts, [totals], payCounts, methods] = await Promise.all([
     db.select({
       id: orders.id, reference: orders.reference, status: orders.status,
       subtotal: orders.subtotalCents, fee: orders.deliveryFeeCents, total: orders.totalCents,
@@ -67,7 +70,9 @@ export default async function OrdersAdmin({ searchParams }) {
       .where(clause)
       .groupBy(orders.id, customers.id, shops.name)
       .orderBy(desc(orders.placedAt))
-      .limit(100),
+      .limit(PER_PAGE).offset((page - 1) * PER_PAGE),
+    // The count has to carry the same filters as the rows, or the pager lies.
+    db.select({ matching: sql`count(*)`.mapWith(Number) }).from(orders).where(clause),
     db.select({ status: orders.status, n: sql`count(*)`.mapWith(Number) }).from(orders).groupBy(orders.status),
     db.select({
       gross: sql`coalesce(sum(${orders.totalCents}) filter (where ${orders.status} <> 'cancelled'), 0)`.mapWith(Number),
@@ -81,6 +86,16 @@ export default async function OrdersAdmin({ searchParams }) {
   const methodLabel = new Map(methods.map((m) => [m.code, m.label]));
   const countFor = (v) => counts.find((c) => c.status === v)?.n ?? 0;
   const payCountFor = (v) => payCounts.find((c) => c.pay === v)?.n ?? 0;
+
+  const pages = Math.max(1, Math.ceil(matching / PER_PAGE));
+  const pageQs = (n) => {
+    const p = new URLSearchParams();
+    if (status) p.set("status", status);
+    if (pay) p.set("pay", pay);
+    if (n > 1) p.set("paged", String(n));
+    const q = p.toString();
+    return q ? `?${q}` : "";
+  };
 
   return (
     <>
@@ -197,6 +212,18 @@ export default async function OrdersAdmin({ searchParams }) {
         </table>
       </div>
       </BulkForm>
+
+      {pages > 1 && (
+        <div className="wp-tablenav">
+          <span className="wp-subtitle">
+            Page {page} of {pages} · {matching} order{matching === 1 ? "" : "s"}
+          </span>
+          <div className="wp-tablenav-links">
+            {page > 1 && <Link className="wp-btn" href={`/admin/orders${pageQs(page - 1)}`}>‹ Previous</Link>}
+            {page < pages && <Link className="wp-btn" href={`/admin/orders${pageQs(page + 1)}`}>Next ›</Link>}
+          </div>
+        </div>
+      )}
     </>
   );
 }

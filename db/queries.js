@@ -29,6 +29,14 @@ const shapeProduct = (r) => ({
   eta: r.etaMinMinutes && r.etaMaxMinutes ? `${r.etaMinMinutes}–${r.etaMaxMinutes} min` : null,
   distance: Number(r.distanceMi),
   colorway: r.colorway,
+  /* Stock, shaped so no component has to reason about null.
+
+     tracked=false means nobody is counting, which is not the same as none
+     left — it must never render as "out of stock". */
+  stock: r.stockQty,
+  tracked: r.stockQty != null,
+  inStock: r.stockQty == null || r.stockQty > 0,
+  lowStock: r.stockQty != null && r.stockQty > 0 && r.stockQty <= (r.lowStockAt ?? 5),
   tags: r.tags ?? [],
   image: (r.imageAvif || r.imageCloudId)
     ? { avif: r.imageAvif, webp: r.imageWebp, alt: r.imageAlt, cloudId: r.imageCloudId }
@@ -45,6 +53,7 @@ const productSelect = {
   priceCents: products.priceCents, wasPriceCents: products.wasPriceCents,
   distanceMi: products.distanceMi, colorway: products.colorway, tags: products.tags,
   imageAvif: products.imageAvif, imageWebp: products.imageWebp, imageAlt: products.imageAlt,
+  stockQty: products.stockQty, lowStockAt: products.lowStockAt,
   imageCloudId: products.imageCloudId,
   description: products.description, effects: products.effects, flavors: products.flavors,
   brand: brands.name,

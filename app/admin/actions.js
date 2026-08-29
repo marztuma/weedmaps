@@ -69,6 +69,11 @@ function productFields(fd) {
     imageWebp: str(fd, "imageWebp") || null,
     tags: str(fd, "tags") ? str(fd, "tags").split(",").map((t) => t.trim()).filter(Boolean) : [],
     featured: bool(fd, "featured"),
+    /* An empty stock box means untracked, not zero. num() would turn "" into 0
+       and quietly mark the product sold out, so the empty case is handled
+       before it ever reaches the number. */
+    stockQty: str(fd, "stockQty") === "" ? null : Math.max(0, num(fd, "stockQty")),
+    lowStockAt: Math.max(0, num(fd, "lowStockAt", 5)) || 5,
   };
 }
 

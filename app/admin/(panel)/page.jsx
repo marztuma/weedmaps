@@ -44,6 +44,8 @@ export default async function Dashboard() {
       paused: sql`(select count(*) from ${shops} where not delivering_now)`.mapWith(Number),
       orphanShops: sql`(select count(*) from ${shops} s where not exists (select 1 from ${products} p where p.shop_id = s.id))`.mapWith(Number),
       pendingReviews: sql`(select count(*) from reviews where status = 'pending')`.mapWith(Number),
+      lowStock: sql`(select count(*) from ${products} where stock_qty is not null and stock_qty > 0 and stock_qty <= low_stock_at)`.mapWith(Number),
+      outOfStock: sql`(select count(*) from ${products} where stock_qty = 0)`.mapWith(Number),
       publishedReviews: sql`(select count(*) from reviews where status = 'published')`.mapWith(Number),
     }).from(sql`(select 1) as t`),
 
@@ -123,10 +125,25 @@ export default async function Dashboard() {
       </div>
 
       {/* What needs a human, before anything else on the page. */}
-      {(stale.length > 0 || counts.paused > 0 || counts.orphanShops > 0 || counts.pendingReviews > 0) && (
+      {(stale.length > 0 || counts.paused > 0 || counts.orphanShops > 0 || counts.pendingReviews > 0 || counts.outOfStock > 0 || counts.lowStock > 0) && (
         <div className="wp-box">
           <div className="wp-box-head">Needs attention</div>
           <div className="wp-box-body" style={{ display: "grid", gap: 10 }}>
+            {counts.outOfStock > 0 && (
+              <p style={{ margin: 0 }}>
+                <strong>{counts.outOfStock}</strong> product
+                {counts.outOfStock === 1 ? " is" : "s are"} out of stock — still listed,
+                but customers cannot add them.{" "}
+                <Link href="/admin/products?view=out">Restock</Link>
+              </p>
+            )}
+            {counts.lowStock > 0 && (
+              <p style={{ margin: 0 }}>
+                <strong>{counts.lowStock}</strong> product
+                {counts.lowStock === 1 ? " is" : "s are"} at or below their warning level.{" "}
+                <Link href="/admin/products?view=low">Review</Link>
+              </p>
+            )}
             {counts.pendingReviews > 0 && (
               <p style={{ margin: 0 }}>
                 <strong>{counts.pendingReviews}</strong> review

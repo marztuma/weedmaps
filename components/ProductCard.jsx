@@ -49,6 +49,9 @@ export default function ProductCard({ product, category, quickAdd = true }) {
     </Link>
     {quickAdd && product.shopLive !== false && (
       <div className="mt-3 pt-0">
+        {product.lowStock && (
+          <p className="u-meta mt-2 text-orange-text">Only {product.stock} left</p>
+        )}
         <QuickAdd product={product} />
       </div>
     )}

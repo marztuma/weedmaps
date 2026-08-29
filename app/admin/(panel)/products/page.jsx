@@ -23,6 +23,8 @@ export default async function ProductsAdmin({ searchParams }) {
   if (cat) where.push(eq(categories.slug, cat));
   if (view === "deals") where.push(sql`${products.wasPriceCents} is not null`);
   if (view === "featured") where.push(eq(products.featured, true));
+  if (view === "low") where.push(sql`${products.stockQty} is not null and ${products.stockQty} > 0 and ${products.stockQty} <= ${products.lowStockAt}`);
+  if (view === "out") where.push(sql`${products.stockQty} = 0`);
   const clause = where.length ? and(...where) : undefined;
 
   const base = db
@@ -30,6 +32,7 @@ export default async function ProductsAdmin({ searchParams }) {
       id: products.id, name: products.name, slug: products.slug,
       price: products.priceCents, was: products.wasPriceCents,
       thc: products.thc, weight: products.weight, featured: products.featured,
+      stockQty: products.stockQty, lowStockAt: products.lowStockAt,
       strainType: products.strainType,
       brand: brands.name, category: categories.name, categorySlug: categories.slug,
       sub: subcategories.name, shop: shops.name, live: shops.deliveringNow,
@@ -40,7 +43,7 @@ export default async function ProductsAdmin({ searchParams }) {
     .innerJoin(shops, eq(products.shopId, shops.id))
     .leftJoin(subcategories, eq(products.subcategoryId, subcategories.id));
 
-  const [rows, [{ total }], cats, [{ all, deals, featured }]] = await Promise.all([
+  const [rows, [{ total }], cats, [{ all, deals, featured, lowStock, outOfStock }]] = await Promise.all([
     base.where(clause).orderBy(desc(products.featured), asc(products.name))
       .limit(PER_PAGE).offset((page - 1) * PER_PAGE),
     db.select({ total: sql`count(*)`.mapWith(Number) }).from(products)
@@ -54,6 +57,8 @@ export default async function ProductsAdmin({ searchParams }) {
       all: sql`count(*)`.mapWith(Number),
       deals: sql`count(*) filter (where ${products.wasPriceCents} is not null)`.mapWith(Number),
       featured: sql`count(*) filter (where ${products.featured})`.mapWith(Number),
+      lowStock: sql`count(*) filter (where ${products.stockQty} is not null and ${products.stockQty} > 0 and ${products.stockQty} <= ${products.lowStockAt})`.mapWith(Number),
+      outOfStock: sql`count(*) filter (where ${products.stockQty} = 0)`.mapWith(Number),
     }).from(products),
   ]);
 
@@ -90,6 +95,8 @@ export default async function ProductsAdmin({ searchParams }) {
         <li><Link href={`/admin/products${cat ? `?cat=${cat}` : ""}`} className={view === "all" ? "is-current" : ""}>All <span>({all})</span></Link></li>
         <li><Link href={`/admin/products${qs({ view: "deals", paged: null })}`} className={view === "deals" ? "is-current" : ""}>On sale <span>({deals})</span></Link></li>
         <li><Link href={`/admin/products${qs({ view: "featured", paged: null })}`} className={view === "featured" ? "is-current" : ""}>Featured <span>({featured})</span></Link></li>
+        <li><Link href={`/admin/products${qs({ view: "low", paged: null })}`} className={view === "low" ? "is-current" : ""}>Low stock <span>({lowStock})</span></Link></li>
+        <li><Link href={`/admin/products${qs({ view: "out", paged: null })}`} className={view === "out" ? "is-current" : ""}>Out of stock <span>({outOfStock})</span></Link></li>
       </ul>
 
       <form method="get" className="wp-tablenav">
@@ -131,12 +138,13 @@ export default async function ProductsAdmin({ searchParams }) {
                 <th>Category</th>
                 <th>Delivered by</th>
                 <th className="col-num">THC</th>
+                <th className="col-num">Stock</th>
                 <th className="col-num">Price</th>
               </tr>
             </thead>
             <tbody>
               {rows.length === 0 && (
-                <tr><td colSpan={7} style={{ padding: 24, textAlign: "center" }}>
+                <tr><td colSpan={8} style={{ padding: 24, textAlign: "center" }}>
                   No products found. <Link href="/admin/products">Clear filters</Link> or <Link href="/admin/products/new">add one</Link>.
                 </td></tr>
               )}
@@ -163,6 +171,17 @@ export default async function ProductsAdmin({ searchParams }) {
                     </div>
                   </td>
                   <td className="col-num">{Number(p.thc).toFixed(1)}%</td>
+                  <td className="col-num">
+                    {p.stockQty == null ? (
+                      <span className="wp-help" title="Not tracked">&mdash;</span>
+                    ) : p.stockQty === 0 ? (
+                      <span className="wp-pill is-red">Out</span>
+                    ) : p.stockQty <= (p.lowStockAt ?? 5) ? (
+                      <span className="wp-pill is-amber">{p.stockQty} left</span>
+                    ) : (
+                      p.stockQty
+                    )}
+                  </td>
                   <td className="col-num">
                     {money(p.price)}
                     {p.was && <div className="wp-help"><s>{money(p.was)}</s></div>}

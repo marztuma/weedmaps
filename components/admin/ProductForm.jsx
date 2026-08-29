@@ -136,6 +136,42 @@ export default function ProductForm({
         </div>
 
         <div className="wp-box">
+          <div className="wp-box-head">Stock</div>
+          <div className="wp-box-body">
+            <div className="wp-form-row wp-form-row-2">
+              <div className="wp-field">
+                <label className="wp-label" htmlFor="stockQty">Units on hand</label>
+                <input
+                  id="stockQty"
+                  name="stockQty"
+                  className="wp-input"
+                  inputMode="numeric"
+                  placeholder="Leave blank if you do not count this"
+                  defaultValue={product?.stockQty ?? ""}
+                />
+                <p className="wp-help">
+                  Blank means untracked and never blocks an order. Zero marks it out of
+                  stock and removes the add button.
+                </p>
+              </div>
+              <div className="wp-field">
+                <label className="wp-label" htmlFor="lowStockAt">Warn at</label>
+                <input
+                  id="lowStockAt"
+                  name="lowStockAt"
+                  className="wp-input"
+                  inputMode="numeric"
+                  defaultValue={product?.lowStockAt ?? 5}
+                />
+                <p className="wp-help">
+                  At or below this, the product is flagged low here and on the shelf.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="wp-box">
           <div className="wp-box-head">Potency &amp; classification</div>
           <div className="wp-box-body">
             <div className="wp-form-row wp-form-row-3">

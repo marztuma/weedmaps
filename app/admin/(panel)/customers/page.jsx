@@ -9,6 +9,8 @@ import BulkForm, { SelectAllToggle, BulkCheckbox } from "@/components/admin/Bulk
 
 export const dynamic = "force-dynamic";
 
+const PER_PAGE = 50;
+
 const { customers, orders } = schema;
 const money = (c) => `$${((c ?? 0) / 100).toFixed(2)}`;
 
@@ -34,6 +36,7 @@ export default async function CustomersAdmin({ searchParams }) {
   const q = typeof sp.q === "string" ? sp.q.trim() : "";
   const stage = typeof sp.stage === "string" ? sp.stage : "";
   const editId = Number(sp.edit) || null;
+  const page = Math.max(1, Number(sp.paged) || 1);
   const adding = sp.new != null;
 
   const where = [];
@@ -41,7 +44,7 @@ export default async function CustomersAdmin({ searchParams }) {
   if (stage) where.push(eq(customers.stage, stage));
   const clause = where.length ? and(...where) : undefined;
 
-  const [rows, stageCounts, editing, [{ total }]] = await Promise.all([
+  const [rows, [{ matching }], stageCounts, editing, [{ total }]] = await Promise.all([
     db.select({
       id: customers.id, name: customers.name, email: customers.email,
       phone: customers.phone, city: customers.city, stage: customers.stage,
@@ -54,7 +57,10 @@ export default async function CustomersAdmin({ searchParams }) {
       .where(clause)
       .groupBy(customers.id)
       .orderBy(desc(sql`coalesce(sum(${orders.totalCents}), 0)`), asc(customers.name))
-      .limit(200),
+      .limit(PER_PAGE).offset((page - 1) * PER_PAGE),
+    // Filtered count for the pager. `total` below stays unfiltered — it is the
+    // "All (N)" figure in the view tabs and means something different.
+    db.select({ matching: sql`count(*)`.mapWith(Number) }).from(customers).where(clause),
     db.select({ stage: customers.stage, n: sql`count(*)`.mapWith(Number) })
       .from(customers).groupBy(customers.stage),
     editId
@@ -66,6 +72,15 @@ export default async function CustomersAdmin({ searchParams }) {
   const countFor = (v) => stageCounts.find((s) => s.stage === v)?.n ?? 0;
   const editingRecord = editing && { ...editing, tags: (editing.tags ?? []).join(", ") };
   const showEditor = Boolean(editingRecord) || adding;
+
+  const pages = Math.max(1, Math.ceil(matching / PER_PAGE));
+  const pageQs = (n) => {
+    const p = new URLSearchParams();
+    if (stage) p.set("stage", stage);
+    if (n > 1) p.set("paged", String(n));
+    const q = p.toString();
+    return q ? `?${q}` : "";
+  };
 
   return (
     <>
@@ -193,6 +208,18 @@ export default async function CustomersAdmin({ searchParams }) {
               </table>
             </div>
           </BulkForm>
+
+          {pages > 1 && (
+            <div className="wp-tablenav">
+              <span className="wp-subtitle">
+                Page {page} of {pages} · {matching} customer{matching === 1 ? "" : "s"}
+              </span>
+              <div className="wp-tablenav-links">
+                {page > 1 && <Link className="wp-btn" href={`/admin/customers${pageQs(page - 1)}`}>‹ Previous</Link>}
+                {page < pages && <Link className="wp-btn" href={`/admin/customers${pageQs(page + 1)}`}>Next ›</Link>}
+              </div>
+            </div>
+          )}
 
           {/* Row deletes live outside the bulk form — a form cannot nest another. */}
           {rows.map((c) => (

@@ -7,9 +7,26 @@ import { useCart } from "./CartContext";
 import Icon from "./Icons";
 
 export default function AddToCart({ product, disabled, disabledLabel }) {
+  /* An untracked product (stock === null) has no ceiling — nobody is counting,
+     which is not the same as none left. Only a tracked count constrains the
+     stepper, and only a tracked zero blocks the button. */
+  const max = product.tracked ? product.stock : null;
+  const soldOut = product.tracked && product.stock <= 0;
   const { add } = useCart();
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
+
+  if (soldOut) {
+    return (
+      <button
+        type="button"
+        disabled
+        className="u-pill flex h-12 w-full items-center justify-center gap-2 border border-rule px-6 text-[0.95rem] text-mute"
+      >
+        Out of stock
+      </button>
+    );
+  }
 
   if (disabled) {
     return (
@@ -23,7 +40,9 @@ export default function AddToCart({ product, disabled, disabledLabel }) {
     );
   }
 
-  const step = (d) => setQty((q) => Math.max(1, Math.min(99, q + d)));
+  // 99 is the arbitrary UI ceiling; stock is the real one when it is counted.
+  const ceiling = max != null ? Math.min(99, Math.max(1, max)) : 99;
+  const step = (d) => setQty((q) => Math.max(1, Math.min(ceiling, q + d)));
 
   return (
     <div className="mt-5 flex flex-col gap-3 sm:flex-row">
@@ -43,6 +62,7 @@ export default function AddToCart({ product, disabled, disabledLabel }) {
         <button
           type="button"
           onClick={() => step(1)}
+          disabled={max != null && qty >= max}
           aria-label="Increase quantity"
           className="grid h-12 w-12 place-items-center rounded-full text-ink transition-colors duration-200 hover:bg-linen-deep"
         >
@@ -70,6 +90,16 @@ export default function AddToCart({ product, disabled, disabledLabel }) {
 export function QuickAdd({ product, className = "" }) {
   const { add } = useCart();
   const [added, setAdded] = useState(false);
+
+  if (product.tracked && product.stock <= 0) {
+    return (
+      <span
+        className={`u-pill flex h-11 w-full items-center justify-center gap-1.5 border border-rule text-[0.8rem] font-bold text-mute ${className}`}
+      >
+        Out of stock
+      </span>
+    );
+  }
 
   return (
     <button

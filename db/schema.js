@@ -102,6 +102,18 @@ export const products = pgTable("products", {
   flavors: text("flavors").array().notNull().default([]),
   tags: text("tags").array().notNull().default([]),
   featured: boolean("featured").notNull().default(false),
+
+  /* Stock.
+
+     Null means untracked, not zero. Plenty of a delivery menu is made to order
+     or effectively unlimited, and forcing every row to carry a number would
+     mean inventing one — then the first thing the admin shows is a count
+     nobody set. Null renders as "—" and never blocks an order.
+
+     lowStockAt is per-product because "low" is not one number: five eighths of
+     flower is nearly gone, five batteries is a normal shelf. */
+  stockQty: integer("stock_qty"),
+  lowStockAt: integer("low_stock_at").notNull().default(5),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 }, (t) => ({
   catIdx: index("products_category_idx").on(t.categoryId),
