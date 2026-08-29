@@ -99,11 +99,6 @@ export default async function ProductPage({ params }) {
         <div className="grid gap-x-14 gap-y-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1fr)]">
           <div className="mx-auto w-full max-w-[420px] lg:mx-0">
             <ProductLabel product={p} category={p.category} size="hero" />
-            <p className="u-meta mt-3 text-mute">
-              {p.image
-                ? "Product photography. Demonstration imagery — see the note in the footer."
-                : "Authored package label — no photography exists for this product."}
-            </p>
           </div>
 
           <div className="min-w-0">
