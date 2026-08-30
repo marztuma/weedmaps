@@ -2,6 +2,7 @@ import Link from "next/link";
 import { desc, eq, sql } from "drizzle-orm";
 import { db, schema } from "@/db/client";
 import { mailStatus } from "@/lib/notify";
+import { restrictedRecipient } from "@/lib/mail/send";
 import { maskEmail } from "@/lib/mail/safe";
 import Notice from "@/components/admin/Notice";
 import ConfirmSubmit from "@/components/admin/ConfirmSubmit";
@@ -43,6 +44,11 @@ export default async function EmailAdmin({ searchParams }) {
 
   const pages = Math.max(1, Math.ceil(counts.total / PER_PAGE));
 
+  /* If sending is being refused because of the shared-sender restriction, the
+     provider has already told us which address it will accept. Surface that
+     instead of making someone read the error column and work it out. */
+  const restrictedTo = rows.map((r) => restrictedRecipient(r.error)).find(Boolean) ?? null;
+
   return (
     <>
       <h1 className="wp-title">Email</h1>
@@ -58,7 +64,28 @@ export default async function EmailAdmin({ searchParams }) {
       <div className="wp-box">
         <div className="wp-box-head">Configuration</div>
         <div className="wp-box-body">
-          {status.configured ? (
+          {status.configured && status.usingTestSender ? (
+            <div className="wp-notice is-warning" style={{ margin: 0 }}>
+              <p style={{ marginTop: 0 }}>
+                <strong>Sending works, but only to one address.</strong> MAIL_FROM is
+                Resend&rsquo;s shared sender, which anyone may use without owning a domain.
+                The trade is that it delivers only to the address the Resend account is
+                registered under
+                {restrictedTo ? <> — <strong>{restrictedTo}</strong></> : null}.
+                {status.adminEmail && restrictedTo && status.adminEmail !== restrictedTo ? (
+                  <> Admin alerts are addressed to <strong>{status.adminEmail}</strong>, so they are
+                  being refused.</>
+                ) : null}
+              </p>
+              <p style={{ marginBottom: 0 }}>
+                Two ways out. Quickest: change the Resend account email to{" "}
+                {status.adminEmail ? <strong>{status.adminEmail}</strong> : "your admin address"} at
+                resend.com/settings, and admin alerts start arriving. Properly: add a domain you own
+                at resend.com/domains, then set MAIL_FROM to an address on it — that is the only
+                thing that lets <em>customers</em> receive order confirmations.
+              </p>
+            </div>
+          ) : status.configured ? (
             <p className="wp-notice is-success" style={{ margin: 0 }}>
               Email is configured. Sending as <strong>{status.from}</strong>.
             </p>
@@ -74,7 +101,17 @@ export default async function EmailAdmin({ searchParams }) {
           <table className="wp-table" style={{ marginTop: 12 }}>
             <tbody>
               <tr><td>API key</td><td>{status.hasKey ? "set" : <span className="wp-pill is-red">missing</span>}</td></tr>
-              <tr><td>From address</td><td>{status.from ?? <span className="wp-pill is-red">missing</span>}</td></tr>
+              <tr>
+                <td>From address</td>
+                <td>
+                  {status.from ?? <span className="wp-pill is-red">missing</span>}
+                  {status.usingTestSender && (
+                    <span className="wp-pill is-amber" style={{ marginLeft: 8 }}>
+                      shared test sender — cannot reach customers
+                    </span>
+                  )}
+                </td>
+              </tr>
               <tr><td>Admin recipient</td><td>{status.adminEmail ?? <span className="wp-pill is-amber">missing — admin alerts cannot be sent</span>}</td></tr>
               <tr>
                 <td>Delivery webhook</td>
