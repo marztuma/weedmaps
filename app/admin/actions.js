@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { eq, and, inArray, sql, isNull as sqlIsNull } from "drizzle-orm";
+import { eq, and, inArray, sql, isNull as sqlIsNull, isNotNull } from "drizzle-orm";
 import { db, schema } from "@/db/client";
 import { authenticate, createSession, destroySession, getSession } from "@/lib/auth";
 import { audit, auditDestructive } from "@/lib/audit";
@@ -784,4 +784,276 @@ export async function unsuppressAddress(formData) {
 
   revalidatePath("/admin/email");
   redirect("/admin/email?unsuppressed=1");
+}
+
+/* ── Subscribers ──────────────────────────────────────────── */
+
+export async function removeSubscriber(formData) {
+  const session = await requireSession();
+  const id = Number(formData.get("id"));
+  if (!id) redirect("/admin/subscribers");
+
+  const [row] = await db.select({ email: schema.subscribers.email })
+    .from(schema.subscribers).where(eq(schema.subscribers.id, id)).limit(1);
+
+  await db.delete(schema.subscribers).where(eq(schema.subscribers.id, id));
+
+  if (row) {
+    const { maskEmail } = await import("@/lib/mail/safe");
+    await auditDestructive({
+      actor: session.name, action: "delete", entity: "subscriber", entityId: String(id),
+      summary: `Deleted subscriber ${maskEmail(row.email)}, losing the record of their consent and any unsubscribe.`,
+    });
+  }
+  revalidatePath("/admin/subscribers");
+  redirect("/admin/subscribers?removed=1");
+}
+
+/** CSV of mailable subscribers.
+ *
+ *  Only rows with recorded consent are exported. An export is how a list
+ *  leaves this system and ends up in another tool, and a row without consent
+ *  must not be the one that gets mailed from somewhere with no such check. */
+export async function exportSubscribers() {
+  const session = await requireSession();
+  await audit({
+    actor: session.name, action: "export", entity: "subscriber",
+    summary: "Exported the consented subscriber list.",
+  });
+  redirect("/admin/export?type=subscribers");
+}
+
+/* ── Discount codes ───────────────────────────────────────── */
+
+function discountFields(fd) {
+  const kind = String(fd.get("kind") ?? "percent") === "fixed" ? "fixed" : "percent";
+  const raw = Number(String(fd.get("value") ?? "").trim());
+  if (!Number.isFinite(raw) || raw <= 0) return null;
+
+  // Percent stays whole points; fixed converts dollars to cents.
+  const value = kind === "percent" ? Math.round(raw) : Math.round(raw * 100);
+  if (kind === "percent" && (value < 1 || value > 100)) return null;
+
+  const dollarsToCents = (k, fallback = null) => {
+    const v = String(fd.get(k) ?? "").trim();
+    if (!v) return fallback;
+    const n = Number(v);
+    return Number.isFinite(n) && n >= 0 ? Math.round(n * 100) : fallback;
+  };
+  const intOrNull = (k) => {
+    const v = String(fd.get(k) ?? "").trim();
+    if (!v) return null;
+    const n = Number.parseInt(v, 10);
+    return Number.isFinite(n) && n >= 0 ? n : null;
+  };
+  const dateOrNull = (k) => {
+    const v = String(fd.get(k) ?? "").trim();
+    if (!v) return null;
+    const d = new Date(v);
+    return Number.isNaN(d.getTime()) ? null : d;
+  };
+
+  const code = String(fd.get("code") ?? "").trim().toUpperCase().replace(/\s+/g, "").slice(0, 32);
+  if (!/^[A-Z0-9_-]{3,32}$/.test(code)) return null;
+
+  return {
+    code,
+    description: String(fd.get("description") ?? "").trim().slice(0, 160) || null,
+    kind,
+    value,
+    minSubtotalCents: dollarsToCents("minSubtotal", 0) ?? 0,
+    maxDiscountCents: dollarsToCents("maxDiscount", null),
+    usageLimit: intOrNull("usageLimit"),
+    perCustomerLimit: intOrNull("perCustomer") ?? 1,
+    startsAt: dateOrNull("startsAt"),
+    endsAt: dateOrNull("endsAt"),
+    active: fd.get("active") === "on",
+  };
+}
+
+export async function saveDiscountCode(formData) {
+  const session = await requireSession();
+  const fields = discountFields(formData);
+  if (!fields) redirect("/admin/discounts?invalid=1");
+
+  const id = Number(formData.get("id")) || null;
+
+  try {
+    if (id) {
+      await db.update(schema.discountCodes).set(fields).where(eq(schema.discountCodes.id, id));
+    } else {
+      await db.insert(schema.discountCodes).values(fields);
+    }
+  } catch {
+    redirect("/admin/discounts?duplicate=1");
+  }
+
+  await audit({
+    actor: session.name, action: id ? "update" : "create", entity: "discount",
+    entityId: fields.code,
+    summary: `${id ? "Updated" : "Created"} ${fields.code}: ${fields.kind === "percent" ? `${fields.value}%` : `$${(fields.value / 100).toFixed(2)}`} off.`,
+  });
+
+  revalidatePath("/admin/discounts");
+  redirect("/admin/discounts?saved=1");
+}
+
+export async function toggleDiscountCode(formData) {
+  const session = await requireSession();
+  const id = Number(formData.get("id"));
+  if (!id) redirect("/admin/discounts");
+
+  const [row] = await db.select({ code: schema.discountCodes.code, active: schema.discountCodes.active })
+    .from(schema.discountCodes).where(eq(schema.discountCodes.id, id)).limit(1);
+  if (!row) redirect("/admin/discounts");
+
+  await db.update(schema.discountCodes).set({ active: !row.active })
+    .where(eq(schema.discountCodes.id, id));
+
+  await audit({
+    actor: session.name, action: row.active ? "disable" : "enable", entity: "discount",
+    entityId: row.code, summary: `${row.active ? "Turned off" : "Turned on"} ${row.code}.`,
+  });
+
+  revalidatePath("/admin/discounts");
+  redirect("/admin/discounts?toggled=1");
+}
+
+export async function deleteDiscountCode(formData) {
+  const session = await requireSession();
+  const id = Number(formData.get("id"));
+  if (!id) redirect("/admin/discounts");
+
+  const [row] = await db.select({ code: schema.discountCodes.code })
+    .from(schema.discountCodes).where(eq(schema.discountCodes.id, id)).limit(1);
+
+  await auditDestructive({
+    actor: session.name, action: "delete", entity: "discount", entityId: row?.code,
+    summary: `Deleted ${row?.code ?? id} and its redemption history.`,
+  });
+  await db.delete(schema.discountCodes).where(eq(schema.discountCodes.id, id));
+
+  revalidatePath("/admin/discounts");
+  redirect("/admin/discounts?deleted=1");
+}
+
+/* ── Messages ─────────────────────────────────────────────── */
+
+export async function closeConversation(formData) {
+  await requireSession();
+  const id = Number(formData.get("id"));
+  if (!id) redirect("/admin/messages");
+  await db.update(schema.chatConversations).set({ status: "closed" })
+    .where(eq(schema.chatConversations.id, id));
+  revalidatePath("/admin/messages");
+  redirect("/admin/messages?closed=1");
+}
+
+/* ── Campaigns ────────────────────────────────────────────── */
+
+export async function saveCampaign(formData) {
+  const session = await requireSession();
+  const name = String(formData.get("name") ?? "").trim().slice(0, 120);
+  const subject = String(formData.get("subject") ?? "").trim().slice(0, 200);
+  const body = String(formData.get("body") ?? "").trim().slice(0, 20000);
+  if (!name || !subject || !body) redirect("/admin/campaigns?invalid=1");
+
+  const id = Number(formData.get("id")) || null;
+  if (id) {
+    await db.update(schema.campaigns).set({ name, subject, body })
+      .where(and(eq(schema.campaigns.id, id), eq(schema.campaigns.status, "draft")));
+  } else {
+    await db.insert(schema.campaigns).values({ name, subject, body, createdBy: session.name });
+  }
+  revalidatePath("/admin/campaigns");
+  redirect("/admin/campaigns?saved=1");
+}
+
+export async function deleteCampaign(formData) {
+  const session = await requireSession();
+  const id = Number(formData.get("id"));
+  if (!id) redirect("/admin/campaigns");
+  await auditDestructive({
+    actor: session.name, action: "delete", entity: "campaign", entityId: String(id),
+    summary: `Deleted campaign ${id}.`,
+  });
+  await db.delete(schema.campaigns).where(eq(schema.campaigns.id, id));
+  revalidatePath("/admin/campaigns");
+  redirect("/admin/campaigns?deleted=1");
+}
+
+/** Send a campaign.
+ *
+ *  Recipients are selected in the query, not filtered afterwards: subscribed,
+ *  and carrying a consent timestamp. A row missing either cannot be reached by
+ *  this code path at all, which is a stronger guarantee than remembering to
+ *  check.
+ *
+ *  Every message carries that subscriber's own unsubscribe link. Marketing
+ *  email without one is unlawful under CAN-SPAM, and practically it is the
+ *  difference between someone leaving the list and someone reporting the
+ *  domain as spam. */
+export async function sendCampaign(formData) {
+  const session = await requireSession();
+  const id = Number(formData.get("id"));
+  if (!id) redirect("/admin/campaigns");
+
+  const { sendMail, mailConfigured } = await import("@/lib/mail/send");
+  const { escapeHtml } = await import("@/lib/mail/safe");
+  const { SITE_URL } = await import("@/lib/seo");
+
+  if (!mailConfigured()) redirect("/admin/campaigns?not_configured=1");
+
+  const [campaign] = await db.select().from(schema.campaigns)
+    .where(and(eq(schema.campaigns.id, id), eq(schema.campaigns.status, "draft"))).limit(1);
+  if (!campaign) redirect("/admin/campaigns");
+
+  const recipients = await db
+    .select({ email: schema.subscribers.email, token: schema.subscribers.unsubscribeToken })
+    .from(schema.subscribers)
+    .where(and(
+      eq(schema.subscribers.status, "subscribed"),
+      isNotNull(schema.subscribers.consentedAt),
+    ));
+
+  if (!recipients.length) redirect("/admin/campaigns?no_recipients=1");
+
+  await db.update(schema.campaigns)
+    .set({ status: "sending", recipientCount: recipients.length })
+    .where(eq(schema.campaigns.id, id));
+
+  let sent = 0, failed = 0;
+  for (const r of recipients) {
+    const unsub = `${SITE_URL}/unsubscribe?t=${r.token}`;
+    const text = `${campaign.body}\n\n—\nYou are receiving this because you asked for discount codes from Weedmaps.\nUnsubscribe: ${unsub}`;
+    const html =
+      `<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#141314;max-width:560px;">` +
+      escapeHtml(campaign.body).replace(/\n/g, "<br>") +
+      `<hr style="border:none;border-top:1px solid #d6d5d9;margin:24px 0 12px;">` +
+      `<p style="font-size:12px;color:#656170;">You are receiving this because you asked for discount codes from Weedmaps. ` +
+      `<a href="${unsub}" style="color:#656170;">Unsubscribe</a>.</p></div>`;
+
+    const res = await sendMail({
+      template: `campaign-${id}`,
+      to: r.email,
+      subject: campaign.subject,
+      html,
+      text,
+      // One send per subscriber per campaign, however many times this is pressed.
+      key: `campaign:${id}:${r.email}`,
+    });
+    res.sent ? sent++ : failed++;
+  }
+
+  await db.update(schema.campaigns)
+    .set({ status: failed && !sent ? "failed" : "sent", sentCount: sent, failedCount: failed, sentAt: new Date() })
+    .where(eq(schema.campaigns.id, id));
+
+  await audit({
+    actor: session.name, action: "send", entity: "campaign", entityId: String(id),
+    summary: `Sent "${campaign.name}" to ${sent} subscriber(s), ${failed} failed.`,
+  });
+
+  revalidatePath("/admin/campaigns");
+  redirect("/admin/campaigns?sent=1");
 }

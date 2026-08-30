@@ -27,6 +27,18 @@ const MENU = [
     ],
   },
   { sep: true },
+  {
+    label: "Audience", href: "/admin/audience", icon: "customers",
+    sub: [
+      { label: "Analytics", href: "/admin/audience" },
+      { label: "Subscribers", href: "/admin/subscribers" },
+      { label: "Messages", href: "/admin/messages" },
+      { label: "Campaigns", href: "/admin/campaigns" },
+    ],
+  },
+  { sep: true },
+  { label: "Discounts", href: "/admin/discounts", icon: "orders" },
+  { sep: true },
   { label: "Reviews", href: "/admin/reviews", icon: "customers", countKey: "pendingReviews" },
   { sep: true },
   { label: "Payments", href: "/admin/payments", icon: "orders" },

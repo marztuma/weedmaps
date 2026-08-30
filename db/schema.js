@@ -437,3 +437,155 @@ export const chatMessages = pgTable("chat_messages", {
 }, (t) => ({
   conversationIdx: index("chat_messages_conversation_idx").on(t.conversationId),
 }));
+
+/* ─────────────────────────────────────────────────────────────
+   Audience: visitors, subscribers, campaigns
+
+   Three tables that are deliberately not one.
+
+   A visitor is a browser. It is identified by a random token this site mints,
+   holds no name and no address, and exists to answer "what are people looking
+   at". A subscriber is a person who gave an address and said yes to being
+   emailed. Keeping them apart is what makes it possible to answer "how many
+   visitors became subscribers" and, more importantly, to prove a given address
+   consented — which is the thing a spam complaint turns on. */
+
+export const visitors = pgTable("visitors", {
+  id: serial("id").primaryKey(),
+
+  /* Minted by the browser, stored in localStorage. It is not a fingerprint and
+     not an identity: clearing site data produces a new one, which is the
+     correct behaviour. */
+  visitorKey: varchar("visitor_key", { length: 64 }).notNull().unique(),
+
+  firstSeenAt: timestamp("first_seen_at", { withTimezone: true }).notNull().defaultNow(),
+  lastSeenAt: timestamp("last_seen_at", { withTimezone: true }).notNull().defaultNow(),
+  pageViews: integer("page_views").notNull().default(0),
+
+  /* Where they arrived from, kept only as a hostname. A full referrer URL can
+     carry a search query or a private path, and the hostname answers the
+     question anyway. */
+  referrerHost: varchar("referrer_host", { length: 128 }),
+  landingPath: varchar("landing_path", { length: 256 }),
+  country: varchar("country", { length: 2 }),
+
+  /* Set when this browser later hands over an address. This is the only link
+     between a browsing history and a person, and it exists only because they
+     chose to give it. */
+  subscriberId: integer("subscriber_id"),
+}, (t) => ({
+  lastSeenIdx: index("visitors_last_seen_idx").on(t.lastSeenAt),
+  subscriberIdx: index("visitors_subscriber_idx").on(t.subscriberId),
+}));
+
+export const pageViews = pgTable("page_views", {
+  id: serial("id").primaryKey(),
+  visitorId: integer("visitor_id").notNull().references(() => visitors.id, { onDelete: "cascade" }),
+  path: varchar("path", { length: 256 }).notNull(),
+  referrerHost: varchar("referrer_host", { length: 128 }),
+  viewedAt: timestamp("viewed_at", { withTimezone: true }).notNull().defaultNow(),
+}, (t) => ({
+  visitorIdx: index("page_views_visitor_idx").on(t.visitorId),
+  pathIdx: index("page_views_path_idx").on(t.path),
+  atIdx: index("page_views_at_idx").on(t.viewedAt),
+}));
+
+/* Someone who gave an address.
+
+   consentedAt and consentSource are not decoration. Under CAN-SPAM and the
+   GDPR the burden is on the sender to show a person agreed, and "we have their
+   address" is not that. If these are null the row must never receive a
+   campaign, which is enforced in the query rather than remembered by a human.
+
+   unsubscribeToken is unguessable so a one-click unsubscribe needs no login —
+   requiring someone to sign in before they can leave is the pattern that turns
+   an unsubscribe into a spam complaint. */
+export const subscribers = pgTable("subscribers", {
+  id: serial("id").primaryKey(),
+  email: varchar("email", { length: 254 }).notNull().unique(),
+  name: varchar("name", { length: 96 }),
+
+  consentedAt: timestamp("consented_at", { withTimezone: true }),
+  consentSource: varchar("consent_source", { length: 48 }),
+
+  // subscribed | unsubscribed | bounced | complained
+  status: varchar("status", { length: 16 }).notNull().default("subscribed"),
+  unsubscribedAt: timestamp("unsubscribed_at", { withTimezone: true }),
+  unsubscribeToken: varchar("unsubscribe_token", { length: 64 }).notNull().unique(),
+
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+}, (t) => ({
+  statusIdx: index("subscribers_status_idx").on(t.status),
+  createdIdx: index("subscribers_created_idx").on(t.createdAt),
+}));
+
+/* A marketing send.
+
+   Separate from email_log, which records individual messages: this is the
+   thing an operator composes and schedules, and it keeps its own counters so
+   "how did that campaign do" does not require scanning the log. */
+export const campaigns = pgTable("campaigns", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 120 }).notNull(),
+  subject: varchar("subject", { length: 200 }).notNull(),
+  body: text("body").notNull(),
+
+  // draft | sending | sent | failed
+  status: varchar("status", { length: 16 }).notNull().default("draft"),
+
+  recipientCount: integer("recipient_count").notNull().default(0),
+  sentCount: integer("sent_count").notNull().default(0),
+  failedCount: integer("failed_count").notNull().default(0),
+
+  createdBy: varchar("created_by", { length: 96 }),
+  sentAt: timestamp("sent_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+}, (t) => ({
+  statusIdx: index("campaigns_status_idx").on(t.status),
+}));
+
+/* ─────────────────────────────────────────────────────────────
+   Discount codes */
+
+export const discountCodes = pgTable("discount_codes", {
+  id: serial("id").primaryKey(),
+  code: varchar("code", { length: 32 }).notNull().unique(),
+  description: varchar("description", { length: 160 }),
+
+  // percent | fixed
+  kind: varchar("kind", { length: 8 }).notNull().default("percent"),
+  /* Percent as whole points (10 = 10%), fixed as cents. One column, because
+     two nullable ones invite a row that is both and a row that is neither. */
+  value: integer("value").notNull(),
+
+  minSubtotalCents: integer("min_subtotal_cents").notNull().default(0),
+  /* Caps a percentage discount in money terms. 50% off with no ceiling on a
+     large basket is a hole someone will find. */
+  maxDiscountCents: integer("max_discount_cents"),
+
+  usageLimit: integer("usage_limit"),          // null = unlimited
+  usageCount: integer("usage_count").notNull().default(0),
+  perCustomerLimit: integer("per_customer_limit").notNull().default(1),
+
+  startsAt: timestamp("starts_at", { withTimezone: true }),
+  endsAt: timestamp("ends_at", { withTimezone: true }),
+  active: boolean("active").notNull().default(true),
+
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+}, (t) => ({
+  activeIdx: index("discount_codes_active_idx").on(t.active),
+}));
+
+/* Every redemption, so per-customer limits are enforceable and "who used this
+   code" is answerable. A usage counter alone cannot do either. */
+export const discountRedemptions = pgTable("discount_redemptions", {
+  id: serial("id").primaryKey(),
+  codeId: integer("code_id").notNull().references(() => discountCodes.id, { onDelete: "cascade" }),
+  orderId: integer("order_id").references(() => orders.id, { onDelete: "set null" }),
+  email: varchar("email", { length: 254 }),
+  amountCents: integer("amount_cents").notNull(),
+  redeemedAt: timestamp("redeemed_at", { withTimezone: true }).notNull().defaultNow(),
+}, (t) => ({
+  codeIdx: index("discount_redemptions_code_idx").on(t.codeId),
+  emailIdx: index("discount_redemptions_email_idx").on(t.email),
+}));

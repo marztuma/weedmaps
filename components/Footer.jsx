@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Icon from "./Icons";
+import Subscribe from "./Subscribe";
 
 export default function Footer({ site }) {
   return (
@@ -52,6 +53,16 @@ export default function Footer({ site }) {
               </li>
             ))}
           </ul>
+        </div>
+
+        <div className="mt-12 border-t border-rule pt-8">
+          <h3 className="u-heading text-[clamp(1.1rem,2vw,1.4rem)]">Discount codes, now and then</h3>
+          <p className="u-prose mt-2 max-w-[46ch] text-[0.9rem] leading-relaxed text-shade">
+            A few emails a month with codes and what is new. Nothing else.
+          </p>
+          <div className="mt-4">
+            <Subscribe source="footer" />
+          </div>
         </div>
 
         <div className="mt-10 flex flex-col gap-5 border-t border-rule pt-7 md:flex-row md:items-start md:justify-between">

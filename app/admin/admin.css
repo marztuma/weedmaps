@@ -113,6 +113,10 @@
 .wp-btn-plain.is-danger { color: var(--wp-red); }
 .wp-help.is-danger { color: var(--wp-red); }
 
+/* A proportional bar in a table cell — used by the audience charts. Width is
+   set inline because it is data; the colour is not. */
+.wp-meter { height: 10px; border-radius: 2px; background: var(--wp-blue); }
+
 /* ── Notices ───────────────────────────────────────────────── */
 
 .wp-notice {
