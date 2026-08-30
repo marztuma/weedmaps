@@ -7,6 +7,7 @@ import AgeGate from "@/components/AgeGate";
 import Header from "@/components/Header";
 import LocationBar from "@/components/LocationBar";
 import Footer from "@/components/Footer";
+import ChatWidget from "@/components/ChatWidget";
 
 export default async function ShopLayout({ children }) {
   const shops = await getShops();
@@ -29,6 +30,9 @@ export default async function ShopLayout({ children }) {
           <LocationBar shops={shops} />
           <main id="main" className="flex-1">{children}</main>
           <Footer site={site} />
+          {/* After the footer: a launcher pinned to the viewport, not part of the
+              document flow, so it never pushes page content around. */}
+          <ChatWidget />
         </div>
       </CartProvider>
     </DeliveryProvider>

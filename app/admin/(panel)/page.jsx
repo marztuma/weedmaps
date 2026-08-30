@@ -44,6 +44,8 @@ export default async function Dashboard() {
       paused: sql`(select count(*) from ${shops} where not delivering_now)`.mapWith(Number),
       orphanShops: sql`(select count(*) from ${shops} s where not exists (select 1 from ${products} p where p.shop_id = s.id))`.mapWith(Number),
       pendingReviews: sql`(select count(*) from reviews where status = 'pending')`.mapWith(Number),
+      mailFailed: sql`(select count(*) from email_log where status in ('failed','bounced') and created_at > now() - interval '7 days')`.mapWith(Number),
+      mailSkipped: sql`(select count(*) from email_log where status = 'skipped' and created_at > now() - interval '7 days')`.mapWith(Number),
       lowStock: sql`(select count(*) from ${products} where stock_qty is not null and stock_qty > 0 and stock_qty <= low_stock_at)`.mapWith(Number),
       outOfStock: sql`(select count(*) from ${products} where stock_qty = 0)`.mapWith(Number),
       publishedReviews: sql`(select count(*) from reviews where status = 'published')`.mapWith(Number),
@@ -125,10 +127,26 @@ export default async function Dashboard() {
       </div>
 
       {/* What needs a human, before anything else on the page. */}
-      {(stale.length > 0 || counts.paused > 0 || counts.orphanShops > 0 || counts.pendingReviews > 0 || counts.outOfStock > 0 || counts.lowStock > 0) && (
+      {(stale.length > 0 || counts.paused > 0 || counts.orphanShops > 0 || counts.pendingReviews > 0 || counts.outOfStock > 0 || counts.lowStock > 0 || counts.mailFailed > 0 || counts.mailSkipped > 0) && (
         <div className="wp-box">
           <div className="wp-box-head">Needs attention</div>
           <div className="wp-box-body" style={{ display: "grid", gap: 10 }}>
+            {counts.mailFailed > 0 && (
+              <p style={{ margin: 0 }}>
+                <strong>{counts.mailFailed}</strong> email
+                {counts.mailFailed === 1 ? "" : "s"} failed or bounced in the last 7 days —
+                customers may not have received their order details.{" "}
+                <Link href="/admin/email">Check</Link>
+              </p>
+            )}
+            {counts.mailSkipped > 0 && (
+              <p style={{ margin: 0 }}>
+                <strong>{counts.mailSkipped}</strong> email
+                {counts.mailSkipped === 1 ? " was" : "s were"} never attempted because email
+                is not configured.{" "}
+                <Link href="/admin/email">Configure</Link>
+              </p>
+            )}
             {counts.outOfStock > 0 && (
               <p style={{ margin: 0 }}>
                 <strong>{counts.outOfStock}</strong> product

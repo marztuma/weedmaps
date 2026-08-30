@@ -383,3 +383,57 @@ export const emailEvents = pgTable("email_events", {
   type: varchar("type", { length: 48 }).notNull(),
   receivedAt: timestamp("received_at", { withTimezone: true }).notNull().defaultNow(),
 });
+
+/* ─────────────────────────────────────────────────────────────
+   Chat
+
+   A visitor asks a question and gets an answer built from this site's own
+   data — what is in stock, which services deliver where, what payment is
+   taken, what the minimum is. It does not improvise. When it cannot answer
+   from the catalogue it says so and offers to pass the question to a person,
+   which is the whole reason these tables exist: an unanswered question is a
+   lead, and it should land somewhere a human will see it.
+
+   Conversations are keyed by a random visitor token held in the browser, not
+   by an account, because there are no customer accounts. The token identifies
+   a thread, never a person. */
+export const chatConversations = pgTable("chat_conversations", {
+  id: serial("id").primaryKey(),
+  visitorKey: varchar("visitor_key", { length: 64 }).notNull(),
+
+  // open | needs_reply | answered | closed
+  status: varchar("status", { length: 16 }).notNull().default("open"),
+
+  /* Only present once a visitor asks to be emailed back. Nothing is collected
+     up front — a support widget that demands an address before it will help is
+     a lead-capture form wearing a costume. */
+  contactEmail: varchar("contact_email", { length: 254 }),
+
+  lastMessageAt: timestamp("last_message_at", { withTimezone: true }).notNull().defaultNow(),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+}, (t) => ({
+  visitorIdx: index("chat_conversations_visitor_idx").on(t.visitorKey),
+  statusIdx: index("chat_conversations_status_idx").on(t.status),
+  lastIdx: index("chat_conversations_last_idx").on(t.lastMessageAt),
+}));
+
+export const chatMessages = pgTable("chat_messages", {
+  id: serial("id").primaryKey(),
+  conversationId: integer("conversation_id").notNull()
+    .references(() => chatConversations.id, { onDelete: "cascade" }),
+
+  // visitor | bot | staff
+  role: varchar("role", { length: 12 }).notNull(),
+  body: text("body").notNull(),
+
+  /* Which rule produced a bot answer, or null when it could not answer.
+
+     This is the metric that matters: the intents that come back null are the
+     questions the site is failing to answer, and they are visible in the admin
+     rather than inferred. */
+  intent: varchar("intent", { length: 32 }),
+
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+}, (t) => ({
+  conversationIdx: index("chat_messages_conversation_idx").on(t.conversationId),
+}));
