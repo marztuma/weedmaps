@@ -49,6 +49,11 @@ export default async function EmailAdmin({ searchParams }) {
      instead of making someone read the error column and work it out. */
   const restrictedTo = rows.map((r) => restrictedRecipient(r.error)).find(Boolean) ?? null;
 
+  /* Can an admin alert actually land? On the shared sender that is true only
+     when ADMIN_EMAIL is the account's own address. With no restriction on
+     record we have nothing to contradict, so assume it can. */
+  const alertsDeliverable = !restrictedTo || status.adminEmail === restrictedTo;
+
   return (
     <>
       <h1 className="wp-title">Email</h1>
@@ -66,24 +71,39 @@ export default async function EmailAdmin({ searchParams }) {
         <div className="wp-box-body">
           {status.configured && status.usingTestSender ? (
             <div className="wp-notice is-warning" style={{ margin: 0 }}>
-              <p style={{ marginTop: 0 }}>
-                <strong>Sending works, but only to one address.</strong> MAIL_FROM is
-                Resend&rsquo;s shared sender, which anyone may use without owning a domain.
-                The trade is that it delivers only to the address the Resend account is
-                registered under
-                {restrictedTo ? <> — <strong>{restrictedTo}</strong></> : null}.
-                {status.adminEmail && restrictedTo && status.adminEmail !== restrictedTo ? (
-                  <> Admin alerts are addressed to <strong>{status.adminEmail}</strong>, so they are
-                  being refused.</>
-                ) : null}
-              </p>
-              <p style={{ marginBottom: 0 }}>
-                Two ways out. Quickest: change the Resend account email to{" "}
-                {status.adminEmail ? <strong>{status.adminEmail}</strong> : "your admin address"} at
-                resend.com/settings, and admin alerts start arriving. Properly: add a domain you own
-                at resend.com/domains, then set MAIL_FROM to an address on it — that is the only
-                thing that lets <em>customers</em> receive order confirmations.
-              </p>
+              {alertsDeliverable ? (
+                <>
+                  <p style={{ marginTop: 0 }}>
+                    <strong>Admin alerts are working. Customers cannot be reached yet.</strong>{" "}
+                    MAIL_FROM is Resend&rsquo;s shared sender, which anyone may use without owning a
+                    domain. It delivers only to the address the Resend account is registered under,
+                    and ADMIN_EMAIL is that address — so orders and reviews reach you, and nothing
+                    reaches a customer.
+                  </p>
+                  <p style={{ marginBottom: 0 }}>
+                    Order confirmations and payment receipts are built and tested, and will stay
+                    unsent until a domain is verified at resend.com/domains and MAIL_FROM points at
+                    an address on it.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p style={{ marginTop: 0 }}>
+                    <strong>Nothing is being delivered.</strong> MAIL_FROM is Resend&rsquo;s shared
+                    sender, which delivers only to the address the Resend account is registered
+                    under
+                    {restrictedTo ? <> — <strong>{restrictedTo}</strong></> : null}. Admin alerts
+                    are addressed to <strong>{status.adminEmail ?? "nowhere"}</strong>, so every one
+                    is refused.
+                  </p>
+                  <p style={{ marginBottom: 0 }}>
+                    Either point ADMIN_EMAIL at{" "}
+                    {restrictedTo ? <strong>{restrictedTo}</strong> : "the Resend account address"} to
+                    get alerts today, or add a domain at resend.com/domains — the latter is the only
+                    thing that also lets <em>customers</em> receive order confirmations.
+                  </p>
+                </>
+              )}
             </div>
           ) : status.configured ? (
             <p className="wp-notice is-success" style={{ margin: 0 }}>
