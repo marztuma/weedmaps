@@ -18,3 +18,7 @@ Thumbs.db
 
 # Vercel project link (contains project + org ids)
 .vercel
+
+# Generated crawl lists — rebuilt from the catalogue with `npm run seo:crawl`.
+# Committed deliberately: they are the artefact you upload, and having them in
+# the repo makes it obvious when they drift from the live sitemap.

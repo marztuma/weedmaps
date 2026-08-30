@@ -20,7 +20,8 @@
     "stock:clear": "node scripts/seed-stock.mjs --clear",
     "mail:test": "node scripts/test-mail-safe.mjs",
     "mail:webhook-test": "node scripts/test-webhook.mjs",
-    "chat:test": "node scripts/test-chat.mjs"
+    "chat:test": "node scripts/test-chat.mjs",
+    "seo:crawl": "node scripts/seo-crawl.mjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",

@@ -20,6 +20,12 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
+  /* Search Console ownership. Set GOOGLE_SITE_VERIFICATION to the token from
+     the HTML tag method and Next renders the meta tag on every page. Absent,
+     the key is simply omitted rather than rendered empty. */
+  ...(process.env.GOOGLE_SITE_VERIFICATION
+    ? { verification: { google: process.env.GOOGLE_SITE_VERIFICATION } }
+    : {}),
   title: "Weedmaps — Shop the shelf, we drive",
   description:
     "Compare cannabis products across every licensed delivery service that reaches you. Live menus, real prices, delivered.",

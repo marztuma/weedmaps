@@ -1,0 +1,6 @@
+https://weedmaps-iota.vercel.app/
+https://weedmaps-iota.vercel.app/products
+https://weedmaps-iota.vercel.app/deliveries
+https://weedmaps-iota.vercel.app/brands
+https://weedmaps-iota.vercel.app/deals
+https://weedmaps-iota.vercel.app/learn

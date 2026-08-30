@@ -1,0 +1,9 @@
+https://weedmaps-iota.vercel.app/products/flower
+https://weedmaps-iota.vercel.app/products/pre-rolls
+https://weedmaps-iota.vercel.app/products/vape
+https://weedmaps-iota.vercel.app/products/concentrates
+https://weedmaps-iota.vercel.app/products/edibles
+https://weedmaps-iota.vercel.app/products/beverages
+https://weedmaps-iota.vercel.app/products/wellness
+https://weedmaps-iota.vercel.app/products/gear
+https://weedmaps-iota.vercel.app/products/genetics

@@ -39,6 +39,8 @@ const MENU = [
   { sep: true },
   { label: "Discounts", href: "/admin/discounts", icon: "orders" },
   { sep: true },
+  { label: "Search", href: "/admin/seo", icon: "dashboard" },
+  { sep: true },
   { label: "Reviews", href: "/admin/reviews", icon: "customers", countKey: "pendingReviews" },
   { sep: true },
   { label: "Payments", href: "/admin/payments", icon: "orders" },
