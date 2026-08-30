@@ -999,7 +999,7 @@ export async function sendCampaign(formData) {
   if (!id) redirect("/admin/campaigns");
 
   const { sendMail, mailConfigured } = await import("@/lib/mail/send");
-  const { escapeHtml } = await import("@/lib/mail/safe");
+  const { campaignEmail } = await import("@/lib/mail/templates");
   const { SITE_URL } = await import("@/lib/seo");
 
   if (!mailConfigured()) redirect("/admin/campaigns?not_configured=1");
@@ -1025,13 +1025,7 @@ export async function sendCampaign(formData) {
   let sent = 0, failed = 0;
   for (const r of recipients) {
     const unsub = `${SITE_URL}/unsubscribe?t=${r.token}`;
-    const text = `${campaign.body}\n\n—\nYou are receiving this because you asked for discount codes from Weedmaps.\nUnsubscribe: ${unsub}`;
-    const html =
-      `<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:#141314;max-width:560px;">` +
-      escapeHtml(campaign.body).replace(/\n/g, "<br>") +
-      `<hr style="border:none;border-top:1px solid #d6d5d9;margin:24px 0 12px;">` +
-      `<p style="font-size:12px;color:#656170;">You are receiving this because you asked for discount codes from Weedmaps. ` +
-      `<a href="${unsub}" style="color:#656170;">Unsubscribe</a>.</p></div>`;
+    const { html, text } = campaignEmail({ body: campaign.body, unsubscribeUrl: unsub });
 
     const res = await sendMail({
       template: `campaign-${id}`,
