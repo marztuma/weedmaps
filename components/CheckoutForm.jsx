@@ -1,5 +1,7 @@
 "use client";
 
+import { STATES } from "@/lib/states";
+
 import Link from "next/link";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
@@ -26,6 +28,17 @@ export default function CheckoutForm({ methods }) {
   const { lines, groups, subtotal, count } = useCart();
   const { location } = useDelivery();
   const [state, action] = useActionState(placeOrder, {});
+
+  /* The location bar carries "City, ST". Preselect the state from it and keep
+     the rest as the street line, so nobody has to delete a state out of an
+     address field.
+
+     This has to sit below the hooks: it reads `location`, and referencing a
+     const before its declaration is a temporal dead zone error, not a hoist. */
+  const locationParts = String(location ?? "").split(",").map((part) => part.trim());
+  const trailing = locationParts.length > 1 ? locationParts[locationParts.length - 1].toUpperCase() : "";
+  const defaultState = STATES.some(([code]) => code === trailing) ? trailing : "";
+  const defaultStreet = defaultState ? locationParts.slice(0, -1).join(", ") : String(location ?? "");
 
   const apps = methods.filter((m) => m.kind === "app");
   const crypto = methods.filter((m) => m.kind === "crypto");
@@ -83,8 +96,29 @@ export default function CheckoutForm({ methods }) {
                 <input name="phone" inputMode="tel" className="mt-1.5 h-12 w-full rounded-xs border border-rule bg-paper px-3 text-[0.95rem] text-ink outline-none focus:border-orange" />
               </label>
               <label className="block">
+                <span className="u-label text-mute">State</span>
+                <select
+                  name="state"
+                  required
+                  defaultValue={defaultState}
+                  className="mt-1.5 h-12 w-full rounded-xs border border-rule bg-paper px-3 text-[0.95rem] text-ink outline-none focus:border-orange"
+                >
+                  <option value="">Choose a state…</option>
+                  {STATES.map(([code, name]) => (
+                    <option key={code} value={code}>{name}</option>
+                  ))}
+                </select>
+                <span className="u-meta mt-1 block text-mute">We deliver to all fifty.</span>
+              </label>
+              <label className="block sm:col-span-2">
                 <span className="u-label text-mute">Delivery address</span>
-                <input name="address" required defaultValue={location} className="mt-1.5 h-12 w-full rounded-xs border border-rule bg-paper px-3 text-[0.95rem] text-ink outline-none focus:border-orange" />
+                <input
+                  name="address"
+                  required
+                  defaultValue={defaultStreet}
+                  placeholder="Street, apartment, city"
+                  className="mt-1.5 h-12 w-full rounded-xs border border-rule bg-paper px-3 text-[0.95rem] text-ink outline-none focus:border-orange"
+                />
               </label>
               <label className="block sm:col-span-2">
                 <span className="u-label text-mute">Notes for the driver</span>

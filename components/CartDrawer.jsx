@@ -172,8 +172,7 @@ export default function CartDrawer() {
                 </span>
               </p>
               <p className="u-meta mt-2 leading-relaxed text-shade">
-                Each service checks out on its own menu — one driver cannot carry another
-                company&rsquo;s stock. 21+ and ID at the door.
+                Order from any service — we arrange the delivery. 21+ and ID at the door.
               </p>
               <Link
                 href="/checkout"

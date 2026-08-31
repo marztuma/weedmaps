@@ -1,5 +1,7 @@
 "use server";
 
+import { validState } from "@/lib/states";
+
 import { priceFromCents } from "@/lib/money";
 
 import { randomInt } from "node:crypto";
@@ -33,6 +35,10 @@ export async function placeOrder(_prev, formData) {
   const email = str(formData, "email").toLowerCase();
   const phone = str(formData, "phone");
   const address = str(formData, "address");
+  /* Validated against the list rather than trusted. A <select> constrains a
+     browser, not a request. */
+  const rawState = str(formData, "state").toUpperCase();
+  const state = validState(rawState) ? rawState : null;
   const notes = str(formData, "notes");
   const methodCode = str(formData, "method");
   const ageOk = formData.get("age") === "on";
@@ -48,6 +54,7 @@ export async function placeOrder(_prev, formData) {
   if (!name) errors.push("Enter the name the driver should ask for.");
   if (!isEmail(email)) errors.push("Enter a valid email address — this is how we send payment details and updates.");
   if (!address) errors.push("Enter the delivery address.");
+  if (!state) errors.push("Choose the state we are delivering to.");
   if (!methodCode) errors.push("Choose how you want to pay.");
   if (!ageOk) errors.push("You must confirm you are 21 or over, and that someone 21+ will receive the delivery.");
   if (!Array.isArray(cart) || cart.length === 0) errors.push("Your bag is empty.");
@@ -82,7 +89,14 @@ export async function placeOrder(_prev, formData) {
     return { errors: [`${[...new Set(paused)].join(", ")} stopped delivering. Remove those items or try again later.`] };
   }
 
-  // One driver cannot carry another company's stock, so one order per service.
+  /* Split into one order per service.
+
+     The customer is told to order whatever they like and that we arrange the
+     delivery, which is true — but arranging it still means a separate
+     fulfilment per company, because an Erba Markets driver cannot carry
+     Grassdoor stock. The split is operational and belongs here, not in the
+     customer's head: they place one basket, the admin sees the orders that
+     have to be filled. */
   const groups = new Map();
   for (const line of cart) {
     const p = bySlug.get(String(line.slug));
@@ -111,12 +125,13 @@ export async function placeOrder(_prev, formData) {
     customerId = existing.id;
     await db.update(customers).set({
       name, phone: phone || existing.phone, address: address || existing.address,
+      state: state || existing.state,
       ageVerified: true,
       stage: existing.stage === "lead" ? "first_order" : existing.stage,
     }).where(eq(customers.id, existing.id));
   } else {
     const [created] = await db.insert(customers).values({
-      name, email, phone: phone || null, address, stage: "first_order", ageVerified: true,
+      name, email, phone: phone || null, address, state, stage: "first_order", ageVerified: true,
     }).returning({ id: customers.id });
     customerId = created.id;
   }
@@ -138,6 +153,7 @@ export async function placeOrder(_prev, formData) {
       contactEmail: email,
       contactPhone: phone || null,
       deliveryAddress: address,
+      deliveryState: state,
       deliveryNotes: notes || null,
     }).returning();
 

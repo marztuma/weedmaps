@@ -47,7 +47,7 @@ export default async function CustomersAdmin({ searchParams }) {
   const [rows, [{ matching }], stageCounts, editing, [{ total }]] = await Promise.all([
     db.select({
       id: customers.id, name: customers.name, email: customers.email,
-      phone: customers.phone, city: customers.city, stage: customers.stage,
+      phone: customers.phone, city: customers.city, state: customers.state, stage: customers.stage,
       tags: customers.tags, ageVerified: customers.ageVerified,
       marketingOptIn: customers.marketingOptIn, createdAt: customers.createdAt,
       orderCount: sql`count(${orders.id})`.mapWith(Number),
@@ -177,7 +177,12 @@ export default async function CustomersAdmin({ searchParams }) {
                         </td>
                         <td>
                           <Link href={`/admin/customers/${c.id}`} className="wp-row-title">{c.name}</Link>
-                          <div className="wp-help">{c.email}{c.city ? ` · ${c.city}` : ""}</div>
+                          <div className="wp-help">{c.email}{c.city ? ` · ${c.city}` : ""}{c.state ? ` · ${c.state}` : ""}</div>
+                          <div className="wp-help">
+                            {c.phone
+                              ? <a href={`tel:${c.phone.replace(/[^\d+]/g, "")}`}>{c.phone}</a>
+                              : "no phone"}
+                          </div>
                           {!c.ageVerified && <span className="wp-pill is-red">Age unverified</span>}
                           <div className="wp-row-actions">
                             <span><Link href={`/admin/customers/${c.id}`}>View</Link></span>

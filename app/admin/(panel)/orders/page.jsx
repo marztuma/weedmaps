@@ -60,6 +60,7 @@ export default async function OrdersAdmin({ searchParams }) {
       paymentConfirmedBy: orders.paymentConfirmedBy,
       destination: orders.paymentDestination,
       contactEmail: orders.contactEmail, deliveryAddress: orders.deliveryAddress,
+      contactPhone: orders.contactPhone, deliveryState: orders.deliveryState,
       customerId: customers.id, customer: customers.name, email: customers.email,
       shop: shops.name,
       items: sql`count(${orderItems.id})`.mapWith(Number),
@@ -176,7 +177,21 @@ export default async function OrdersAdmin({ searchParams }) {
                 <td>
                   <Link href={`/admin/customers/${o.customerId}`}>{o.customer}</Link>
                   <div className="wp-help">{o.contactEmail ?? o.email}</div>
-                  {o.deliveryAddress && <div className="wp-help">{o.deliveryAddress}</div>}
+                  {/* A tel: link, because this gets used from a phone while a
+                      driver is standing outside. */}
+                  {o.contactPhone ? (
+                    <div className="wp-help">
+                      <a href={`tel:${o.contactPhone.replace(/[^\d+]/g, "")}`}>{o.contactPhone}</a>
+                    </div>
+                  ) : (
+                    <div className="wp-help">no phone given</div>
+                  )}
+                  {o.deliveryAddress && (
+                    <div className="wp-help">
+                      {o.deliveryAddress}
+                      {o.deliveryState && <strong> · {o.deliveryState}</strong>}
+                    </div>
+                  )}
                 </td>
                 <td style={{ minWidth: 260 }}>
                   <span className={`wp-pill ${PAY_TONE[o.paymentStatus] ?? "is-grey"}`}>

@@ -22,7 +22,7 @@ export default async function CheckoutPage() {
       <PageHeader
         trail={[{ label: "Home", href: "/" }, { label: "Checkout" }]}
         title="Checkout"
-        blurb="One order per delivery service — a driver cannot carry another company's stock. Payment is arranged after you place the order; nothing is charged automatically."
+        blurb="Order from any service you like — we sort out who delivers what, and route each item to whoever can get it to you fastest. We deliver to all fifty states. Payment is arranged after you place the order; nothing is charged automatically."
       />
       <CheckoutForm methods={methods} />
     </>

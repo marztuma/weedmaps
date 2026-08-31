@@ -148,6 +148,7 @@ export const customers = pgTable("customers", {
   phone: varchar("phone", { length: 40 }),
   address: text("address"),
   city: varchar("city", { length: 96 }),
+  state: varchar("state", { length: 2 }),
   stage: varchar("stage", { length: 32 }).notNull().default("lead"),
   tags: text("tags").array().notNull().default([]),
   ageVerified: boolean("age_verified").notNull().default(false),
@@ -181,6 +182,10 @@ export const orders = pgTable("orders", {
   contactEmail: varchar("contact_email", { length: 160 }),
   contactPhone: varchar("contact_phone", { length: 40 }),
   deliveryAddress: text("delivery_address"),
+  /* Kept as its own column rather than buried in the address text. An
+     operator needs to route and filter by state, and parsing it back out of a
+     free-text field would be guesswork. */
+  deliveryState: varchar("delivery_state", { length: 2 }),
   deliveryNotes: text("delivery_notes"),
 }, (t) => ({
   statusIdx: index("orders_status_idx").on(t.status),
