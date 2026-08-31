@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Icon from "./Icons";
 import Subscribe from "./Subscribe";
+import { Wordmark } from "@/components/Logo";
 
 export default function Footer({ site }) {
   return (
@@ -12,7 +13,7 @@ export default function Footer({ site }) {
               <span className="grid h-8 w-8 place-items-center rounded-full bg-ink text-linen">
                 <Icon name="pin" size={17} />
               </span>
-              <span className="u-heading text-[1.35rem] leading-none">Weedmaps</span>
+              <Wordmark height={28} />
             </Link>
             <p className="u-prose mt-4 text-[0.9rem] leading-relaxed text-shade">
               A community connecting cannabis consumers, patients, retailers, doctors and

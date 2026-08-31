@@ -42,13 +42,13 @@ function Wordmark() {
     <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
       {/* The mark is drawn, not typed: the OG runtime ships one fallback font
           and a glyph like U+25C9 lands as tofu. Geometry always renders. */}
-      <div style={{
-        width: 34, height: 34, borderRadius: 999, background: INK,
-        display: "flex", alignItems: "center", justifyContent: "center",
-      }}>
-        <div style={{ width: 13, height: 13, borderRadius: 999, background: LINEN, display: "flex" }} />
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        <div style={{ fontSize: 30, fontWeight: 800, letterSpacing: -1.4, color: INK }}>weedmaps</div>
+        <div style={{
+          display: "flex", width: 132, height: 4, borderRadius: 2,
+          background: ORANGE, marginTop: 3,
+        }} />
       </div>
-      <div style={{ fontSize: 28, fontWeight: 700, letterSpacing: -1 }}>Weedmaps</div>
     </div>
   );
 }

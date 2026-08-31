@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useCart } from "./CartContext";
 import SearchField from "./SearchField";
 import Icon from "./Icons";
+import { Wordmark } from "@/components/Logo";
 
 export default function Header({ site }) {
   const [menu, setMenu] = useState(false);
@@ -25,11 +26,8 @@ export default function Header({ site }) {
   return (
     <header className="relative z-40 border-b border-rule">
       <div className="u-shell flex h-[68px] items-center justify-between gap-6">
-        <Link href="/" className="flex items-center gap-2.5" aria-label="Weedmaps home">
-          <span className="grid h-8 w-8 place-items-center rounded-full bg-ink text-linen">
-            <Icon name="pin" size={17} />
-          </span>
-          <span className="u-heading text-[1.35rem] leading-none">Weedmaps</span>
+        <Link href="/" className="flex items-center" aria-label="Weedmaps home">
+          <Wordmark height={30} />
         </Link>
 
         <nav aria-label="Primary" className="hidden lg:block">
