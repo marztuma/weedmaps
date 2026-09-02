@@ -1,6 +1,6 @@
-https://weedmaps-iota.vercel.app/
-https://weedmaps-iota.vercel.app/products
-https://weedmaps-iota.vercel.app/deliveries
-https://weedmaps-iota.vercel.app/brands
-https://weedmaps-iota.vercel.app/deals
-https://weedmaps-iota.vercel.app/learn
+https://weedmap.store/
+https://weedmap.store/products
+https://weedmap.store/deliveries
+https://weedmap.store/brands
+https://weedmap.store/deals
+https://weedmap.store/learn

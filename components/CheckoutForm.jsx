@@ -238,6 +238,28 @@ export default function CheckoutForm({ methods }) {
             </div>
 
             <div className="mt-5">
+              {/* The code sits beside the money it changes.
+
+                  There is no live "apply" round trip on purpose. The server
+                  evaluates the code against the real basket when the order is
+                  placed, and that is the only evaluation that decides anything.
+                  A preview button would quote a figure the server might disagree
+                  with; the honest version of it runs the same check, which is what
+                  placing the order already does. A bad code stops the order and
+                  comes back with the other errors. */}
+              <label className="mt-5 block border-t border-rule pt-5">
+                <span className="u-label text-mute">Discount code</span>
+                <input
+                  name="discountCode"
+                  autoCapitalize="characters"
+                  autoComplete="off"
+                  spellCheck={false}
+                  placeholder="Optional"
+                  className="mt-1.5 h-11 w-full rounded-xs border border-rule bg-paper px-3 text-[0.95rem] uppercase tracking-wide text-ink outline-none focus:border-orange"
+                />
+                <span className="u-meta mt-1 block text-mute">Checked when you place the order.</span>
+              </label>
+
               <Submit disabled={blocked.length > 0} />
               {blocked.length > 0 && (
                 <p className="u-meta mt-2 text-center leading-relaxed text-orange-text">

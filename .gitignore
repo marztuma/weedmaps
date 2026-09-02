@@ -22,3 +22,6 @@ Thumbs.db
 # Generated crawl lists — rebuilt from the catalogue with `npm run seo:crawl`.
 # Committed deliberately: they are the artefact you upload, and having them in
 # the repo makes it obvious when they drift from the live sitemap.
+
+# Generated admin passwords. Read it, store the password properly, delete it.
+admin-credentials.txt

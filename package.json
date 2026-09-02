@@ -21,7 +21,12 @@
     "mail:test": "node scripts/test-mail-safe.mjs",
     "mail:webhook-test": "node scripts/test-webhook.mjs",
     "chat:test": "node scripts/test-chat.mjs",
-    "seo:crawl": "node scripts/seo-crawl.mjs"
+    "seo:crawl": "node scripts/seo-crawl.mjs",
+    "admin:list": "node scripts/admin-user.mjs list",
+    "admin:create": "node scripts/admin-user.mjs create",
+    "admin:reset": "node scripts/admin-user.mjs reset",
+    "admin:disable": "node scripts/admin-user.mjs disable",
+    "admin:enable": "node scripts/admin-user.mjs enable"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",

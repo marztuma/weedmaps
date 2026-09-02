@@ -1,6 +1,6 @@
 # seocrawl
 
-652 indexable URLs, generated 2026-08-30T12:17:03.306Z from the live catalogue.
+652 indexable URLs, generated 2026-09-02T07:54:51.561Z from the live catalogue.
 
 Regenerate with `npm run seo:crawl` — never edit these by hand. They are
 built from the same rules as the live sitemap, so a hand edit would make one
@@ -22,7 +22,7 @@ of them wrong.
 ## Using these with Google
 
 **The sitemap is the main route.** In Search Console, Sitemaps, submit
-`sitemap.xml` — the site serves it live at `https://weedmaps-iota.vercel.app/sitemap.xml`, so it
+`sitemap.xml` — the site serves it live at `https://weedmap.store/sitemap.xml`, so it
 stays current on its own and there is nothing to re-upload. That is the only
 step most sites need.
 

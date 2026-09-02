@@ -186,6 +186,16 @@ export const orders = pgTable("orders", {
      operator needs to route and filter by state, and parsing it back out of a
      free-text field would be guesswork. */
   deliveryState: varchar("delivery_state", { length: 2 }),
+
+  /* What a code took off this order.
+
+     Stored on the order rather than recomputed, because a code can later be
+     edited, expired or deleted, and an order must always say what was actually
+     charged at the time. The redemption row records that it was used; these two
+     record what it was worth. */
+  discountCodeId: integer("discount_code_id"),
+  discountCode: varchar("discount_code", { length: 32 }),
+  discountCents: integer("discount_cents").notNull().default(0),
   deliveryNotes: text("delivery_notes"),
 }, (t) => ({
   statusIdx: index("orders_status_idx").on(t.status),

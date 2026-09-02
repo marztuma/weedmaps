@@ -1,13 +1,14 @@
 "use server";
 
 import { validState } from "@/lib/states";
+import { evaluateCode, recordRedemption } from "@/lib/discounts";
 
 import { priceFromCents } from "@/lib/money";
 
 import { randomInt } from "node:crypto";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { eq, inArray } from "drizzle-orm";
+import { eq, inArray, and, sql, isNotNull } from "drizzle-orm";
 import { db, schema } from "@/db/client";
 import { notifyNewOrder } from "@/lib/notify";
 
@@ -37,6 +38,7 @@ export async function placeOrder(_prev, formData) {
   const address = str(formData, "address");
   /* Validated against the list rather than trusted. A <select> constrains a
      browser, not a request. */
+  const discountCode = str(formData, "discountCode");
   const rawState = str(formData, "state").toUpperCase();
   const state = validState(rawState) ? rawState : null;
   const notes = str(formData, "notes");
@@ -136,8 +138,38 @@ export async function placeOrder(_prev, formData) {
     customerId = created.id;
   }
 
+  /* One evaluation for the whole basket, against the true subtotal.
+
+     Evaluating per service would let one code apply several times over —
+     three services, three discounts, from a code meant to be used once. The
+     discount is worked out once and then spread across the orders in
+     proportion to what each is worth, so no single order can be discounted
+     below zero and the parts still sum to the whole. */
+  const basketSubtotal = [...groups.values()].reduce((n, g) => n + g.subtotal, 0);
+  const discount = discountCode
+    ? await evaluateCode(discountCode, { subtotalCents: basketSubtotal, email })
+    : null;
+
+  if (discountCode && discount && !discount.ok) {
+    return { errors: [discount.reason] };
+  }
+
+  const totalDiscount = discount?.ok ? discount.discountCents : 0;
+  let discountRemaining = totalDiscount;
+
   const created = [];
-  for (const g of groups.values()) {
+  const groupList = [...groups.values()];
+  for (let gi = 0; gi < groupList.length; gi++) {
+    const g = groupList[gi];
+
+    /* Proportional share, with the last order taking the rounding remainder so
+       the parts always add up to exactly what was quoted. */
+    const share = totalDiscount === 0
+      ? 0
+      : gi === groupList.length - 1
+        ? discountRemaining
+        : Math.min(discountRemaining, Math.floor((totalDiscount * g.subtotal) / basketSubtotal));
+    discountRemaining -= share;
     const ref = reference();
     const [order] = await db.insert(orders).values({
       reference: ref,
@@ -146,7 +178,11 @@ export async function placeOrder(_prev, formData) {
       status: "pending",
       subtotalCents: g.subtotal,
       deliveryFeeCents: g.deliveryFee,
-      totalCents: g.total,
+      // Never below the delivery fee, and never negative.
+      totalCents: Math.max(g.deliveryFee, g.total - share),
+      discountCodeId: discount?.ok ? discount.codeId : null,
+      discountCode: discount?.ok ? discount.code : null,
+      discountCents: share,
       paymentMethod: method.code,
       paymentStatus: "awaiting_payment",
       paymentDestination: method.destination ?? null,
@@ -167,6 +203,23 @@ export async function placeOrder(_prev, formData) {
     }));
     await db.insert(orderItems).values(lineValues);
 
+    /* Take the stock.
+
+       Only for products that are actually counted. A null stockQty means
+       nobody is tracking that line, and decrementing null would turn
+       "untracked" into "out of stock" on its first sale.
+
+       greatest(..., 0) means two checkouts racing for the last unit can
+       leave stock at zero but never below it. For a shop where payment is
+       confirmed by hand that is the right failure: an operator cancels an
+       order they cannot fill, which is recoverable. Silently going negative
+       is not, because nothing downstream would ever notice. */
+    for (const l of g.lines) {
+      await db.update(products)
+        .set({ stockQty: sql`greatest(${products.stockQty} - ${l.qty}, 0)` })
+        .where(and(eq(products.id, l.p.id), isNotNull(products.stockQty)));
+    }
+
     await notifyNewOrder(
       {
         ...order,
@@ -178,12 +231,26 @@ export async function placeOrder(_prev, formData) {
       lineValues
     );
 
-    created.push(ref);
+    created.push({ ref, orderId: order.id, share });
+  }
+
+  /* Record the redemption once the orders exist.
+
+     After, not before: a code must not be counted as used by an order that
+     failed to write. The row is what enforces the per-customer limit, so it
+     carries the address the limit is checked against. */
+  if (discount?.ok && totalDiscount > 0) {
+    await recordRedemption({
+      codeId: discount.codeId,
+      orderId: created[0]?.orderId ?? null,
+      email,
+      amountCents: totalDiscount,
+    });
   }
 
   revalidatePath("/admin/orders");
   revalidatePath("/admin/customers");
   revalidatePath("/admin");
 
-  redirect(`/checkout/${created[0]}${created.length > 1 ? `?also=${created.slice(1).join(",")}` : ""}`);
+  redirect(`/checkout/${created[0].ref}${created.length > 1 ? `?also=${created.slice(1).map((c) => c.ref).join(",")}` : ""}`);
 }
