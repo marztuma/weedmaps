@@ -3,6 +3,7 @@ import { getShops } from "@/db/queries";
 import { DeliveryProvider } from "@/components/DeliveryContext";
 import { CartProvider } from "@/components/CartContext";
 import CartDrawer from "@/components/CartDrawer";
+import SignInGate from "@/components/SignInGate";
 import AgeGate from "@/components/AgeGate";
 import Header from "@/components/Header";
 import LocationBar from "@/components/LocationBar";
@@ -18,6 +19,7 @@ export default async function ShopLayout({ children }) {
       <CartProvider>
         <AgeGate />
         <CartDrawer />
+        <SignInGate />
 
         <a
           href="#main"

@@ -22,6 +22,21 @@ function read() {
 }
 
 export function CartProvider({ children }) {
+  /* Raised the first time something is added, unless this browser has already
+     answered. Read once on mount rather than on every add, so a slow storage
+     call cannot sit in the middle of a click. */
+  const [gateOpen, setGateOpen] = useState(false);
+  const [gateAnswered, setGateAnswered] = useState(true);
+
+  useEffect(() => {
+    try {
+      setGateAnswered(localStorage.getItem("wm-gate-v1") === "done");
+    } catch {
+      // Storage blocked — never ask, rather than ask on every page.
+      setGateAnswered(true);
+    }
+  }, []);
+
   const [lines, setLines] = useState([]);
   const [ready, setReady] = useState(false);
   const [open, setOpen] = useState(false);
@@ -44,6 +59,7 @@ export function CartProvider({ children }) {
   }, [lines, ready]);
 
   const add = useCallback((product, qty = 1) => {
+    if (!gateAnswered) setGateOpen(true);
     setLines((prev) => {
       const i = prev.findIndex((l) => l.slug === product.slug);
       if (i !== -1) {
@@ -75,7 +91,10 @@ export function CartProvider({ children }) {
       ];
     });
     setOpen(true);
-  }, []);
+    // add() reads gateAnswered, so it has to be rebuilt when that changes —
+    // otherwise it keeps closing over the initial value forever and the
+    // gate never opens.
+  }, [gateAnswered]);
 
   const setQty = useCallback((slug, qty) => {
     setLines((prev) =>
@@ -90,6 +109,11 @@ export function CartProvider({ children }) {
   }, []);
 
   const clear = useCallback(() => setLines([]), []);
+
+  const closeGate = useCallback(() => {
+    setGateOpen(false);
+    setGateAnswered(true);
+  }, []);
 
   const value = useMemo(() => {
     const count = lines.reduce((n, l) => n + l.qty, 0);
@@ -125,8 +149,9 @@ export function CartProvider({ children }) {
     return {
       lines, groups, count, subtotal, ready, open, setOpen,
       add, setQty, remove, clear,
+      gateOpen, closeGate,
     };
-  }, [lines, ready, open, add, setQty, remove, clear]);
+  }, [lines, ready, open, add, setQty, remove, clear, gateOpen, closeGate]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
