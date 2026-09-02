@@ -186,23 +186,29 @@ export default async function Audience() {
                 <th>Landed on</th>
                 <th style={{ width: 130 }}>From</th>
                 <th style={{ width: 60 }}>Country</th>
+                <th style={{ width: 150 }}>First seen</th>
                 <th style={{ width: 150 }}>Last seen</th>
                 <th style={{ width: 180 }}>Subscriber</th>
               </tr>
             </thead>
             <tbody>
               {recent.length === 0 && (
-                <tr><td colSpan={7} style={{ padding: 24, textAlign: "center" }}>
+                <tr><td colSpan={8} style={{ padding: 24, textAlign: "center" }}>
                   No visits recorded yet.
                 </td></tr>
               )}
               {recent.map((v) => (
                 <tr key={v.key}>
-                  <td className="wp-help" title="A random token, not an identity">{v.key.slice(0, 10)}…</td>
+                  <td>
+                    <Link href={`/admin/audience/${v.key}`} title="See every page this browser visited">
+                      {v.key.slice(0, 10)}…
+                    </Link>
+                  </td>
                   <td>{v.views}</td>
                   <td><Link href={v.landing ?? "/"} target="_blank">{v.landing}</Link></td>
                   <td className="wp-help">{v.ref ?? "direct"}</td>
                   <td className="wp-help">{v.country ?? "—"}</td>
+                  <td className="wp-help">{when(v.first)}</td>
                   <td className="wp-help">{when(v.last)}</td>
                   <td>{v.email ? maskEmail(v.email) : <span className="wp-help">—</span>}</td>
                 </tr>

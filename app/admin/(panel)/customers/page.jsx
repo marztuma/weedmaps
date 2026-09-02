@@ -14,6 +14,23 @@ const PER_PAGE = 50;
 const { customers, orders } = schema;
 const money = (c) => `$${((c ?? 0) / 100).toFixed(2)}`;
 
+const whenShort = (d) =>
+  d ? new Date(d).toLocaleString("en-US", {
+    month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit",
+  }) : "—";
+
+function ago(d) {
+  if (!d) return "never";
+  const days = Math.floor((Date.now() - new Date(d).getTime()) / 86400000);
+  if (days < 1) return "today";
+  if (days === 1) return "yesterday";
+  if (days < 30) return `${days} days ago`;
+  const months = Math.round(days / 30);
+  if (months < 12) return `${months} month${months === 1 ? "" : "s"} ago`;
+  const years = Math.round(months / 12);
+  return `${years} year${years === 1 ? "" : "s"} ago`;
+}
+
 export const STAGES = [
   { value: "lead", label: "Lead", tone: "is-grey" },
   { value: "first_order", label: "First order", tone: "is-blue" },
@@ -52,6 +69,7 @@ export default async function CustomersAdmin({ searchParams }) {
       marketingOptIn: customers.marketingOptIn, createdAt: customers.createdAt,
       orderCount: sql`count(${orders.id})`.mapWith(Number),
       spend: sql`coalesce(sum(${orders.totalCents}) filter (where ${orders.status} <> 'cancelled'), 0)`.mapWith(Number),
+      lastOrderAt: sql`max(${orders.placedAt})`.mapWith((v) => (v ? new Date(v) : null)),
     }).from(customers)
       .leftJoin(orders, eq(orders.customerId, customers.id))
       .where(clause)
@@ -158,12 +176,13 @@ export default async function CustomersAdmin({ searchParams }) {
                   <tr>
                     <th style={{ width: 28 }}><SelectAllToggle label="Select all customers" /></th>
                     <th>Customer</th><th>Stage</th><th>Tags</th>
+                    <th style={{ width: 190 }}>Added</th>
                     <th className="col-num">Orders</th><th className="col-num">Spend</th><th />
                   </tr>
                 </thead>
                 <tbody>
                   {rows.length === 0 && (
-                    <tr><td colSpan={7} style={{ padding: 24, textAlign: "center" }}>
+                    <tr><td colSpan={8} style={{ padding: 24, textAlign: "center" }}>
                       No customers match. <Link href="/admin/customers">Clear filters</Link> or{" "}
                       <Link href="/admin/customers?new=1">add one</Link>.
                     </td></tr>
@@ -193,6 +212,14 @@ export default async function CustomersAdmin({ searchParams }) {
                         <td style={{ maxWidth: 240 }}>
                           <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
                             {(c.tags ?? []).map((t) => <span key={t} className="wp-pill is-grey">{t}</span>)}
+                          </div>
+                        </td>
+                        <td>
+                          <div>{whenShort(c.createdAt)}</div>
+                          <div className="wp-help">
+                            {c.lastOrderAt
+                              ? `last order ${ago(c.lastOrderAt)}`
+                              : "no orders yet"}
                           </div>
                         </td>
                         <td className="col-num">{c.orderCount}</td>

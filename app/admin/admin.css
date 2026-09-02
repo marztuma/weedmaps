@@ -205,6 +205,32 @@
 .wp-stat-num { font-size: 26px; font-weight: 400; line-height: 1.1; font-variant-numeric: tabular-nums; }
 .wp-stat-label { color: var(--wp-text-soft); }
 
+/* A row of headline figures. Built on the same tokens as .wp-stat so a card
+   and an inline stat read as the same thing at different sizes. auto-fit means
+   the row reflows rather than scrolling on a narrow screen. */
+.wp-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 12px;
+  margin: 12px 0 0;
+}
+.wp-card {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 16px 18px;
+  background: var(--wp-white);
+  border: 1px solid var(--wp-border-soft);
+  border-radius: 3px;
+}
+.wp-card strong {
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+.wp-card span { color: var(--wp-text-soft); }
+
 /* ── Login ─────────────────────────────────────────────────── */
 
 .wp-login {
