@@ -22,8 +22,8 @@ export default function StateSelector({ value, onChange, onDone }) {
   }, [open]);
 
   const filtered = STATES.filter((s) =>
-    s.code.toLowerCase().includes(search.toLowerCase()) ||
-    stateName(s.code).toLowerCase().includes(search.toLowerCase())
+    s[0].toLowerCase().includes(search.toLowerCase()) ||
+    s[1].toLowerCase().includes(search.toLowerCase())
   );
 
   const onSelect = (code) => {
@@ -40,7 +40,7 @@ export default function StateSelector({ value, onChange, onDone }) {
         onClick={() => setOpen((v) => !v)}
         className="u-pill flex h-11 shrink-0 items-center gap-2 border border-rule px-4 text-[0.9rem] font-semibold text-ink transition-colors hover:border-ink hover:bg-linen-deep"
       >
-        {value ? value.split(",")[0] : "Change state"}
+        {value || "Change state"}
         <Icon name="chevronDown" size={14} />
       </button>
 
@@ -71,14 +71,14 @@ export default function StateSelector({ value, onChange, onDone }) {
               ) : (
                 <ul className="divide-y divide-rule">
                   {filtered.map((s) => (
-                    <li key={s.code}>
+                    <li key={s[0]}>
                       <button
                         type="button"
-                        onClick={() => onSelect(s.code)}
+                        onClick={() => onSelect(s[0])}
                         className="w-full px-3 py-2.5 text-left text-[0.9rem] text-ink transition-colors hover:bg-linen-deep"
                       >
-                        <span className="font-semibold">{s.code}</span>
-                        <span className="ml-2 text-mute">— {stateName(s.code)}</span>
+                        <span className="font-semibold">{s[0]}</span>
+                        <span className="ml-2 text-mute">— {s[1]}</span>
                       </button>
                     </li>
                   ))}
