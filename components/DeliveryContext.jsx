@@ -9,7 +9,7 @@ import { createContext, useContext, useMemo, useState } from "react";
 
 const DeliveryContext = createContext(null);
 
-export function DeliveryProvider({ children, defaultLocation = "Los Angeles, CA" }) {
+export function DeliveryProvider({ children, defaultLocation = "CA" }) {
   const [location, setLocation] = useState(defaultLocation);
   const [liveOnly, setLiveOnly] = useState(true);
   const [sort, setSort] = useState("fastest");
