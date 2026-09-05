@@ -20,9 +20,9 @@ export default function Masthead({ stats, shops }) {
 
       <div className="mt-3.5 flex flex-col gap-x-10 gap-y-3 border-t border-rule pt-3 md:flex-row md:items-start md:justify-between">
         <p className="u-prose text-[clamp(0.9rem,0.85rem+0.35vw,1.1rem)] leading-[1.45] text-shade">
-          Everything here comes to your door — there is no counter to queue at and nothing to
-          collect. Compare the product first; the service that brings it cheapest, and how
-          soon it arrives, is on the ticket.
+          Everything here comes to your door — there is no counter to queue at. Compare the
+          product first; the service that brings it cheapest, and how soon it arrives, is on
+          the ticket.
         </p>
 
         <p className="u-meta flex shrink-0 flex-wrap items-center gap-2.5 text-shade md:pt-1">
