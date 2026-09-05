@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Icon from "./Icons";
+import { useCart } from "./CartContext";
 import { ask, requestHuman } from "@/app/(shop)/chat-actions";
 
 /* The chat launcher and panel.
@@ -45,12 +46,15 @@ const OPENERS = [
 ];
 
 export default function ChatWidget() {
+  const { count, subtotal } = useCart();
   const [open, setOpen] = useState(false);
   const [key, setKey] = useState(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
   const [askingHuman, setAskingHuman] = useState(false);
   const [handoff, setHandoff] = useState(null);
+  const [minimized, setMinimized] = useState(false);
+  const [showCart, setShowCart] = useState(true);
   const [thread, setThread] = useState([
     {
       role: "bot",
@@ -62,6 +66,8 @@ export default function ChatWidget() {
   const launcherRef = useRef(null);
   const logRef = useRef(null);
   const inputRef = useRef(null);
+
+  const hasCart = count > 0;
 
   useEffect(() => setKey(visitorKey()), []);
 
@@ -147,20 +153,58 @@ export default function ChatWidget() {
         role="region"
         aria-label="Ask a question"
         hidden={!open}
-        className="fixed bottom-24 right-5 z-40 flex max-h-[min(34rem,calc(100vh-8rem))] w-[min(24rem,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-md border border-rule bg-linen shadow-2xl"
+        className="fixed bottom-24 right-5 z-40 flex max-h-[min(36rem,calc(100vh-8rem))] w-[min(24rem,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-md border border-rule bg-paper shadow-2xl"
       >
-        <div className="flex items-center justify-between border-b border-rule px-4 py-3">
-          <p className="u-label text-mute">Ask Weedmaps</p>
-          <button
-            type="button"
-            onClick={() => { setOpen(false); launcherRef.current?.focus(); }}
-            className="grid h-11 w-11 -mr-3 place-items-center rounded-full text-ink-soft hover:text-ink"
-          >
-            <Icon name="close" size={16} />
-            <span className="sr-only">Close chat</span>
-          </button>
+        <div className="flex items-center justify-between border-b border-rule px-5 py-4">
+          <div className="flex items-center gap-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-ink text-linen">
+              <Icon name="messageCircle" size={16} />
+            </div>
+            <span className="text-[0.95rem] font-semibold text-ink">Support</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => setMinimized(!minimized)}
+              className="flex h-8 w-8 items-center justify-center rounded text-mute transition-colors hover:bg-rule hover:text-ink"
+              title={minimized ? "Maximize" : "Minimize"}
+            >
+              <Icon name={minimized ? "plus" : "minus"} size={16} />
+            </button>
+            <button
+              type="button"
+              onClick={() => { setOpen(false); launcherRef.current?.focus(); }}
+              className="flex h-8 w-8 items-center justify-center rounded text-mute transition-colors hover:bg-rule hover:text-ink"
+              title="Close"
+            >
+              <Icon name="x" size={16} />
+            </button>
+          </div>
         </div>
 
+        {!minimized && hasCart && showCart && (
+          <div className="border-b border-rule bg-linen-deep/50 px-5 py-4">
+            <div className="flex items-start justify-between">
+              <div>
+                <p className="text-[1rem] font-semibold text-ink">👋 You left something behind.</p>
+                <p className="mt-2 text-[0.9rem] leading-relaxed text-shade">
+                  Your order is waiting — pick up where you left off and complete checkout. We deliver to all fifty states.
+                </p>
+              </div>
+              <button
+                onClick={() => setShowCart(false)}
+                className="ml-2 shrink-0 text-mute hover:text-ink"
+                title="Dismiss"
+              >
+                <Icon name="x" size={16} />
+              </button>
+            </div>
+            <Link href="/checkout" onClick={() => setOpen(false)} className="mt-3 block rounded-xs bg-ink py-2.5 text-center text-[0.9rem] font-semibold text-linen transition-colors hover:bg-ink-soft">
+              Go to checkout
+            </Link>
+          </div>
+        )}
+
+        {!minimized && (
         <div
           ref={logRef}
           className="flex-1 overflow-y-auto px-4 py-4"
@@ -253,7 +297,43 @@ export default function ChatWidget() {
             </ul>
           )}
         </div>
+        )}
 
+        {!minimized && (
+        <div className="border-t border-rule px-4 py-3 space-y-3">
+          {/* Agent Section */}
+          <div className="rounded-sm bg-ink-soft/20 p-3">
+            <div className="flex items-start gap-2">
+              <Icon name="sparkles" size={16} className="mt-0.5 shrink-0 text-ink" />
+              <div className="min-w-0">
+                <p className="text-[0.8rem] font-semibold text-ink">Agent</p>
+                <p className="mt-0.5 text-[0.75rem] leading-relaxed text-shade">
+                  Get instant help with browsing, orders & delivery
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Support Section */}
+          <div className="rounded-sm bg-linen-deep/50 p-3">
+            <div className="flex items-start gap-2">
+              <Icon name="headphones" size={16} className="mt-0.5 shrink-0 text-ink" />
+              <div className="min-w-0">
+                <p className="text-[0.8rem] font-semibold text-ink">Support</p>
+                <p className="mt-0.5 text-[0.75rem] leading-relaxed text-shade">
+                  Help with account, tracking & general questions
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <p className="text-center text-[0.7rem] text-mute">
+            💬 We typically reply within 2 hours
+          </p>
+        </div>
+        )}
+
+        {!minimized && (
         <form
           onSubmit={(e) => { e.preventDefault(); const v = inputRef.current.value; inputRef.current.value = ""; send(v); }}
           className="flex items-center gap-2 border-t border-rule p-3"
@@ -275,6 +355,7 @@ export default function ChatWidget() {
             <span className="sr-only">Send</span>
           </button>
         </form>
+        )}
       </div>
     </>
   );
