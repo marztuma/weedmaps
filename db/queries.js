@@ -193,7 +193,6 @@ export async function getSpotlight(limit = 8) {
 export async function getShops() {
   const rows = await db.select({
     id: shops.id, slug: shops.slug, name: shops.name,
-    state: shops.state,
     area: shops.serviceArea, license: shops.license,
     rating: shops.rating, reviews: shops.reviewCount,
     live: shops.deliveringNow, window: shops.windowLabel,

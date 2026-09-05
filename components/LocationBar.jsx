@@ -12,7 +12,7 @@ const SORTS = [
 export default function LocationBar({ shops }) {
   const { location, setLocation, liveOnly, setLiveOnly, sort, setSort } = useDelivery();
 
-  const inState = shops?.filter((s) => s?.state === location) ?? [];
+  const inState = shops?.filter((s) => (s?.state ?? "CA") === location) ?? [];
   const live = inState.filter((s) => s.live).length;
   const shown = liveOnly ? live : inState.length;
   const soonest = inState.filter((s) => s.live).reduce((m, s) => Math.min(m, s.etaMin), Infinity);
