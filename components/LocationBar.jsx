@@ -31,7 +31,12 @@ export default function LocationBar({ shops }) {
           <span className="u-label shrink-0 text-mute sm:hidden">Change</span>
         </label>
 
-        <div className="flex items-center gap-2">
+        {/* Two fixed-width pill groups, and on a 390px phone they add up to
+            more than the screen — which pushed the whole document five pixels
+            sideways. They scroll within their own row instead; the gutter is
+            cancelled and re-applied as padding so the first pill still lines
+            up with the text above it and the last one is not clipped. */}
+        <div className="-mx-[var(--gutter)] flex items-center gap-2 overflow-x-auto px-[var(--gutter)] [-ms-overflow-style:none] [scrollbar-width:none] sm:mx-0 sm:overflow-x-visible sm:px-0 [&::-webkit-scrollbar]:hidden">
           <button
             type="button"
             role="switch"

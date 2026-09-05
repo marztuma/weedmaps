@@ -1,8 +1,9 @@
 import {
-  getShelf, getCategoryIndex, getDeals, getShops, getBrands, getStats,
+  getShelf, getCategoryIndex, getDeals, getShops, getBrands, getStats, getSpotlight,
 } from "@/db/queries";
 
 import Masthead from "@/components/Masthead";
+import Spotlight from "@/components/Spotlight";
 import Shelf from "@/components/Shelf";
 import CategoryIndex from "@/components/CategoryIndex";
 import DealsBand from "@/components/DealsBand";
@@ -18,9 +19,10 @@ export const revalidate = 60;
 export const metadata = { alternates: canonical("/") };
 
 export default async function HomePage() {
-  const [flower, vape, edibles, cats, deals, shops, brands, stats] = await Promise.all([
+  const [flower, vape, edibles, cats, deals, shops, brands, stats, spotlight] = await Promise.all([
     getShelf("flower", 12), getShelf("vape", 12), getShelf("edibles", 12),
     getCategoryIndex(), getDeals(6), getShops(), getBrands(20), getStats(),
+    getSpotlight(8),
   ]);
 
   const shelf = (category, title, note, items) => ({ category, title, note, items });
@@ -28,6 +30,7 @@ export default async function HomePage() {
   return (
     <>
       <Masthead stats={stats} shops={shops} />
+      <Spotlight slides={spotlight} />
       <Shelf shelf={shelf("flower", "Flower", "Eighths, quarters and ounces, delivered", flower)} flush />
       <CategoryIndex categories={cats} />
       <Shelf shelf={shelf("vape", "Vape pens", "Live resin carts, pods and all-in-ones", vape)} />

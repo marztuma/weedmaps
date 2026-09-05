@@ -1,8 +1,8 @@
 import "server-only";
-import { eq, and, sql, desc, asc, isNotNull, inArray } from "drizzle-orm";
+import { eq, and, sql, desc, asc, isNotNull, inArray, notInArray } from "drizzle-orm";
 import { db, schema } from "./client.js";
 
-const { products, categories, subcategories, brands, shops } = schema;
+const { products, categories, subcategories, brands, shops, orders, orderItems } = schema;
 
 const money = (cents) => (cents == null ? null : cents / 100);
 
@@ -115,6 +115,78 @@ export async function getDeals(limit = 6) {
     .orderBy(desc(sql`(${products.wasPriceCents} - ${products.priceCents})::float / ${products.wasPriceCents}`))
     .limit(limit);
   return rows.map(shapeProduct);
+}
+
+/* The homepage spotlight — what is genuinely moving, and what is genuinely
+   cheaper than it was.
+
+   Two sources, kept apart on purpose, because they are two different claims:
+
+     "Best seller" counts units that were actually ordered. It is not the
+     featured flag and it is not a curation. If nothing has sold, nothing here
+     claims to have sold — the band simply fills with promotions instead.
+     Cancelled orders are excluded, because a cancelled order sold nothing.
+
+     "On promo" is a price lower than the price it replaced, steepest first.
+
+   A product can qualify on both. When it does the sales badge wins — that it
+   sells is the stronger claim — and the saving still shows in the price.
+
+   Both halves are restricted to services delivering now, for the same reason
+   the shelves are: an advertisement for something nobody can bring you today
+   is worse than an empty slot. */
+export async function getSpotlight(limit = 8) {
+  const half = Math.max(1, Math.ceil(limit / 2));
+
+  /* Units per product, from the order book rather than from anything a person
+     ticked. Grouped on the product id, so a renamed product keeps its history. */
+  const ranked = await db
+    .select({
+      productId: orderItems.productId,
+      sold: sql`sum(${orderItems.qty})`.mapWith(Number),
+    })
+    .from(orderItems)
+    .innerJoin(orders, eq(orderItems.orderId, orders.id))
+    .where(and(
+      isNotNull(orderItems.productId),
+      notInArray(orders.status, ["cancelled", "refunded"]),
+    ))
+    .groupBy(orderItems.productId)
+    .orderBy(desc(sql`sum(${orderItems.qty})`))
+    .limit(half * 3);
+
+  const soldBy = new Map(ranked.map((r) => [r.productId, r.sold]));
+
+  const sellerRows = soldBy.size
+    ? await withJoins(db.select(productSelect))
+        .where(and(
+          inArray(products.id, [...soldBy.keys()]),
+          eq(shops.deliveringNow, true),
+        ))
+    : [];
+
+  /* The database returned them in whatever order suited it; the ranking is the
+     point, so restore it here. */
+  const sellers = sellerRows
+    .map((r) => ({ ...shapeProduct(r), reason: "seller", sold: soldBy.get(r.id) }))
+    .sort((a, b) => b.sold - a.sold)
+    .slice(0, half);
+
+  const seen = new Set(sellers.map((p) => p.id));
+
+  const promos = (await getDeals(limit))
+    .filter((p) => !seen.has(p.id))
+    .map((p) => ({ ...p, reason: "promo" }));
+
+  /* Interleave rather than concatenate. A run of six discounts followed by two
+     best sellers reads as one advertisement with a footnote; alternating reads
+     as a rotation, which is what it is. */
+  const out = [];
+  for (let i = 0; out.length < limit && (i < sellers.length || i < promos.length); i++) {
+    if (sellers[i]) out.push(sellers[i]);
+    if (promos[i] && out.length < limit) out.push(promos[i]);
+  }
+  return out;
 }
 
 /** Delivery services. Every shop in this product delivers; none are pickup. */

@@ -265,3 +265,8 @@ html.js-ready .u-reveal {
 .u-marquee { animation: u-drift 46s linear infinite; }
 .u-marquee-host:hover .u-marquee { animation-play-state: paused; }
 @media (prefers-reduced-motion: reduce) { .u-marquee { animation: none; } }
+
+/* Spotlight progress. Runs for exactly the slide dwell, so the bar filling is
+   a truthful clock rather than an ornament: when it reaches the end, the
+   carousel advances. Pausing removes the element, which freezes it full. */
+@keyframes u-spotlight { from { width: 0%; } to { width: 100%; } }
