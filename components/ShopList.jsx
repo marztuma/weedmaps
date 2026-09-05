@@ -17,8 +17,8 @@ function Stars({ rating }) {
 export default function ShopList({ shops }) {
   const { liveOnly, setLiveOnly, location, sort } = useDelivery();
 
-  const list = shops
-    .filter((s) => s.state === location)
+  const list = (shops ?? [])
+    .filter((s) => s?.state === location)
     .filter((s) => (liveOnly ? s.live : true))
     .sort((a, b) =>
       sort === "rated"
