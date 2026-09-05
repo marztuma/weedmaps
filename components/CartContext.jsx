@@ -28,9 +28,22 @@ export function CartProvider({ children }) {
   const [gateOpen, setGateOpen] = useState(false);
   const [gateAnswered, setGateAnswered] = useState(true);
 
+  /* Why the panel is on screen, which decides what it says and whether it can
+     be waved away. "cart" is the automatic one and stands in the way of
+     shopping; "signin" is the header button, which somebody pressed on
+     purpose and can therefore close again. */
+  const [gateReason, setGateReason] = useState("cart");
+
+  /* The address this browser last gave, if any. It is a convenience and a
+     label, not an authentication — there is no password behind it and the
+     server grants it nothing. It exists so the header can stop asking
+     somebody who has already answered, and so checkout can pre-fill. */
+  const [identity, setIdentityState] = useState(null);
+
   useEffect(() => {
     try {
       setGateAnswered(localStorage.getItem("wm-gate-v1") === "done");
+      setIdentityState(localStorage.getItem("wm-identity"));
     } catch {
       // Storage blocked — never ask, rather than ask on every page.
       setGateAnswered(true);
@@ -59,7 +72,7 @@ export function CartProvider({ children }) {
   }, [lines, ready]);
 
   const add = useCallback((product, qty = 1) => {
-    if (!gateAnswered) setGateOpen(true);
+    if (!gateAnswered) { setGateReason("cart"); setGateOpen(true); }
     setLines((prev) => {
       const i = prev.findIndex((l) => l.slug === product.slug);
       if (i !== -1) {
@@ -110,10 +123,36 @@ export function CartProvider({ children }) {
 
   const clear = useCallback(() => setLines([]), []);
 
+  /* Opened from the header rather than by adding something. It is offered, not
+     imposed, so closing it must not be recorded as having answered — otherwise
+     idly opening and shutting the panel would silently disarm the gate that
+     the first add-to-bag is supposed to raise. */
+  const openGate = useCallback((reason = "signin") => {
+    setGateReason(reason);
+    setGateOpen(true);
+  }, []);
+
   const closeGate = useCallback(() => {
     setGateOpen(false);
-    setGateAnswered(true);
+    // Only the automatic panel records an answer. Dismissing the one you asked
+    // for yourself leaves the gate armed for the first add to bag.
+    if (gateReason === "cart") setGateAnswered(true);
+  }, [gateReason]);
+
+  const setIdentity = useCallback((email) => {
+    setIdentityState(email);
+    try {
+      if (email) localStorage.setItem("wm-identity", email);
+      else localStorage.removeItem("wm-identity");
+    } catch { /* private mode — it simply will not survive a reload */ }
   }, []);
+
+  /* Signing out forgets the label. It deliberately does not touch the gate
+     flag: this browser has already been asked once, and asking again the
+     moment somebody tidies up after themselves would be a punishment. Nor
+     does it unsubscribe — that is a different decision, and the link for it
+     is in every email. */
+  const signOut = useCallback(() => setIdentity(null), [setIdentity]);
 
   const value = useMemo(() => {
     const count = lines.reduce((n, l) => n + l.qty, 0);
@@ -149,9 +188,11 @@ export function CartProvider({ children }) {
     return {
       lines, groups, count, subtotal, ready, open, setOpen,
       add, setQty, remove, clear,
-      gateOpen, closeGate,
+      gateOpen, gateReason, openGate, closeGate,
+      identity, setIdentity, signOut,
     };
-  }, [lines, ready, open, add, setQty, remove, clear, gateOpen, closeGate]);
+  }, [lines, ready, open, add, setQty, remove, clear,
+      gateOpen, gateReason, openGate, closeGate, identity, setIdentity, signOut]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }

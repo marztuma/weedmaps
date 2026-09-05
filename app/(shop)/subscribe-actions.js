@@ -37,7 +37,26 @@ export async function subscribe(prevState, formData) {
   const visitorKey = String(formData.get("visitorKey") ?? "");
 
   if (!validEmail(email)) return { error: "That does not look like an email address." };
-  if (!consent) return { error: "Tick the box to confirm you want the emails." };
+
+  /* Two different forms post here and they mean two different things.
+
+     The newsletter form is an opt-in: its whole purpose is the consent, so a
+     submission without the box ticked is a mistake worth refusing.
+
+     The cart panel is not an opt-in. It asks for an address so an order can be
+     confirmed, and offers the marketing separately. Refusing that submission
+     would turn "no thanks to the emails" into "you may not check out", which
+     is both hostile and the fastest way to fill the table with addresses
+     people invented to get past it.
+
+     So the caller states which it is, and the difference lands in the row:
+     without consent, consentedAt stays null, and the campaign query already
+     excludes exactly that. The address is captured; it is simply not mailable. */
+  const consentRequired = formData.get("consentRequired") !== "no";
+  if (consentRequired && !consent) {
+    return { error: "Tick the box to confirm you want the emails." };
+  }
+
   if (await overLimit()) return { error: "Too many signups just now. Try again shortly." };
 
   const token = randomBytes(24).toString("base64url");
@@ -47,8 +66,8 @@ export async function subscribe(prevState, formData) {
     .values({
       email,
       name,
-      consentedAt: new Date(),
-      consentSource: source,
+      consentedAt: consent ? new Date() : null,
+      consentSource: consent ? source : null,
       status: "subscribed",
       unsubscribeToken: token,
     })
@@ -59,11 +78,22 @@ export async function subscribe(prevState, formData) {
          now, and the timestamp records when. The token is left alone so old
          unsubscribe links keep working. */
       set: {
+        /* Always present, and a no-op: an ON CONFLICT DO UPDATE needs at least
+           one assignment, and every other one here is conditional. */
+        email,
         name: name ?? undefined,
-        consentedAt: new Date(),
-        consentSource: source,
-        status: "subscribed",
-        unsubscribedAt: null,
+        /* Consent is only ever granted, never revoked, by this form. Somebody
+           who ticked the box last month and leaves it unticked today has not
+           withdrawn anything — they have filled in a different form. The way
+           out is the unsubscribe link, which is in every email. */
+        ...(consent
+          ? {
+              consentedAt: new Date(),
+              consentSource: source,
+              status: "subscribed",
+              unsubscribedAt: null,
+            }
+          : {}),
       },
     })
     .returning({ id: schema.subscribers.id });
@@ -78,7 +108,14 @@ export async function subscribe(prevState, formData) {
       .where(eq(schema.visitors.visitorKey, visitorKey));
   }
 
-  return { ok: true, message: "You're on the list. Watch for a code in your inbox." };
+  return {
+    ok: true,
+    email,
+    consented: consent,
+    message: consent
+      ? "You're on the list. Watch for a code in your inbox."
+      : "Saved. We'll use it for your order updates only.",
+  };
 }
 
 /** One-click unsubscribe, by token, with no login.

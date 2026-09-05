@@ -25,7 +25,7 @@ function Submit({ disabled }) {
 }
 
 export default function CheckoutForm({ methods }) {
-  const { lines, groups, subtotal, count } = useCart();
+  const { lines, groups, subtotal, count, identity } = useCart();
   const { location } = useDelivery();
   const [state, action] = useActionState(placeOrder, {});
 
@@ -88,7 +88,7 @@ export default function CheckoutForm({ methods }) {
               </label>
               <label className="block">
                 <span className="u-label text-mute">Email</span>
-                <input name="email" type="email" required className="mt-1.5 h-12 w-full rounded-xs border border-rule bg-paper px-3 text-[0.95rem] text-ink outline-none focus:border-orange" />
+                <input name="email" type="email" required defaultValue={identity ?? ""} className="mt-1.5 h-12 w-full rounded-xs border border-rule bg-paper px-3 text-[0.95rem] text-ink outline-none focus:border-orange" />
                 <span className="u-meta mt-1 block text-mute">Payment details and updates go here.</span>
               </label>
               <label className="block">

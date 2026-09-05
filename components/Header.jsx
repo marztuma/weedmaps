@@ -12,7 +12,12 @@ export default function Header({ site }) {
   const [menu, setMenu] = useState(false);
   const [search, setSearch] = useState(false);
   const pathname = usePathname();
-  const { count, setOpen } = useCart();
+  const { count, setOpen, openGate, identity } = useCart();
+
+  /* Signed in shows who, not a second copy of the word. The local part is
+     enough to recognise yourself by and short enough to sit in a 68px bar;
+     the full address is one press away in the panel. */
+  const who = identity ? identity.split("@")[0] : null;
 
   useEffect(() => {
     document.body.style.overflow = menu ? "hidden" : "";
@@ -75,10 +80,13 @@ export default function Header({ site }) {
 
           <button
             type="button"
-            className="u-pill ml-1 hidden h-11 items-center gap-2 border border-ink px-4 text-[0.85rem] hover:bg-ink hover:text-linen sm:flex"
+            onClick={() => openGate("signin")}
+            aria-haspopup="dialog"
+            aria-label={who ? `Signed in as ${identity}` : "Sign in"}
+            className="u-pill ml-1 hidden h-11 max-w-[11rem] items-center gap-2 border border-ink px-4 text-[0.85rem] transition-colors duration-200 hover:bg-ink hover:text-linen sm:flex"
           >
-            <Icon name="user" size={16} />
-            Sign in
+            <Icon name={who ? "check" : "user"} size={16} className="shrink-0" />
+            <span className="truncate">{who ?? "Sign in"}</span>
           </button>
 
           <button
@@ -129,8 +137,14 @@ export default function Header({ site }) {
                 </li>
               ))}
             </ul>
-            <button type="button" className="u-pill mt-8 flex h-12 w-full items-center justify-center gap-2 bg-ink px-5 text-linen">
-              <Icon name="user" size={17} /> Sign in
+            <button
+              type="button"
+              onClick={() => { setMenu(false); openGate("signin"); }}
+              aria-haspopup="dialog"
+              className="u-pill mt-8 flex h-12 w-full items-center justify-center gap-2 bg-ink px-5 text-linen"
+            >
+              <Icon name={who ? "check" : "user"} size={17} />
+              <span className="truncate">{who ? `Signed in as ${who}` : "Sign in"}</span>
             </button>
           </nav>
         </div>
