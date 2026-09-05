@@ -12,8 +12,8 @@ export const metadata = {
 };
 
 export default async function DeliveriesPage() {
-  const shops = await getShops();
-  const live = shops.filter((s) => s.live).length;
+  const shops = await getShops() ?? [];
+  const live = shops?.filter((s) => s?.live)?.length ?? 0;
 
   return (
     <>
@@ -21,7 +21,7 @@ export default async function DeliveriesPage() {
         trail={[{ label: "Home", href: "/" }, { label: "Delivery" }]}
         title="Who is driving right now"
         blurb="Every licensed service that reaches your address. Arrival window, delivery fee and order minimum are on every row before you commit — there is no pickup option to weigh them against."
-        meta={`${live} of ${shops.length} delivering now`}
+        meta={`${live} of ${shops?.length ?? 0} delivering now`}
       />
       <ShopList shops={shops} />
     </>

@@ -25,17 +25,19 @@ export default async function HomePage() {
     getSpotlight(8),
   ]);
 
+  const safeShops = shops ?? [];
+
   const shelf = (category, title, note, items) => ({ category, title, note, items });
 
   return (
     <>
-      <Masthead stats={stats} shops={shops} />
+      <Masthead stats={stats} shops={safeShops} />
       <Spotlight slides={spotlight} />
       <Shelf shelf={shelf("flower", "Flower", "Eighths, quarters and ounces, delivered", flower)} flush />
       <CategoryIndex categories={cats} />
       <Shelf shelf={shelf("vape", "Vape pens", "Live resin carts, pods and all-in-ones", vape)} />
       <DealsBand deals={deals} endsIn="Ends 11:59 PM tonight" />
-      <ShopList shops={shops} />
+      <ShopList shops={safeShops} />
       <Shelf shelf={shelf("edibles", "Edibles", "Gummies, chocolate and mints, 2mg and up", edibles)} tone="deep" />
       <BrandRibbon brands={brands} />
       <Learn learn={learn} />
