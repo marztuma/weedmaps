@@ -130,9 +130,9 @@ export default function Header({ site }) {
             <ul className="mt-8 flex flex-col">
               {site.nav.map((item) => (
                 <li key={item.label} className="border-b border-rule-soft">
-                  <Link href={item.href} className="u-heading flex items-center justify-between py-5 text-[2rem] text-ink">
+                  <Link href={item.href} className="flex items-center justify-between py-4 text-lg font-semibold text-ink hover:text-orange">
                     {item.label}
-                    <Icon name="arrowUpRight" size={22} className="text-fade" />
+                    <Icon name="arrowUpRight" size={18} className="text-fade" />
                   </Link>
                 </li>
               ))}
