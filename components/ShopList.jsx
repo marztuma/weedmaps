@@ -5,6 +5,7 @@ import { useDelivery } from "./DeliveryContext";
 import Reveal from "./Reveal";
 import Icon from "./Icons";
 import ActiveDeliveryCarousel from "./ActiveDeliveryCarousel";
+import PromoBanner from "./PromoBanner";
 
 function Stars({ rating }) {
   return (
@@ -51,23 +52,7 @@ export default function ShopList({ shops }) {
         </div>
 
       {list.length === 0 ? (
-        <div className="border-t border-rule py-16 text-center">
-          <span className="mx-auto grid h-14 w-14 place-items-center rounded-full border border-rule text-fade">
-            <Icon name="clock" size={24} />
-          </span>
-          <p className="u-heading mt-5 text-[1.35rem]">Nobody is driving right now.</p>
-          <p className="u-prose mx-auto mt-2 text-[0.95rem] text-shade">
-            Every service covering {location} has stopped for the night. Drop the filter to
-            see who opens first in the morning.
-          </p>
-          <button
-            type="button"
-            onClick={() => setLiveOnly(false)}
-            className="u-pill mt-6 inline-flex h-11 items-center gap-2 bg-ink px-5 text-[0.9rem] text-linen hover:bg-ink-soft"
-          >
-            Show every service
-          </button>
-        </div>
+        <PromoBanner />
       ) : (
         <ul className="border-t border-rule">
           {list.map((shop, i) => (
