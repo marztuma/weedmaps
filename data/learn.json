@@ -210,6 +210,353 @@
           ]
         }
       ]
+    },
+    {
+      "slug": "cannabis-drug-interactions-what-you-must-know",
+      "title": "Cannabis & Medications: What You Must Know",
+      "deck": "Complete guide to 407+ drug interactions and safety protocols.",
+      "mins": 12,
+      "sections": [
+        {
+          "h": "Why your doctor probably doesn't know",
+          "p": [
+            "Cannabis has been federally illegal for decades, which means most medical schools taught very little about it and most physicians learned even less. When a patient asks about cannabis interactions, many doctors cannot answer confidently—not because they are unprepared, but because the field itself was sidelined.",
+            "Now that cannabis is legal in most states, patients are using it while taking prescription medications, and the interactions are real. Over 407 documented drug interactions exist between cannabis and common medications. This is not a matter of folklore or caution; it is pharmacology.",
+            "The good news is that most interactions are manageable. You do not have to choose between cannabis and your medication. You do have to know what you are combining and monitor yourself for signs that the combination is not working."
+          ]
+        },
+        {
+          "h": "How cannabis changes how your body processes medications",
+          "p": [
+            "Cannabis is metabolized primarily by the liver—specifically by enzymes called CYP3A4 and CYP2C9. These same enzymes metabolize hundreds of common medications. When cannabis and another drug both need the same enzyme, they compete. The one that wins metabolizes faster; the one that loses stays in your bloodstream longer and builds to higher concentrations.",
+            "This is called enzyme inhibition, and it is the source of most interactions. Cannabis inhibits CYP3A4 and CYP2C9, which means it can slow the breakdown of medications that depend on these pathways. The result is higher blood levels of the drug, potentially higher effects, and potentially higher side effects.",
+            "Some interactions work the other way—cannabis can also be a substrate for these enzymes, meaning medications can affect how quickly cannabis is cleared from your body. Either direction changes the experience."
+          ]
+        },
+        {
+          "h": "The highest-risk medication categories",
+          "p": [
+            "Blood thinners (warfarin, apixaban, rivaroxaban): Cannabis can increase bleeding risk. If you take these, discuss cannabis use with your cardiologist. Dosing may need adjustment, and you may need more frequent INR checks.",
+            "Sedatives and sleep aids (benzodiazepines, zolpidem): The combination amplifies drowsiness and impairs judgment. Using both multiplies the risk of falls, accidents, and respiratory depression.",
+            "Antiarrhythmics (medications for heart rhythm): Cannabis raises heart rate and blood pressure acutely. Combined with medications that alter your electrical conduction, the result can be unpredictable.",
+            "Immunosuppressants (for transplant patients, autoimmune conditions): Cannabis may reduce their effectiveness, compromising the condition they are meant to control.",
+            "Antiepileptics (phenytoin, valproate, clobazam): Cannabis and these medications compete for the same metabolic pathway. Levels of either can rise unexpectedly.",
+            "Antidepressants and antipsychotics: Cannabis can worsen psychotic symptoms and may interact with SSRIs to increase serotonin effects. People with a family history of psychosis should avoid THC entirely."
+          ]
+        },
+        {
+          "h": "Lower-risk but still worth knowing",
+          "p": [
+            "Pain medications (NSAIDs, opioids): Cannabis can increase sedation with opioids but does not usually change NSAID clearance dramatically. Still, combining CNS depressants (cannabis + opioids) requires caution.",
+            "Blood pressure medications (ACE inhibitors, beta blockers): Cannabis can lower blood pressure acutely, and the combination might push you too far. Monitor your BP if you use both.",
+            "Diabetes medications: Cannabis may affect blood sugar. Patients on insulin or sulfonylureas should monitor glucose more closely when adding cannabis.",
+            "Statins and other lipid-lowering agents: Moderate interaction risk. Cannabis inhibits some statin metabolism, potentially raising blood levels."
+          ]
+        },
+        {
+          "h": "THC versus CBD—different interaction profiles",
+          "p": [
+            "THC and CBD are metabolized differently. THC is the primary psychoactive and the one that inhibits CYP enzymes most strongly. CBD also inhibits these enzymes but through a different mechanism and at different affinity levels.",
+            "High-THC cannabis is more likely to cause interaction effects. High-CBD or balanced products may be safer for people on medications. This is not a universal rule—it depends on the specific medication—but it is a useful first consideration.",
+            "CBD-only products (isolates, broad-spectrum) carry lower interaction risk than full-spectrum flower, especially when THC is absent."
+          ]
+        },
+        {
+          "h": "What to do if you take medications",
+          "p": [
+            "Do not assume your doctor knows cannabis pharmacology. Many do not, and that is not a criticism—it reflects the state of medical education until very recently.",
+            "Bring a list: Write down every medication, supplement, and herbal product you take. Bring it to your doctor and ask specifically about cannabis interactions. If they cannot answer, ask for a referral to a pharmacist who specializes in cannabis.",
+            "Start low: If your doctor clears you to use cannabis, begin with a low THC dose (5mg or less) and increase gradually. Watch for changes in medication effectiveness or side effects.",
+            "Monitor symptoms: Keep a log of your cannabis use (date, dose, product type) and any changes in how you feel or how your medications are working. Bring this to your next appointment.",
+            "Time your doses: Some interactions can be minimized by spacing cannabis and medications apart. If possible, do not take them at exactly the same time.",
+            "Consider CBD-dominant products: If you need the medical benefits of cannabis but take multiple medications, ask about high-CBD, low-THC products or CBD isolate."
+          ]
+        },
+        {
+          "h": "Red flags that demand immediate attention",
+          "p": [
+            "Unexpected bleeding or bruising (especially if on blood thinners): Call your doctor.",
+            "Excessive sedation, dizziness, or confusion: Do not drive. This could mean medication levels are too high.",
+            "Changes in heart rhythm (palpitations, chest pain, shortness of breath): Seek medical attention.",
+            "Changes in blood sugar (unusual thirst, frequent urination if diabetic): Test and call your provider.",
+            "Worsening mental health symptoms (increased anxiety, paranoia, hallucinations): Stop cannabis and call your doctor immediately.",
+            "Sudden changes in medication effectiveness: Your medication may not be clearing properly. Contact your doctor."
+          ]
+        },
+        {
+          "h": "The conversation to have with your provider",
+          "p": [
+            "Bring a product: Show your doctor or pharmacist the label from the cannabis product you want to use. They need to know the THC:CBD ratio and whether it is full-spectrum or isolate.",
+            "Be honest: Tell them how often you plan to use it and what dose. This lets them model the interaction accurately.",
+            "Ask for specifics: Instead of \"Is cannabis okay?\", ask \"Does cannabis interact with [medication name]? Should I adjust my dose? Do I need more monitoring?\"",
+            "Plan monitoring: If your doctor clears you, agree on how often to check in and what symptoms to watch for.",
+            "Get it in writing: Ask your pharmacist to document the interaction check in your record. This protects you and your doctor."
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "thc-cbd-ratios-explained-best-doses-for-beginners",
+      "title": "THC:CBD Ratios Explained: Best Doses for Beginners",
+      "deck": "Understand cannabinoid ratios and how to find your starting dose.",
+      "mins": 10,
+      "sections": [
+        {
+          "h": "Why ratios matter more than total potency",
+          "p": [
+            "A 20% THC product is not interchangeable with another 20% THC product if one is pure THC and the other is paired with 10% CBD. The cannabinoid profile—the ratio of THC to CBD and other minor cannabinoids—determines the character of the experience far more than the THC percentage alone.",
+            "CBD moderates THC. It does not cancel it, but it shapes how the effect unfolds. High-THC, low-CBD products are more likely to produce anxiety and racing thoughts. Balanced or CBD-dominant products tend to produce clarity and calm.",
+            "The ratio is shorthand for predicting an experience. A 1:1 ratio (equal parts THC and CBD) feels different from a 2:1 or a 4:1. Knowing this ratio is more useful than knowing the percentage."
+          ]
+        },
+        {
+          "h": "Common ratios and what they feel like",
+          "p": [
+            "Pure THC (no CBD): The strongest psychoactive effect. Most intense. Best for experienced users seeking potent effects. Highest anxiety risk for newcomers.",
+            "4:1 THC:CBD: Mostly THC with some CBD moderation. Psychoactive but less intense. Good for users with some tolerance who want effects without maximum intensity.",
+            "2:1 THC:CBD: Balanced lean toward THC. Psychoactive with noticeable CBD influence. Popular for daytime use by experienced users.",
+            "1:1 THC:CBD: Equal parts. Psychoactive but tempered. Good for users seeking effects while minimizing anxiety. Many find this clear-headed.",
+            "1:2 CBD:THC: Mostly CBD with some THC. Mild psychoactivity, significant therapeutic effect. Good for pain, anxiety, inflammation without much high.",
+            "Pure CBD (no THC): Not psychoactive. Therapeutic effects (inflammation, anxiety reduction, sleep support) without any high. Good for daytime use and medication interactions.",
+            "Remember: These are generalizations. Individual response varies. Your baseline tolerance, body weight, metabolism, and even what you ate beforehand all shift where you land on the spectrum."
+          ]
+        },
+        {
+          "h": "Beginner dosing: Start at 5mg THC",
+          "p": [
+            "The standard beginner dose for anyone new to cannabis is 5mg THC, regardless of whether you are smoking, vaping, or eating an edible. This is low enough that even if you are sensitive, the experience is usually manageable.",
+            "Why 5mg and not less? Because below 5mg, many people feel almost nothing—they report slight relaxation or subtle mood lift but no clear effect. This makes it hard to tell if the product is working or if you are just being patient. At 5mg, most people feel something clear enough to evaluate.",
+            "Why not start at 10mg? Because 10mg is twice the dose. If you are sensitive, twice the effect can be the difference between pleasant and overwhelming. Starting at 5mg and increasing by 2.5mg at a time lets you find your personal sweet spot without overshooting.",
+            "Give it time: If you are trying edibles, wait at least 2 hours before taking more. Smoking and vaping are faster (5-15 minutes to onset) and wear off sooner (2-4 hours), so your feedback loop is tighter. Edibles are slower (45-90 minutes to onset) and last longer (6-8 hours), so patience is critical."
+          ]
+        },
+        {
+          "h": "How to use a dosing ladder",
+          "p": [
+            "Session 1: Take 5mg THC and note the time, setting, and how you feel at 15 minutes, 30 minutes, 1 hour, and 2 hours (for edibles; less time for smoking/vaping). Write it down.",
+            "Session 2: Same dose, same setting if possible. Most effects are repeatable once your body has encountered the dose before.",
+            "Session 3: If 5mg felt subtle or you wanted more, increase to 7.5mg (or 10mg if you want a bigger step). Use the same timing and notes.",
+            "Continue stepping up by 2.5-5mg until you find a dose that produces the effect you want without side effects you dislike.",
+            "Plateau: Most people find their dose between 5mg and 20mg for edibles. Occasional users rarely need more than 10mg. Regular users may work up to 20-30mg or higher, but the relationship between dose and effect plateaus—doubling the dose does not double the effect.",
+            "Tolerance builds: The same dose feels less intense after regular use. This is normal. You can either increase the dose or take breaks to reset tolerance (usually 2-4 weeks)."
+          ]
+        },
+        {
+          "h": "THC:CBD ratio dosing strategy",
+          "p": [
+            "If you are new and anxious about THC: Start with a 1:1 or 1:2 ratio product at 5mg THC. The CBD will dampen any anxiety or racing thoughts.",
+            "If you are new and want effects without intensity: Start with a 2:1 ratio at 5mg THC. You will feel it clearly but with less anxiety risk than pure THC.",
+            "If you are experienced and seeking therapeutic benefits: A 1:1 or even CBD-dominant product may be better than pure THC, depending on what you are treating (pain, anxiety, sleep, inflammation).",
+            "If you are using cannabis for medical reasons: Discuss ratios with your provider or a cannabis-informed pharmacist. Different conditions benefit from different ratios.",
+            "Mixing your own: Once you understand how you respond to different ratios, you can buy high-THC and high-CBD products separately and mix them to create your own ratio."
+          ]
+        },
+        {
+          "h": "Edibles versus flower: The dosing difference",
+          "p": [
+            "Smoked or vaped flower: You feel effects in 5-15 minutes and they peak in 30-60 minutes. Duration is 2-4 hours. This fast feedback loop makes titration (finding your dose) easy.",
+            "Edibles: Onset is 45-90 minutes (or longer on a full stomach). Peak is 2-4 hours in. Duration is 6-8 hours. The slow onset is why first-time users get into trouble—they eat an edible, feel nothing after 30 minutes, and take more, then both doses hit at once.",
+            "Same dose, different delivery: 5mg THC from an edible feels stronger and lasts longer than 5mg from smoked flower. This is because eating THC sends it through the liver first, where it is converted to 11-hydroxy-THC, a metabolite that crosses into the brain more readily.",
+            "If you are starting out: Edibles demand more patience. Consider flower or vape first, dial in your dose, then translate to edibles knowing the effect will be stronger.",
+            "Edible timing tip: Take an edible on a full stomach to slow absorption and smooth the onset curve. Empty stomach = faster, sharper peak = more likely to be overwhelming for beginners."
+          ]
+        },
+        {
+          "h": "Tolerance, breaks, and resetting your sensitivity",
+          "p": [
+            "Regular use builds tolerance. The same dose produces less effect over time. This is normal—your body adapts to any repeated stimulus.",
+            "If your dose has climbed and you want to reset: Take a 2-4 week break. Your cannabinoid receptors will re-sensitize and your original dose will feel powerful again.",
+            "If you cannot take a break: Lower your dose gradually or switch to a higher-CBD product. CBD does not produce tolerance the way THC does, so it can be a useful tool for managing escalating THC consumption.",
+            "Occasional users avoid tolerance: If you use cannabis once a week or less frequently, tolerance barely builds. This is one reason occasional use is easier to manage than daily use."
+          ]
+        },
+        {
+          "h": "What to do if you take too much",
+          "p": [
+            "It is uncomfortable but not dangerous. There is no overdose level for cannabis in humans—your worst outcome is an unpleasant 6-8 hours.",
+            "Symptoms: Anxiety, paranoia, racing heart, dizziness, nausea, time distortion, intense sensory input.",
+            "What helps: Somewhere quiet and comfortable, water, a friend if you have one, and time. CBD can help—if you have it available, take some. Some people find black pepper (peppercorn or black pepper oil) helps with anxiety.",
+            "What doesn't help: More cannabis, alcohol, driving, trying to push through it.",
+            "Next time: Your dose was too high. Start lower next time. You have learned your ceiling."
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "indica-vs-sativa-vs-hybrid-effects-when-to-choose-each",
+      "title": "Indica vs Sativa vs Hybrid: Effects & When to Choose Each",
+      "deck": "Modern classification beyond the morphology myth.",
+      "mins": 9,
+      "sections": [
+        {
+          "h": "The categories are useful but not what they originally meant",
+          "p": [
+            "Indica and sativa originally described plant shape and growing pattern. Cannabis indica plants are short and bushy; cannabis sativa plants are tall and thin. After sixty years of hybrid breeding, this botanical distinction is nearly meaningless on a dispensary shelf—almost everything commercially available is a hybrid of hybrid of hybrid.",
+            "But the names remain useful because the cannabis industry has trained them into a shorthand for expected effects. An 'indica-leaning' product is marketed with an expectation of calming, body-heavy effects. A 'sativa-leaning' product suggests uplifting, energetic effects. A 'hybrid' sits somewhere between.",
+            "This shorthand is reliable enough to be useful—not because of the plant's shape but because breeders and sellers have built these expectations into their marketing and breeding goals. The label tells you what the seller expects you to feel, which is genuinely informative even if the mechanism has nothing to do with the plant's morphology."
+          ]
+        },
+        {
+          "h": "What indica-leaning actually delivers",
+          "p": [
+            "Typical effects: Body relaxation, reduced muscle tension, sedation, increased appetite, enhanced sensory pleasure, sleep support.",
+            "Terpene signature: Indica-leaning strains often feature myrcene (herbal, musky), which is associated with sedation. Caryophyllene (peppery, spicy) and humulene (woody, earthy) often appear.",
+            "When to choose it: Evening or bedtime, when you want to relax without mental activation, when you need help with insomnia, muscle tension, or pain.",
+            "Best for: Sleep, pain relief, anxiety (though high-THC pure indica can worsen anxiety in some people), decompression after work.",
+            "Notable caveat: A high-THC indica can still produce anxiety or racing thoughts in sensitive users. The 'body' effect does not cancel the 'mind' effect; it just adds to it."
+          ]
+        },
+        {
+          "h": "What sativa-leaning actually delivers",
+          "p": [
+            "Typical effects: Mental clarity, energy, focus, creative thinking, euphoria, social warmth, increased heart rate, sometimes anxiety if you are prone to it.",
+            "Terpene signature: Sativa-leaning strains often feature limonene (citrus, uplifting) and pinene (pine, alertness). These terpenes are associated with mental activation.",
+            "When to choose it: Daytime, when you want to remain functional or creative, social settings, when you need motivation or focus.",
+            "Best for: Daytime use, creative work, social events, managing depression or fatigue.",
+            "Notable caveat: High-THC sativa can amplify anxiety, paranoia, or racing thoughts in sensitive users. If you are prone to anxiety, start with lower THC or a balanced product."
+          ]
+        },
+        {
+          "h": "Hybrids: The middle ground",
+          "p": [
+            "Hybrids are products that blend indica and sativa traits—or more accurately, products bred or marketed to produce balanced effects.",
+            "Indica-leaning hybrid: Mostly body effects with some mental engagement. Good for evening use if you want to relax but not sleep.",
+            "Sativa-leaning hybrid: Mostly mental effects with some body relaxation. Good for daytime use if you want effects without pure activation.",
+            "True 50/50 hybrid: Balanced effects. Practical for anyone seeking both mental and physical sensation. Useful for users trying to find the middle of the spectrum.",
+            "In practice: Many 'hybrids' are just strains that do not fit neatly into either category. They can be excellent for exploration and for users who want effects from both domains."
+          ]
+        },
+        {
+          "h": "The actual predictors of effect: Cannabinoids and terpenes",
+          "p": [
+            "The strain name (name of indica vs sativa) is actually less predictive than the cannabinoid and terpene profile. Two strains both labeled 'sativa' can feel very different if one has high limonene and the other has high myrcene.",
+            "THC and CBD ratio: This matters more than the strain name. A high-CBD sativa will feel different from a high-THC sativa. A balanced-ratio indica will feel different from a pure-THC indica.",
+            "Dominant terpenes: Check the certificate of analysis. If it lists terpenes, the top three matter far more for predicting effects than the plant morphology.",
+            "For prediction: Read cannabinoid ratio first (THC:CBD), then look at terpenes. Use the strain name as a last resort.",
+            "Better still: Keep notes of strains you enjoyed and look for products with similar cannabinoid and terpene profiles. After a few purchases, you will have a personal map of what works for you."
+          ]
+        },
+        {
+          "h": "Strain names are marketing, not guarantees",
+          "p": [
+            "A strain named 'Blue Dream' sold by two different growers can feel different because growing conditions, harvest timing, curing, and storage all shift the cannabinoid and terpene content. The strain name tells you the genetics; the terpene panel tells you what is actually in your package.",
+            "Marketing names matter because they anchor expectations. A strain called 'Sleepy Time' is marketed with sedation expectations, and the seller has bred or selected it to produce that. The name is reliable because the grower's reputation depends on it.",
+            "But names can also mislead: A strain called 'Happy' might make you anxious if you are sensitive and it is pure high-THC. The name is what the breeder or grower intended, not a guarantee.",
+            "Trust the numbers: THC %, CBD %, terpene panel, and your own notes beat the name every time."
+          ]
+        },
+        {
+          "h": "Choosing your strain: A practical framework",
+          "p": [
+            "Step 1: Decide on your intended use (sleep, focus, pain, relaxation, socializing).",
+            "Step 2: Narrow to indica, sativa, or hybrid based on that use.",
+            "Step 3: Check THC:CBD ratio. For anxiety risk, prefer 1:1 or 1:2 ratios. For clear effects, 2:1 to 4:1. For maximum effect, pure THC.",
+            "Step 4: If the label shows terpenes, check the top three. Match them to your use case (myrcene and caryophyllene for sedation, limonene and pinene for clarity).",
+            "Step 5: Buy small (eighth or less) the first time. Strains are individual experiences.",
+            "Step 6: Keep a note—strain name, grower, THC %, dominant terpenes, and how you felt. Within a few purchases, you will have a personal playbook."
+          ]
+        },
+        {
+          "h": "The bottom line",
+          "p": [
+            "Indica vs sativa is a useful starting point, not a science. The real levers are cannabinoid ratio and terpene profile.",
+            "If you are new: Pick a trusted grower, start with a balanced hybrid or a mild indica, low THC (under 15%), and go from there.",
+            "If you are experienced: Ignore the marketing name and read the numbers. Your terpene profile and THC:CBD ratio are your roadmap.",
+            "The best strain is the one that works for you, whatever it is called. Keep notes, be consistent, and your preferences will clarify fast."
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "cannabis-terpenes-guide-effects-limonene-myrcene-pinene",
+      "title": "Cannabis Terpenes Guide: Effects of Limonene, Myrcene & More",
+      "deck": "Understanding the aromatic compounds that shape your experience.",
+      "mins": 11,
+      "sections": [
+        {
+          "h": "Terpenes are the compounds you smell",
+          "p": [
+            "Terpenes are organic molecules produced by cannabis plants (and by citrus trees, pine forests, lavender, and thousands of other plants). They are not unique to cannabis, but they are critical to understanding why one strain smells of diesel and another of lemon peel.",
+            "In cannabis, terpene content usually ranges from 1% to 4% by weight. Anything above 2% is considered aromatic—the plant smells distinctly. Growers chasing pure potency often sacrifice aroma, producing flower that tests at 28% THC but smells like almost nothing.",
+            "Why terpenes matter: They influence the aroma and flavor of cannabis, but more importantly, they appear to influence the effect. A high-THC strain heavy in myrcene tends to produce sedation; the same THC level in a pinene-dominant strain produces clarity. The difference is not just subjective—it is biochemical."
+          ]
+        },
+        {
+          "h": "The entourage effect and what we know",
+          "p": [
+            "The 'entourage effect' is the claim that cannabinoids and terpenes together produce effects that neither could alone. It is popular, plausible, and only partly supported by research.",
+            "What is well-supported: Terpenes shape aroma and flavor. Some terpenes have direct effects on mood and anxiety (limonene and pinene are anxiolytic; myrcene is sedating). These effects are real at concentrations high enough to smell them clearly.",
+            "What is reasonable but not certain: Specific terpenes might modulate the effect of THC, altering the character of the high. A high-THC, high-myrcene product probably does feel more sedating than high-THC, high-limonene, though isolating terpenes from THC and testing them together is tricky.",
+            "What is not supported: Precise mood-matching charts that say 'this terpene ratio = this exact feeling.' These popular charts are folklore with scientific language attached. They are useful frameworks, not predictions.",
+            "The practical take: Terpenes are real and influential. They deserve attention. Just do not expect a perfect algorithm."
+          ]
+        },
+        {
+          "h": "The major terpenes and what they do",
+          "p": [
+            "Myrcene (herbal, earthy, musky): The most common cannabis terpene. Found in hops, thyme, and bay leaf. Often appears in indica-leaning strains. Associated with sedation and body effects. When present in high amounts, it may enhance THC absorption through the blood-brain barrier.",
+            "Limonene (citrus, bright, energetic): The second most abundant. Found in lemon rind, cannabis, and many citrus plants. Often associated with mood elevation and anxiety reduction. Appears in many sativa-leaning strains. Direct anxiolytic (anxiety-reducing) properties.",
+            "Pinene (pine, woodsy, alert): The most abundant terpene in nature overall. Two isomers: alpha-pinene and beta-pinene. Associated with mental clarity and alertness. May enhance focus and memory. Often in sativa-leaning strains.",
+            "Caryophyllene (peppery, spicy, warm): Unique because it is both a terpene and binds to CB2 receptors (cannabinoid receptors on immune cells). Associated with pain relief and anti-inflammatory effects. Also found in black pepper and cloves.",
+            "Humulene (hoppy, earthy, woody): Similar structure to caryophyllene. Often appears alongside it. Associated with anti-inflammatory and appetite-suppressing effects. Found in hops and used in beer.",
+            "Linalool (floral, lavender, calming): Associated with relaxation and sedation. Found in lavender and many flowers. Not as abundant in cannabis as in other plants but present in floral strains.",
+            "Terpinolene (fresh, piney, herbal): Found in coniferous trees, cannabis, and tea tree oil. Less common but associated with uplifting effects. May have anti-inflammatory properties."
+          ]
+        },
+        {
+          "h": "Reading a terpene panel",
+          "p": [
+            "Most dispensaries do not publish full terpene analysis, but legal markets increasingly require it. When available, it usually shows the top 3-5 terpenes by concentration percentage.",
+            "What to look for: Total terpenes above 2% signals an aromatic product. If myrcene dominates (often 0.5-1.5%), expect sedation. If limonene or pinene dominates (0.3-1%), expect clarity. If both are present in balance, expect balance.",
+            "Total terpenes below 1%: The product is either old, poorly stored, or grown for potency over flavor. It may still be effective but less aromatic and less likely to have the full terpene-modulated effect.",
+            "Missing terpene panel: Some producers do not test for terpenes. This is not necessarily a red flag (the product can still be good) but it is an opportunity missed. A grower confident in their product will test and share.",
+            "Using it to predict: A strain with high myrcene and caryophyllene at 20% THC will likely feel more sedating than high myrcene at 20% THC with high limonene. Both are potent, but the terpene profile shifts the character."
+          ]
+        },
+        {
+          "h": "How to build your terpene profile",
+          "p": [
+            "Buy products with terpene panels when available. Note the strain name, THC %, dominant terpenes, and how you felt.",
+            "After 3-5 purchases, look for patterns. Which terpenes appear in products you enjoyed? Which appear in products you did not like?",
+            "Match your use: If you want sleep, look for high myrcene (and also CBD if possible). If you want daytime effects, look for limonene or pinene. If you want pain relief, look for caryophyllene.",
+            "Beyond flower: Concentrates and edibles can vary dramatically in terpene content. Distillates often have terpenes removed; live resin retains them. If terpene profile matters to you, ask for products that preserve them.",
+            "Create your own: Once you understand your preferences, you can buy high-limonene and high-myrcene products separately and blend them to your ideal ratio. Some users do this routinely."
+          ]
+        },
+        {
+          "h": "Why growers manipulate terpenes",
+          "p": [
+            "Terpenes are volatile—they evaporate. They survive drying and curing if handled correctly, but they are the first casualty of poor storage (heat, light, air exposure).",
+            "Genetics: Some strains naturally produce more terpenes. Breeders select for this.",
+            "Timing: Harvest timing affects terpene profile. Earlier harvest can mean higher myrcene; later harvest can mean more caryophyllene.",
+            "Drying and curing: Slow dry and proper humidity during cure preserves terpenes. Fast dry or too-wet cure damages them.",
+            "Storage: Freezing preserves terpenes best. Room temperature gradually erodes them. Light, air, and heat accelerate the loss.",
+            "Grinding or processing: Breaking up flower releases and oxidizes terpenes faster. Whole flower keeps them longer."
+          ]
+        },
+        {
+          "h": "Terpenes and the entourage effect in practice",
+          "p": [
+            "If you are chasing a specific effect (sleep, focus, pain relief), terpene profile is worth attention alongside cannabinoid ratio.",
+            "Myrcene + high THC + low CBD = likely sedating and potentially anxiety-inducing (the sedation and the THC activation together). Add CBD to balance.",
+            "Limonene + high THC + low CBD = likely uplifting but more anxiety-prone for sensitive people. Again, CBD helps.",
+            "Caryophyllene + CBD (any THC level) = likely good for pain and inflammation. This combination actually has research support.",
+            "Pinene + limonene + low THC = clear-headed, energetic, good for daytime.",
+            "Terpenes alone, without THC: Can produce subtle effects (limonene is anxiolytic even without THC, myrcene is mildly sedating) but the effects are much quieter. The terpene effect is real but small compared to cannabinoid effects."
+          ]
+        },
+        {
+          "h": "The bottom line on terpenes",
+          "p": [
+            "Terpenes are real, they matter, and they deserve attention. But they are one layer of the picture.",
+            "Layer 1: Cannabinoid ratio (THC:CBD). This is the foundation and the largest effect.",
+            "Layer 2: Terpene profile. This tunes the character of that effect.",
+            "Layer 3: Individual response. Even identical products feel different to different people based on tolerance, metabolism, body weight, and setting.",
+            "Use terpene information to refine your choices: 'I liked this strain; what were the top terpenes? I want to find more like it.' This is more useful than trying to decode a terpene chart in advance.",
+            "Keep notes, experiment, and your preferences will clarify. Terpenes are the details that separate excellent cannabis use from frustrating trial and error."
+          ]
+        }
+      ]
     }
   ]
 }
