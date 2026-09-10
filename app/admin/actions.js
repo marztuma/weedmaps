@@ -786,6 +786,41 @@ export async function unsuppressAddress(formData) {
   redirect("/admin/email?unsuppressed=1");
 }
 
+/** Save email configuration settings to the database.
+ *
+ *  The database is the source of truth in production; env vars are fallback
+ *  for local development. */
+export async function saveEmailSettings(formData) {
+  const session = await requireSession();
+
+  const settings = {
+    resendApiKey: String(formData.resendApiKey ?? "").trim() || null,
+    mailFrom: String(formData.mailFrom ?? "").trim() || null,
+    adminEmail: String(formData.adminEmail ?? "").trim() || null,
+    resendWebhookSecret: String(formData.resendWebhookSecret ?? "").trim() || null,
+    updatedAt: new Date(),
+  };
+
+  // Keep only one row (id=1)
+  const [existing] = await db.select().from(schema.emailSettings).limit(1);
+
+  if (existing) {
+    await db.update(schema.emailSettings)
+      .set(settings)
+      .where(eq(schema.emailSettings.id, existing.id));
+  } else {
+    await db.insert(schema.emailSettings).values({ id: 1, ...settings });
+  }
+
+  await audit({
+    actor: session.name, action: "update_email_settings", entity: "email",
+    summary: "Updated email configuration (API key, from address, admin email, webhook secret).",
+  });
+
+  revalidatePath("/admin/email");
+  revalidatePath("/admin");
+}
+
 /* ── Subscribers ──────────────────────────────────────────── */
 
 export async function removeSubscriber(formData) {

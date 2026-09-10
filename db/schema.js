@@ -54,6 +54,7 @@ export const shops = pgTable("shops", {
   id: serial("id").primaryKey(),
   slug: varchar("slug", { length: 96 }).notNull().unique(),
   name: varchar("name", { length: 96 }).notNull(),
+  state: varchar("state", { length: 2 }).notNull().default("CA"),
   serviceArea: varchar("service_area", { length: 96 }).notNull(),
   license: varchar("license", { length: 64 }).notNull(),
   rating: numeric("rating", { precision: 2, scale: 1 }).notNull(),
@@ -68,6 +69,7 @@ export const shops = pgTable("shops", {
   menuCount: integer("menu_count").notNull().default(0),
   deal: varchar("deal", { length: 96 }),
 }, (t) => ({
+  stateIdx: index("shops_state_idx").on(t.state),
   liveIdx: index("shops_delivering_idx").on(t.deliveringNow),
   ratingIdx: index("shops_rating_idx").on(t.rating),
 }));
@@ -604,3 +606,15 @@ export const discountRedemptions = pgTable("discount_redemptions", {
   codeIdx: index("discount_redemptions_code_idx").on(t.codeId),
   emailIdx: index("discount_redemptions_email_idx").on(t.email),
 }));
+
+/* Email configuration settable from the admin dashboard. Env vars are the
+   fallback for local development; this table is the source of truth in
+   production. Only one row is kept (id=1). */
+export const emailSettings = pgTable("email_settings", {
+  id: serial("id").primaryKey(),
+  resendApiKey: text("resend_api_key"),
+  mailFrom: varchar("mail_from", { length: 254 }),
+  adminEmail: varchar("admin_email", { length: 254 }),
+  resendWebhookSecret: text("resend_webhook_secret"),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});

@@ -6,7 +6,8 @@ import { restrictedRecipient } from "@/lib/mail/send";
 import { maskEmail } from "@/lib/mail/safe";
 import Notice from "@/components/admin/Notice";
 import ConfirmSubmit from "@/components/admin/ConfirmSubmit";
-import { sendTestEmail, unsuppressAddress } from "@/app/admin/actions";
+import EmailSettingsForm from "@/components/admin/EmailSettingsForm";
+import { sendTestEmail, unsuppressAddress, saveEmailSettings } from "@/app/admin/actions";
 
 export const dynamic = "force-dynamic";
 
@@ -27,9 +28,9 @@ export default async function EmailAdmin({ searchParams }) {
   const sp = await searchParams;
   const page = Math.max(1, Number(sp?.paged) || 1);
 
-  const status = mailStatus();
+  const status = await mailStatus();
 
-  const [rows, [counts], suppressions] = await Promise.all([
+  const [rows, [counts], suppressions, [emailSettings]] = await Promise.all([
     db.select().from(schema.emailLog)
       .orderBy(desc(schema.emailLog.createdAt))
       .limit(PER_PAGE).offset((page - 1) * PER_PAGE),
@@ -40,6 +41,7 @@ export default async function EmailAdmin({ searchParams }) {
       skipped: sql`count(*) filter (where status = 'skipped')`.mapWith(Number),
     }).from(schema.emailLog),
     db.select().from(schema.emailSuppressions).orderBy(desc(schema.emailSuppressions.createdAt)).limit(25),
+    db.select().from(schema.emailSettings).limit(1),
   ]);
 
   const pages = Math.max(1, Math.ceil(counts.total / PER_PAGE));
@@ -69,89 +71,14 @@ export default async function EmailAdmin({ searchParams }) {
       <div className="wp-box">
         <div className="wp-box-head">Configuration</div>
         <div className="wp-box-body">
-          {status.configured && status.usingTestSender ? (
-            <div className="wp-notice is-warning" style={{ margin: 0 }}>
-              {alertsDeliverable ? (
-                <>
-                  <p style={{ marginTop: 0 }}>
-                    <strong>Admin alerts are working. Customers cannot be reached yet.</strong>{" "}
-                    MAIL_FROM is Resend&rsquo;s shared sender, which anyone may use without owning a
-                    domain. It delivers only to the address the Resend account is registered under,
-                    and ADMIN_EMAIL is that address — so orders and reviews reach you, and nothing
-                    reaches a customer.
-                  </p>
-                  <p style={{ marginBottom: 0 }}>
-                    Order confirmations and payment receipts are built and tested, and will stay
-                    unsent until a domain is verified at resend.com/domains and MAIL_FROM points at
-                    an address on it.
-                  </p>
-                </>
-              ) : (
-                <>
-                  <p style={{ marginTop: 0 }}>
-                    <strong>Nothing is being delivered.</strong> MAIL_FROM is Resend&rsquo;s shared
-                    sender, which delivers only to the address the Resend account is registered
-                    under
-                    {restrictedTo ? <> — <strong>{restrictedTo}</strong></> : null}. Admin alerts
-                    are addressed to <strong>{status.adminEmail ?? "nowhere"}</strong>, so every one
-                    is refused.
-                  </p>
-                  <p style={{ marginBottom: 0 }}>
-                    Either point ADMIN_EMAIL at{" "}
-                    {restrictedTo ? <strong>{restrictedTo}</strong> : "the Resend account address"} to
-                    get alerts today, or add a domain at resend.com/domains — the latter is the only
-                    thing that also lets <em>customers</em> receive order confirmations.
-                  </p>
-                </>
-              )}
-            </div>
-          ) : status.configured ? (
-            <p className="wp-notice is-success" style={{ margin: 0 }}>
-              Email is configured. Sending as <strong>{status.from}</strong>.
-            </p>
-          ) : (
-            <p className="wp-notice is-warning" style={{ margin: 0 }}>
-              Email is not configured. Orders and reviews still record normally in the
-              admin — nothing is lost — but nobody is told by email.
-              {!status.hasKey && " RESEND_API_KEY is not set."}
-              {!status.from && " MAIL_FROM is not set."}
-            </p>
-          )}
-
-          <table className="wp-table" style={{ marginTop: 12 }}>
-            <tbody>
-              <tr><td>API key</td><td>{status.hasKey ? "set" : <span className="wp-pill is-red">missing</span>}</td></tr>
-              <tr>
-                <td>From address</td>
-                <td>
-                  {status.from ?? <span className="wp-pill is-red">missing</span>}
-                  {status.usingTestSender && (
-                    <span className="wp-pill is-amber" style={{ marginLeft: 8 }}>
-                      shared test sender — cannot reach customers
-                    </span>
-                  )}
-                </td>
-              </tr>
-              <tr><td>Admin recipient</td><td>{status.adminEmail ?? <span className="wp-pill is-amber">missing — admin alerts cannot be sent</span>}</td></tr>
-              <tr>
-                <td>Delivery webhook</td>
-                <td>
-                  {status.webhookReady
-                    ? "signing secret set"
-                    : <span className="wp-pill is-amber">no secret — delivery and bounce reporting is off</span>}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <form action={sendTestEmail} style={{ marginTop: 12 }}>
-            <button type="submit" className="wp-btn" disabled={!status.configured || !status.adminEmail}>
-              Send a test email
-            </button>
-            <span className="wp-help" style={{ marginLeft: 10 }}>
-              Goes to ADMIN_EMAIL only. Never to an address typed into the site.
-            </span>
-          </form>
+          <EmailSettingsForm
+            initialSettings={emailSettings || {}}
+            onSave={saveEmailSettings}
+            mailStatus={status}
+            restrictedTo={restrictedTo}
+            alertsDeliverable={alertsDeliverable}
+            sendTestEmail={sendTestEmail}
+          />
         </div>
       </div>
 
