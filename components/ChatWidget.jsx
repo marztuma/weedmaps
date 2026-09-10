@@ -55,6 +55,7 @@ export default function ChatWidget() {
   const [handoff, setHandoff] = useState(null);
   const [minimized, setMinimized] = useState(false);
   const [showCart, setShowCart] = useState(true);
+  const [selectedMode, setSelectedMode] = useState("agent");
   const [thread, setThread] = useState([
     {
       role: "bot",
@@ -301,34 +302,52 @@ export default function ChatWidget() {
 
         {!minimized && (
         <div className="border-t border-rule px-4 py-3 space-y-3">
-          {/* Agent Section */}
-          <div className="rounded-sm bg-ink-soft/20 p-3">
+          {/* Agent Section - Clickable */}
+          <button
+            type="button"
+            onClick={() => setSelectedMode("agent")}
+            className={`w-full rounded-sm p-3 transition-colors cursor-pointer ${
+              selectedMode === "agent"
+                ? "bg-ink-soft/40 border-2 border-ink"
+                : "bg-ink-soft/20 border-2 border-transparent hover:bg-ink-soft/30"
+            }`}
+          >
             <div className="flex items-start gap-2">
               <Icon name="sparkles" size={16} className="mt-0.5 shrink-0 text-ink" />
-              <div className="min-w-0">
+              <div className="min-w-0 text-left">
                 <p className="text-[0.8rem] font-semibold text-ink">Agent</p>
                 <p className="mt-0.5 text-[0.75rem] leading-relaxed text-shade">
                   Get instant help with browsing, orders & delivery
                 </p>
               </div>
+              {selectedMode === "agent" && <Icon name="check" size={16} className="shrink-0 text-ink" />}
             </div>
-          </div>
+          </button>
 
-          {/* Support Section */}
-          <div className="rounded-sm bg-linen-deep/50 p-3">
+          {/* Support Section - Clickable */}
+          <button
+            type="button"
+            onClick={() => setSelectedMode("support")}
+            className={`w-full rounded-sm p-3 transition-colors cursor-pointer ${
+              selectedMode === "support"
+                ? "bg-linen-deep/70 border-2 border-ink"
+                : "bg-linen-deep/50 border-2 border-transparent hover:bg-linen-deep/60"
+            }`}
+          >
             <div className="flex items-start gap-2">
               <Icon name="headphones" size={16} className="mt-0.5 shrink-0 text-ink" />
-              <div className="min-w-0">
+              <div className="min-w-0 text-left">
                 <p className="text-[0.8rem] font-semibold text-ink">Support</p>
                 <p className="mt-0.5 text-[0.75rem] leading-relaxed text-shade">
                   Help with account, tracking & general questions
                 </p>
               </div>
+              {selectedMode === "support" && <Icon name="check" size={16} className="shrink-0 text-ink" />}
             </div>
-          </div>
+          </button>
 
           <p className="text-center text-[0.7rem] text-mute">
-            💬 We typically reply within 2 hours
+            💬 We reply instantly
           </p>
         </div>
         )}
