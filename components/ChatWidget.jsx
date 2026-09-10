@@ -154,7 +154,7 @@ export default function ChatWidget() {
         role="region"
         aria-label="Ask a question"
         hidden={!open}
-        className="fixed bottom-24 right-5 z-40 flex max-h-[min(36rem,calc(100vh-8rem))] w-[min(24rem,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-md border border-rule bg-paper shadow-2xl"
+        className="fixed bottom-24 right-5 z-40 flex max-h-[min(42rem,calc(100vh-6rem))] w-[min(26rem,calc(100vw-2rem))] flex-col overflow-hidden rounded-md border border-rule bg-paper shadow-2xl"
       >
         <div className="flex items-center justify-between border-b border-rule px-5 py-4">
           <div className="flex items-center gap-2">
@@ -301,50 +301,62 @@ export default function ChatWidget() {
         )}
 
         {!minimized && (
-        <div className="border-t border-rule px-4 py-3 space-y-3">
-          {/* Agent Section - Clickable */}
-          <button
-            type="button"
-            onClick={() => setSelectedMode("agent")}
-            className={`w-full rounded-sm p-3 transition-colors cursor-pointer ${
-              selectedMode === "agent"
-                ? "bg-ink-soft/40 border-2 border-ink"
-                : "bg-ink-soft/20 border-2 border-transparent hover:bg-ink-soft/30"
-            }`}
-          >
-            <div className="flex items-start gap-2">
-              <Icon name="sparkles" size={16} className="mt-0.5 shrink-0 text-ink" />
-              <div className="min-w-0 text-left">
-                <p className="text-[0.8rem] font-semibold text-ink">Agent</p>
-                <p className="mt-0.5 text-[0.75rem] leading-relaxed text-shade">
-                  Get instant help with browsing, orders & delivery
-                </p>
+        <div className="border-t border-rule px-4 py-3">
+          {/* Mode Selection Buttons */}
+          <div className="space-y-2 mb-3">
+            {/* Agent Section - Clickable */}
+            <button
+              type="button"
+              onClick={() => setSelectedMode("agent")}
+              className={`w-full rounded-sm p-3 transition-all cursor-pointer ${
+                selectedMode === "agent"
+                  ? "bg-ink-soft/40 border-2 border-ink shadow-sm"
+                  : "bg-ink-soft/20 border-2 border-transparent hover:bg-ink-soft/30"
+              }`}
+            >
+              <div className="flex items-start gap-2">
+                <Icon name="sparkles" size={16} className="mt-0.5 shrink-0 text-ink" />
+                <div className="min-w-0 text-left flex-1">
+                  <p className="text-[0.8rem] font-semibold text-ink">Agent</p>
+                  <p className="mt-0.5 text-[0.75rem] leading-relaxed text-shade">
+                    Instant help with browsing, orders & delivery
+                  </p>
+                </div>
+                {selectedMode === "agent" && <Icon name="check" size={16} className="shrink-0 text-ink mt-0.5" />}
               </div>
-              {selectedMode === "agent" && <Icon name="check" size={16} className="shrink-0 text-ink" />}
-            </div>
-          </button>
+            </button>
 
-          {/* Support Section - Clickable */}
-          <button
-            type="button"
-            onClick={() => setSelectedMode("support")}
-            className={`w-full rounded-sm p-3 transition-colors cursor-pointer ${
-              selectedMode === "support"
-                ? "bg-linen-deep/70 border-2 border-ink"
-                : "bg-linen-deep/50 border-2 border-transparent hover:bg-linen-deep/60"
-            }`}
-          >
-            <div className="flex items-start gap-2">
-              <Icon name="headphones" size={16} className="mt-0.5 shrink-0 text-ink" />
-              <div className="min-w-0 text-left">
-                <p className="text-[0.8rem] font-semibold text-ink">Support</p>
-                <p className="mt-0.5 text-[0.75rem] leading-relaxed text-shade">
-                  Help with account, tracking & general questions
-                </p>
+            {/* Support Section - Clickable */}
+            <button
+              type="button"
+              onClick={() => setSelectedMode("support")}
+              className={`w-full rounded-sm p-3 transition-all cursor-pointer ${
+                selectedMode === "support"
+                  ? "bg-linen-deep/70 border-2 border-ink shadow-sm"
+                  : "bg-linen-deep/50 border-2 border-transparent hover:bg-linen-deep/60"
+              }`}
+            >
+              <div className="flex items-start gap-2">
+                <Icon name="headphones" size={16} className="mt-0.5 shrink-0 text-ink" />
+                <div className="min-w-0 text-left flex-1">
+                  <p className="text-[0.8rem] font-semibold text-ink">Support</p>
+                  <p className="mt-0.5 text-[0.75rem] leading-relaxed text-shade">
+                    Help with account, tracking & general questions
+                  </p>
+                </div>
+                {selectedMode === "support" && <Icon name="check" size={16} className="shrink-0 text-ink mt-0.5" />}
               </div>
-              {selectedMode === "support" && <Icon name="check" size={16} className="shrink-0 text-ink" />}
-            </div>
-          </button>
+            </button>
+          </div>
+
+          {/* Mode-Specific Message */}
+          <div className="bg-linen-deep/30 rounded-sm p-2.5 mb-2">
+            <p className="text-[0.7rem] text-shade leading-relaxed margin-0">
+              {selectedMode === "agent"
+                ? "💡 Ask about menus, pricing, delivery times, or place an order"
+                : "📞 We'll help with account issues, tracking, or other questions"}
+            </p>
+          </div>
 
           <p className="text-center text-[0.7rem] text-mute">
             💬 We reply instantly
