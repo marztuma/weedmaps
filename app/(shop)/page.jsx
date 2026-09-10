@@ -33,8 +33,8 @@ export default async function HomePage() {
     <>
       <Masthead stats={stats} shops={safeShops} />
       <Spotlight slides={spotlight} />
-      <Shelf shelf={shelf("flower", "Flower", "Eighths, quarters and ounces, delivered", flower)} flush />
       <CategoryIndex categories={cats} />
+      <Shelf shelf={shelf("flower", "Flower", "Eighths, quarters and ounces, delivered", flower)} flush />
       <Shelf shelf={shelf("vape", "Vape pens", "Live resin carts, pods and all-in-ones", vape)} />
       <DealsBand deals={deals} endsIn="Ends 11:59 PM tonight" />
       <ShopList shops={safeShops} />
