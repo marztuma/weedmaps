@@ -29,7 +29,7 @@ export default function Header({ site }) {
   const isActive = (href) => href !== "/" && pathname.startsWith(href);
 
   return (
-    <header className="relative z-40 border-b border-rule">
+    <header className="sticky top-0 z-40 border-b border-rule bg-linen">
       <div className="u-shell flex h-[68px] items-center justify-between gap-6">
         <Link href="/" className="flex items-center" aria-label="Weedmaps home">
           <Wordmark height={30} />
