@@ -33,7 +33,6 @@
     "@vercel/analytics": "^2.0.1",
     "cloudinary": "^2.10.1",
     "drizzle-orm": "^0.45.2",
-    "googleapis": "^145.0.0",
     "motion": "^12.23.12",
     "next": "^15.5.24",
     "qrcode": "^1.5.4",
@@ -41,8 +40,7 @@
     "react-dom": "19.1.1",
     "resend": "^6.25.0",
     "server-only": "^0.0.1",
-    "svix": "^2.1.0",
-    "twilio": "^5.0.4"
+    "svix": "^2.1.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.13",
