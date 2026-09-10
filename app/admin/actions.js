@@ -735,7 +735,7 @@ export async function sendTestEmail() {
   const { sendMail, adminRecipient, mailConfigured } = await import("@/lib/mail/send");
 
   if (!mailConfigured()) redirect("/admin/email?not_configured=1");
-  const to = adminRecipient();
+  const to = await adminRecipient();
   if (!to) redirect("/admin/email?not_configured=1");
 
   const stamp = new Date().toISOString();
