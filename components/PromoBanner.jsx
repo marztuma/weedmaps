@@ -188,7 +188,7 @@ export default function PromoBanner() {
               (category) => (
                 <Link
                   key={category}
-                  href={`/shop?category=${category.toLowerCase()}`}
+                  href={`/products/${category.toLowerCase()}`}
                   style={{
                     padding: "1rem",
                     borderRadius: "8px",
