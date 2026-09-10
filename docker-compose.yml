@@ -1,0 +1,108 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: chatwoot_postgres
+    environment:
+      POSTGRES_DB: ${DB_NAME:-chatwoot}
+      POSTGRES_USER: ${DB_USER:-chatwoot}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-chatwoot_password_change_me}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-chatwoot}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: chatwoot_redis
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  chatwoot:
+    image: chatwoot/chatwoot:latest
+    container_name: chatwoot_app
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      RAILS_ENV: ${RAILS_ENV:-production}
+      RAILS_LOG_TO_STDOUT: "true"
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: ${DB_NAME:-chatwoot}
+      POSTGRES_USER: ${DB_USER:-chatwoot}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-chatwoot_password_change_me}
+      REDIS_URL: redis://redis:6379
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE:-change-me-to-a-secure-random-string}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3000}
+      MAILER_SENDER_EMAIL: ${MAILER_SENDER_EMAIL:-noreply@weedmap.store}
+      MAILER_SENDER_NAME: ${MAILER_SENDER_NAME:-Weedmaps Support}
+
+      # Email Configuration (optional - uses SendGrid/SMTP)
+      SMTP_ADDRESS: ${SMTP_ADDRESS:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USERNAME: ${SMTP_USERNAME:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      SMTP_AUTHENTICATION: ${SMTP_AUTHENTICATION:-login}
+      SMTP_ENABLE_STARTTLS_AUTO: ${SMTP_ENABLE_STARTTLS_AUTO:-true}
+
+      # File Storage
+      ACTIVE_STORAGE_SERVICE: ${ACTIVE_STORAGE_SERVICE:-local}
+    ports:
+      - "${PORT:-3000}:3000"
+    volumes:
+      - chatwoot_storage:/app/storage
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    restart: unless-stopped
+
+  # Sidekiq for background jobs (required for production)
+  chatwoot_sidekiq:
+    image: chatwoot/chatwoot:latest
+    container_name: chatwoot_sidekiq
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      RAILS_ENV: ${RAILS_ENV:-production}
+      RAILS_LOG_TO_STDOUT: "true"
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: ${DB_NAME:-chatwoot}
+      POSTGRES_USER: ${DB_USER:-chatwoot}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-chatwoot_password_change_me}
+      REDIS_URL: redis://redis:6379
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE:-change-me-to-a-secure-random-string}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3000}
+      MAILER_SENDER_EMAIL: ${MAILER_SENDER_EMAIL:-noreply@weedmap.store}
+    command: bundle exec sidekiq -c 5 -v
+    volumes:
+      - chatwoot_storage:/app/storage
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  chatwoot_storage:
+    driver: local
