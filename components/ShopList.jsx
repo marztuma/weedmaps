@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useDelivery } from "./DeliveryContext";
 import Reveal from "./Reveal";
 import Icon from "./Icons";
+import ActiveDeliveryCarousel from "./ActiveDeliveryCarousel";
 
 function Stars({ rating }) {
   return (
@@ -26,21 +27,28 @@ export default function ShopList({ shops }) {
         : a.etaMin - b.etaMin || b.rating - a.rating
     );
 
+  // Check if there are any live shops across all states
+  const liveShops = (shops ?? []).filter((s) => s.live);
+
   return (
-    <section id="shops" className="u-shell py-[clamp(3rem,6vw,5rem)]">
-      <div className="mb-8 flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
-        <div>
-          <h2 className="u-heading text-[clamp(1.75rem,3.2vw,2.6rem)]">Delivering to you</h2>
-          <p className="mt-2 text-[0.95rem] text-shade">
-            {list.length} licensed delivery services reach {location}, ranked by{" "}
-            {sort === "rated" ? "rating" : "how soon they arrive"}.
-          </p>
+    <>
+      {/* Show carousel if there are active deliveries */}
+      {liveShops.length > 0 && <ActiveDeliveryCarousel shops={shops} />}
+
+      <section id="shops" className="u-shell py-[clamp(3rem,6vw,5rem)]">
+        <div className="mb-8 flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
+          <div>
+            <h2 className="u-heading text-[clamp(1.75rem,3.2vw,2.6rem)]">Delivering to you</h2>
+            <p className="mt-2 text-[0.95rem] text-shade">
+              {list.length} licensed delivery services reach {location}, ranked by{" "}
+              {sort === "rated" ? "rating" : "how soon they arrive"}.
+            </p>
+          </div>
+          <Link href="/deliveries" className="u-pill hidden h-11 items-center gap-1.5 border border-ink px-4 text-[0.85rem] hover:bg-ink hover:text-linen sm:flex">
+            All services
+            <Icon name="arrowUpRight" size={15} />
+          </Link>
         </div>
-        <Link href="/deliveries" className="u-pill hidden h-11 items-center gap-1.5 border border-ink px-4 text-[0.85rem] hover:bg-ink hover:text-linen sm:flex">
-          All services
-          <Icon name="arrowUpRight" size={15} />
-        </Link>
-      </div>
 
       {list.length === 0 ? (
         <div className="border-t border-rule py-16 text-center">
@@ -122,6 +130,7 @@ export default function ShopList({ shops }) {
           ))}
         </ul>
       )}
-    </section>
+      </section>
+    </>
   );
 }
