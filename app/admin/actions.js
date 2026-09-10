@@ -1086,3 +1086,85 @@ export async function sendCampaign(formData) {
   revalidatePath("/admin/campaigns");
   redirect("/admin/campaigns?sent=1");
 }
+
+/* ── Support Chat ──────────────────────────────────────────── */
+
+export async function replyToChat(_prev, formData) {
+  const session = await requireSession();
+  const conversationId = Number(formData.get("conversationId"));
+  const message = str(formData, "message");
+
+  if (!conversationId || !message) {
+    return { error: "Invalid message or conversation" };
+  }
+
+  if (message.length > 2000) {
+    return { error: "Message is too long (max 2000 characters)" };
+  }
+
+  try {
+    const [convo] = await db
+      .select()
+      .from(schema.chatConversations)
+      .where(eq(schema.chatConversations.id, conversationId));
+
+    if (!convo) {
+      return { error: "Conversation not found" };
+    }
+
+    await db.insert(schema.chatMessages).values({
+      conversationId,
+      role: "staff",
+      body: message,
+    });
+
+    await db.update(schema.chatConversations)
+      .set({ lastMessageAt: new Date(), status: "answered" })
+      .where(eq(schema.chatConversations.id, conversationId));
+
+    await audit({
+      actor: session.displayName,
+      action: "reply_chat",
+      entity: "chat",
+      entityId: String(conversationId),
+      summary: `Replied to chat from ${convo.contactEmail || "anonymous"}`,
+    });
+
+    revalidatePath("/admin/chat");
+    return { success: true, message: "Reply sent" };
+  } catch (err) {
+    console.error("Failed to send chat reply:", err);
+    return { error: "Failed to send reply" };
+  }
+}
+
+export async function updateChatStatus(_prev, formData) {
+  const session = await requireSession();
+  const conversationId = Number(formData.get("conversationId"));
+  const status = str(formData, "status");
+
+  const validStatuses = ["open", "needs_reply", "answered", "closed"];
+  if (!conversationId || !validStatuses.includes(status)) {
+    return { error: "Invalid status" };
+  }
+
+  try {
+    await db.update(schema.chatConversations)
+      .set({ status })
+      .where(eq(schema.chatConversations.id, conversationId));
+
+    await audit({
+      actor: session.displayName,
+      action: "update_chat_status",
+      entity: "chat",
+      entityId: String(conversationId),
+      summary: `Changed status to ${status}`,
+    });
+
+    revalidatePath("/admin/chat");
+    return { success: true };
+  } catch (err) {
+    console.error("Failed to update chat status:", err);
+    return { error: "Failed to update status" };
+  }
+}
