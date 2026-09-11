@@ -91,6 +91,34 @@ export default function ChatWidget() {
     if (logRef.current) logRef.current.scrollTop = logRef.current.scrollHeight;
   }, [thread, askingHuman, handoff]);
 
+  // Poll for staff replies after handoff
+  useEffect(() => {
+    if (!handoff || !key) return;
+
+    const fetchStaffReplies = async () => {
+      try {
+        const res = await fetch(`/api/chat/visitor?visitorKey=${key}`);
+        const data = await res.json();
+        if (data.success && data.messages) {
+          const staffMessages = data.messages
+            .filter((m) => m.role === "staff")
+            .map((m) => ({ role: "staff", text: m.body }));
+
+          const threadsWithoutStaff = thread.filter((m) => m.role !== "staff");
+          if (staffMessages.length > 0) {
+            setThread([...threadsWithoutStaff, ...staffMessages]);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching staff replies:", error);
+      }
+    };
+
+    fetchStaffReplies();
+    const interval = setInterval(fetchStaffReplies, 3000);
+    return () => clearInterval(interval);
+  }, [handoff, key]);
+
   async function send(text) {
     const question = String(text ?? "").trim();
     if (!question || busy || !key) return;
@@ -222,7 +250,11 @@ export default function ChatWidget() {
             <div key={i} className={`mb-3 flex ${m.role === "visitor" ? "justify-end" : "justify-start"}`}>
               <div
                 className={`max-w-[85%] rounded-lg px-3 py-2 text-[0.9rem] leading-relaxed ${
-                  m.role === "visitor" ? "bg-black text-white rounded-br-none" : "bg-gray-100 text-gray-900 rounded-bl-none"
+                  m.role === "visitor"
+                    ? "bg-black text-white rounded-br-none"
+                    : m.role === "staff"
+                    ? "bg-green-100 text-gray-900 rounded-bl-none border-l-4 border-green-600"
+                    : "bg-gray-100 text-gray-900 rounded-bl-none"
                 }`}
               >
                 <p>{m.text}</p>
