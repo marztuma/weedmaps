@@ -7,7 +7,7 @@ export default function Footer({ site }) {
   return (
     <footer className="u-tooth border-t border-rule bg-linen-deep">
       <div className="u-shell py-[clamp(3rem,5vw,4.5rem)]">
-        <div className="grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.3fr)_repeat(4,minmax(0,1fr))]">
+        <div className="grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-[minmax(0,1.3fr)_repeat(3,minmax(0,1fr))_minmax(0,1.1fr)]">
           <div>
             <Link href="/" className="flex items-center gap-2.5" aria-label="Weedmaps home">
               <span className="grid h-8 w-8 place-items-center rounded-full bg-ink text-linen">
@@ -89,6 +89,32 @@ export default function Footer({ site }) {
               </ul>
             </nav>
           ))}
+
+          <div className="rounded-xl bg-ink p-6 text-linen lg:col-span-1">
+            <h3 className="u-heading text-[clamp(1.1rem,2vw,1.3rem)] text-linen">For business</h3>
+            <ul className="mt-6 flex flex-col gap-3.5">
+              <li>
+                <Link href="/business/get-started" className="text-[0.95rem] text-linen-soft hover:text-linen transition-colors">
+                  Get started
+                </Link>
+              </li>
+              <li>
+                <Link href="/business/retailers" className="text-[0.95rem] text-linen-soft hover:text-linen transition-colors">
+                  Retailers
+                </Link>
+              </li>
+              <li>
+                <Link href="/business/brands" className="text-[0.95rem] text-linen-soft hover:text-linen transition-colors">
+                  Brands
+                </Link>
+              </li>
+              <li>
+                <Link href="/business/add-business" className="text-[0.95rem] text-linen-soft hover:text-linen transition-colors">
+                  Add a business
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
 
         <div className="mt-12 border-t border-rule pt-7">
