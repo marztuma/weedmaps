@@ -1,7 +1,6 @@
 import { Resend } from "resend";
 import { getAllDeals } from "@/db/queries";
 import PromoEmail from "@/components/PromoEmail";
-import { renderToString } from "react-dom/server";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -23,11 +22,6 @@ export async function POST(request) {
       "test@example.com",
     ];
 
-    // Render email template
-    const emailHtml = renderToString(
-      <PromoEmail deals={topDeals} offerCount={deals.length} />
-    );
-
     // Send email to each subscriber
     const results = [];
     for (const email of subscriberEmails) {
@@ -36,7 +30,7 @@ export async function POST(request) {
           from: "Weedmaps Offers <offers@weedmap.store>",
           to: email,
           subject: `🎉 This Week's Hot Deals - ${topDeals.length} Offers Just For You`,
-          html: emailHtml,
+          react: <PromoEmail deals={topDeals} offerCount={deals.length} />,
         });
         results.push({ email, success: true, id: result.data?.id });
       } catch (error) {
