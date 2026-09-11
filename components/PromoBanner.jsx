@@ -56,7 +56,7 @@ export default function PromoBanner() {
             }}
           >
             <Link
-              href="/shop"
+              href="/products"
               className="u-pill"
               style={{
                 display: "inline-flex",
