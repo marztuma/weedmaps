@@ -123,22 +123,54 @@ export default async function BrandPage({ params }) {
         </div>
 
         {categories.length > 0 && (
-          <ul className="mt-6 flex flex-wrap gap-2">
-            {categories.map((c) => (
-              <li key={c}>
-                <Link
-                  href={`/products/${c}`}
-                  className="u-pill flex h-11 items-center border border-rule px-3.5 text-[0.8rem] font-semibold text-ink-soft hover:border-ink hover:text-ink"
-                >
-                  {c.replace("-", " ")}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <>
+            <div className="mt-6">
+              <p className="u-label text-mute mb-3">Most Viewed</p>
+              <ul className="flex flex-wrap gap-2">
+                {categories.map((c) => (
+                  <li key={c}>
+                    <span className="u-meta text-shade">
+                      {c.replace("-", " ")} {brand.items.filter(i => i.category === c).length > 0 && `· ${brand.items.filter(i => i.category === c).length} products`}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="mt-6 flex flex-wrap gap-2">
+              <Link
+                href={`/brand/${brand.slug}?sort=products`}
+                className="u-pill inline-flex h-11 items-center gap-2 border border-rule px-4 text-[0.9rem] font-semibold text-ink hover:bg-ink hover:text-linen transition-colors"
+              >
+                🛍️ Shop products
+              </Link>
+              <Link
+                href={`/deals?brand=${brand.slug}`}
+                className="u-pill inline-flex h-11 items-center gap-2 border border-rule px-4 text-[0.9rem] font-semibold text-ink hover:bg-ink hover:text-linen transition-colors"
+              >
+                🏷️ Deals
+              </Link>
+              <Link
+                href={`/deliveries`}
+                className="u-pill inline-flex h-11 items-center gap-2 border border-rule px-4 text-[0.9rem] font-semibold text-ink hover:bg-ink hover:text-linen transition-colors"
+              >
+                🚗 Delivery
+              </Link>
+              <Link
+                href={`/deliveries`}
+                className="u-pill inline-flex h-11 items-center gap-2 border border-rule px-4 text-[0.9rem] font-semibold text-ink hover:bg-ink hover:text-linen transition-colors"
+              >
+                ℹ️ About
+              </Link>
+            </div>
+          </>
         )}
       </section>
 
       <section className="u-shell pb-[clamp(2.5rem,5vw,4rem)]">
+        <h2 className="u-heading text-[clamp(1.3rem,2.5vw,1.8rem)] mb-6">
+          Featured products
+        </h2>
         <ProductGrid
           products={brand.items}
           emptyTitle="Nothing from this brand right now."
