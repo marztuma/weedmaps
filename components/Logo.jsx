@@ -49,14 +49,6 @@ export function Wordmark({ height = 30, tone = "ink", className = "" }) {
       >
         weedmaps
       </text>
-      <path
-        d="M8 54 Q 122 30 236 54"
-        stroke={ORANGE}
-        strokeWidth="3.6"
-        fill="none"
-        strokeLinecap="round"
-      />
-      <circle cx="236" cy="54" r="4.4" fill={ORANGE} />
     </svg>
   );
 }
@@ -79,15 +71,6 @@ export function Mark({ size = 32, tone = "ink", className = "" }) {
       focusable="false"
     >
       <rect width="64" height="64" rx="16" fill={tile} />
-      {/* The same arc, cropped to the tile and scaled up so it survives at 16px. */}
-      <path
-        d="M14 42 Q 32 22 50 42"
-        stroke={ORANGE}
-        strokeWidth="6"
-        fill="none"
-        strokeLinecap="round"
-      />
-      <circle cx="50" cy="42" r="6" fill={ORANGE} />
     </svg>
   );
 }

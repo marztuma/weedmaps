@@ -10,6 +10,7 @@ const KEY = "wm-age-ok";
 
 export default function AgeGate() {
   const [state, setState] = useState("checking");
+  const [hideTimer, setHideTimer] = useState(null);
 
   useEffect(() => {
     let ok = null;
@@ -28,7 +29,22 @@ export default function AgeGate() {
     }
   }, [state]);
 
+  useEffect(() => {
+    if (hideTimer) {
+      const timeout = setTimeout(() => {
+        setState("asking");
+        setHideTimer(null);
+      }, hideTimer);
+      return () => clearTimeout(timeout);
+    }
+  }, [hideTimer]);
+
   if (state !== "asking") return null;
+
+  const handleClose = () => {
+    setState("hidden");
+    setHideTimer(4000);
+  };
 
   const handleSubscribe = () => {
     try {
@@ -44,7 +60,19 @@ export default function AgeGate() {
       aria-labelledby="restock-title"
       className="fixed inset-0 z-[60] flex items-center justify-center bg-ink/70 p-[var(--gutter)] backdrop-blur-md"
     >
-      <div className="w-full max-w-[440px] rounded-md border border-ink bg-linen p-8 sm:p-10">
+      <div className="relative w-full max-w-[440px] rounded-md border border-ink bg-linen p-8 sm:p-10">
+        <button
+          type="button"
+          onClick={handleClose}
+          className="absolute right-6 top-6 text-ink-soft hover:text-ink transition-colors"
+          aria-label="Close modal"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+
         <span className="grid h-11 w-11 place-items-center rounded-full bg-ink text-linen">
           <Icon name="pin" size={22} />
         </span>
