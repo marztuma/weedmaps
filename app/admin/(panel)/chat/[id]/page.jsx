@@ -17,8 +17,22 @@ export default function ChatDetail() {
 
   useEffect(() => {
     fetchConversation();
-    const interval = setInterval(fetchConversation, 3000);
-    return () => clearInterval(interval);
+
+    const eventSource = new EventSource(`/api/chat/sse?conversationId=${id}`);
+
+    eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      if (data.type === "connected" || data.type === "heartbeat") return;
+      fetchConversation();
+    };
+
+    eventSource.onerror = () => {
+      eventSource.close();
+      const interval = setInterval(fetchConversation, 3000);
+      return () => clearInterval(interval);
+    };
+
+    return () => eventSource.close();
   }, [id]);
 
   async function fetchConversation() {
@@ -113,13 +127,13 @@ export default function ChatDetail() {
                     msg.role === 'visitor'
                       ? 'bg-blue-600 text-white'
                       : msg.role === 'staff'
-                      ? 'bg-green-100 text-gray-900'
+                      ? 'bg-green-600 text-white'
                       : 'bg-gray-100 text-gray-900'
                   }`}
                 >
                   <p className="text-sm">{msg.body}</p>
                   <p className={`text-xs mt-1 ${
-                    msg.role === 'visitor' ? 'text-blue-200' : 'text-gray-600'
+                    msg.role === 'visitor' ? 'text-blue-100' : 'text-green-100'
                   }`}>
                     {new Date(msg.createdAt).toLocaleTimeString()}
                   </p>

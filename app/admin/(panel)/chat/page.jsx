@@ -10,8 +10,22 @@ export default function ChatDashboard() {
 
   useEffect(() => {
     fetchConversations();
-    const interval = setInterval(fetchConversations, 5000);
-    return () => clearInterval(interval);
+
+    const eventSource = new EventSource("/api/chat/sse");
+
+    eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      if (data.type === "connected" || data.type === "heartbeat") return;
+      fetchConversations();
+    };
+
+    eventSource.onerror = () => {
+      eventSource.close();
+      const interval = setInterval(fetchConversations, 5000);
+      return () => clearInterval(interval);
+    };
+
+    return () => eventSource.close();
   }, []);
 
   async function fetchConversations() {
