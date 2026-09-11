@@ -142,9 +142,9 @@ export default function ChatWidget() {
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
         aria-controls="wm-chat-panel"
-        className="fixed bottom-5 right-5 z-40 grid h-14 w-14 place-items-center rounded-full bg-ink text-linen shadow-lg transition-transform duration-200 hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+        className="fixed bottom-6 right-6 z-40 grid h-16 w-16 place-items-center rounded-full bg-gradient-to-br from-indigo-600 to-blue-600 text-white shadow-2xl transition-all duration-200 hover:scale-110 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
       >
-        <Icon name={open ? "close" : "search"} size={22} />
+        <Icon name={open ? "close" : "messageCircle"} size={24} />
         <span className="sr-only">{open ? "Close chat" : "Ask a question"}</span>
       </button>
 
@@ -154,19 +154,22 @@ export default function ChatWidget() {
         role="region"
         aria-label="Ask a question"
         hidden={!open}
-        className="fixed bottom-24 right-5 z-40 flex max-h-[min(42rem,calc(100vh-6rem))] w-[min(26rem,calc(100vw-2rem))] flex-col overflow-hidden rounded-md border border-rule bg-paper shadow-2xl"
+        className="fixed bottom-28 right-6 z-40 flex max-h-[min(42rem,calc(100vh-6rem))] w-[min(26rem,calc(100vw-2rem))] flex-col overflow-hidden rounded-lg border border-gray-200 bg-white shadow-2xl"
       >
-        <div className="flex items-center justify-between border-b border-rule px-5 py-4">
-          <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-ink text-linen">
+        <div className="flex items-center justify-between border-b border-gray-200 bg-gradient-to-r from-indigo-50 to-blue-50 px-5 py-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 text-white">
               <Icon name="messageCircle" size={16} />
             </div>
-            <span className="text-[0.95rem] font-semibold text-ink">Support</span>
+            <div>
+              <p className="text-[0.95rem] font-semibold text-gray-900">Support</p>
+              <p className="text-[0.75rem] text-gray-600">Usually replies fast</p>
+            </div>
           </div>
           <div className="flex items-center gap-1">
             <button
               onClick={() => setMinimized(!minimized)}
-              className="flex h-8 w-8 items-center justify-center rounded text-mute transition-colors hover:bg-rule hover:text-ink"
+              className="flex h-8 w-8 items-center justify-center rounded text-gray-600 transition-colors hover:bg-gray-200 hover:text-gray-900"
               title={minimized ? "Maximize" : "Minimize"}
             >
               <Icon name={minimized ? "plus" : "minus"} size={16} />
@@ -174,7 +177,7 @@ export default function ChatWidget() {
             <button
               type="button"
               onClick={() => { setOpen(false); launcherRef.current?.focus(); }}
-              className="flex h-8 w-8 items-center justify-center rounded text-mute transition-colors hover:bg-rule hover:text-ink"
+              className="flex h-8 w-8 items-center justify-center rounded text-gray-600 transition-colors hover:bg-gray-200 hover:text-gray-900"
               title="Close"
             >
               <Icon name="x" size={16} />
@@ -216,8 +219,8 @@ export default function ChatWidget() {
           {thread.map((m, i) => (
             <div key={i} className={`mb-3 flex ${m.role === "visitor" ? "justify-end" : "justify-start"}`}>
               <div
-                className={`max-w-[85%] rounded-md px-3 py-2 text-[0.9rem] leading-relaxed ${
-                  m.role === "visitor" ? "bg-ink text-linen" : "bg-linen-deep text-ink"
+                className={`max-w-[85%] rounded-lg px-3 py-2 text-[0.9rem] leading-relaxed ${
+                  m.role === "visitor" ? "bg-indigo-600 text-white rounded-br-none" : "bg-gray-100 text-gray-900 rounded-bl-none"
                 }`}
               >
                 <p>{m.text}</p>
@@ -228,7 +231,9 @@ export default function ChatWidget() {
                         <Link
                           href={l.href}
                           onClick={() => setOpen(false)}
-                          className="text-[0.85rem] font-semibold text-ink underline decoration-orange/60 underline-offset-4 hover:decoration-orange"
+                          className={`text-[0.85rem] font-semibold underline underline-offset-4 hover:opacity-80 ${
+                            m.role === "visitor" ? "text-blue-100" : "text-blue-600"
+                          }`}
                         >
                           {l.label}
                         </Link>
