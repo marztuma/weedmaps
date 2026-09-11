@@ -19,6 +19,29 @@ export default function Footer({ site }) {
               A community connecting cannabis consumers, patients, retailers, doctors and
               brands since 2008.
             </p>
+            <ul className="mt-6 flex flex-wrap gap-3">
+              {[
+                { label: "X", icon: "x", href: "https://twitter.com" },
+                { label: "Instagram", icon: "instagram", href: "https://instagram.com" },
+                { label: "Facebook", icon: "facebook", href: "https://facebook.com" },
+                { label: "YouTube", icon: "youtube", href: "https://youtube.com" },
+                { label: "Reddit", icon: "reddit", href: "https://reddit.com" },
+                { label: "TikTok", icon: "tiktok", href: "https://tiktok.com" },
+                { label: "LinkedIn", icon: "linkedin", href: "https://linkedin.com" },
+              ].map((social) => (
+                <li key={social.label}>
+                  <a
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.label}
+                    className="grid h-10 w-10 place-items-center rounded-full border border-rule text-ink-soft transition-all duration-200 hover:bg-ink hover:text-linen hover:border-ink"
+                  >
+                    <Icon name={social.icon} size={18} />
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
 
           {site.footer.columns.map((col) => (
@@ -64,33 +87,6 @@ export default function Footer({ site }) {
           <div className="mt-4">
             <Subscribe source="footer" />
           </div>
-        </div>
-
-        <div className="mt-10 border-t border-rule pt-8">
-          <h3 className="u-label text-mute mb-4">Follow Us</h3>
-          <ul className="flex flex-wrap gap-3">
-            {[
-              { label: "X", icon: "x", href: "https://twitter.com" },
-              { label: "Instagram", icon: "instagram", href: "https://instagram.com" },
-              { label: "Facebook", icon: "facebook", href: "https://facebook.com" },
-              { label: "YouTube", icon: "youtube", href: "https://youtube.com" },
-              { label: "Reddit", icon: "reddit", href: "https://reddit.com" },
-              { label: "TikTok", icon: "tiktok", href: "https://tiktok.com" },
-              { label: "LinkedIn", icon: "linkedin", href: "https://linkedin.com" },
-            ].map((social) => (
-              <li key={social.label}>
-                <a
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.label}
-                  className="grid h-10 w-10 place-items-center rounded-full border border-rule text-ink-soft transition-all duration-200 hover:bg-ink hover:text-linen hover:border-ink"
-                >
-                  <Icon name={social.icon} size={18} />
-                </a>
-              </li>
-            ))}
-          </ul>
         </div>
 
         <div className="mt-10 flex flex-col gap-5 border-t border-rule pt-7 md:flex-row md:items-start md:justify-between">
