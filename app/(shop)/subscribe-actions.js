@@ -33,10 +33,15 @@ export async function subscribe(prevState, formData) {
   const email = normaliseEmail(formData.get("email"));
   const name = headerSafe(formData.get("name"), 96) || null;
   const consent = formData.get("consent") === "on";
+  const ageVerified = formData.get("ageVerified") === "on";
   const source = headerSafe(formData.get("source"), 48) || "site";
   const visitorKey = String(formData.get("visitorKey") ?? "");
 
   if (!validEmail(email)) return { error: "That does not look like an email address." };
+
+  if (source === "age-gate" && !ageVerified) {
+    return { error: "You must confirm you are 21 or over to subscribe." };
+  }
 
   /* Two different forms post here and they mean two different things.
 

@@ -158,8 +158,10 @@ async function sendPromoEmail() {
   console.log("📧 Starting promotional email send...\n");
 
   // In production, get real subscriber emails from database
+  // For testing: send to your emails
   const subscriberEmails = process.env.TEST_SUBSCRIBER_EMAILS?.split(",") || [
-    "test@weedmaps.store",
+    "mariustuma88@gmail.com",
+    "saharadumps@protonmail.com",
   ];
 
   console.log(`📬 Sending to ${subscriberEmails.length} subscriber(s)...\n`);
