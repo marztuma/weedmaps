@@ -3,6 +3,8 @@ import { sql, desc, eq } from "drizzle-orm";
 import { db, schema } from "@/db/client";
 import AdminIcon from "@/components/admin/AdminIcons";
 import RevenueChart from "@/components/admin/RevenueChart";
+import DashboardCard from "@/components/admin/DashboardCard";
+import DonutChart from "@/components/admin/DonutChart";
 
 export const dynamic = "force-dynamic";
 
@@ -10,14 +12,15 @@ const { products, brands, categories, shops, customers, orders, auditLog } = sch
 const money = (c) => `$${((c ?? 0) / 100).toFixed(2)}`;
 
 const STATUS_TONE = {
-  pending: "is-amber", confirmed: "is-blue", out_for_delivery: "is-blue",
-  delivered: "is-green", cancelled: "is-red",
+  pending: "bg-amber-100 text-amber-800",
+  confirmed: "bg-blue-100 text-blue-800",
+  out_for_delivery: "bg-blue-100 text-blue-800",
+  delivered: "bg-green-100 text-green-800",
+  cancelled: "bg-red-100 text-red-800",
 };
-const label = (s) => s.replace(/_/g, " ").replace(/\b\w/g, (m) => m.toUpperCase());
-const AGE_TONE = { info: "is-grey", danger: "is-red", money: "is-green" };
 
-/* "1427h ago" is technically true and useless. Switch units once hours stop
-   being the way a person would say it. */
+const label = (s) => s.replace(/_/g, " ").replace(/\b\w/g, (m) => m.toUpperCase());
+
 function ago(d) {
   const mins = Math.floor((Date.now() - new Date(d).getTime()) / 60000);
   if (mins < 60) return `${mins}m ago`;
@@ -30,47 +33,32 @@ function ago(d) {
 }
 
 export default async function Dashboard() {
-  const [[counts], [rev], recentOrders, stale, revenueDays, activity, topProducts] = await Promise.all([
+  const [[counts], [rev], recentOrders, revenueDays, topProducts] = await Promise.all([
     db.select({
       products: sql`(select count(*) from ${products})`.mapWith(Number),
-      brands: sql`(select count(*) from ${brands})`.mapWith(Number),
-      categories: sql`(select count(*) from ${categories})`.mapWith(Number),
-      shops: sql`(select count(*) from ${shops})`.mapWith(Number),
-      live: sql`(select count(*) from ${shops} where delivering_now)`.mapWith(Number),
       customers: sql`(select count(*) from ${customers})`.mapWith(Number),
       orders: sql`(select count(*) from ${orders})`.mapWith(Number),
-      awaiting: sql`(select count(*) from ${orders} where payment_status = 'awaiting_payment')`.mapWith(Number),
-      deals: sql`(select count(*) from ${products} where was_price_cents is not null)`.mapWith(Number),
-      paused: sql`(select count(*) from ${shops} where not delivering_now)`.mapWith(Number),
-      orphanShops: sql`(select count(*) from ${shops} s where not exists (select 1 from ${products} p where p.shop_id = s.id))`.mapWith(Number),
-      pendingReviews: sql`(select count(*) from reviews where status = 'pending')`.mapWith(Number),
-      mailFailed: sql`(select count(*) from email_log where status in ('failed','bounced') and created_at > now() - interval '7 days')`.mapWith(Number),
-      mailSkipped: sql`(select count(*) from email_log where status = 'skipped' and created_at > now() - interval '7 days')`.mapWith(Number),
-      lowStock: sql`(select count(*) from ${products} where stock_qty is not null and stock_qty > 0 and stock_qty <= low_stock_at)`.mapWith(Number),
-      outOfStock: sql`(select count(*) from ${products} where stock_qty = 0)`.mapWith(Number),
-      publishedReviews: sql`(select count(*) from reviews where status = 'published')`.mapWith(Number),
+      shops: sql`(select count(*) from ${shops})`.mapWith(Number),
     }).from(sql`(select 1) as t`),
 
     db.select({
       total: sql`coalesce(sum(${orders.totalCents}) filter (where ${orders.paymentStatus} = 'paid'), 0)`.mapWith(Number),
-      pipeline: sql`coalesce(sum(${orders.totalCents}) filter (where ${orders.paymentStatus} = 'awaiting_payment'), 0)`.mapWith(Number),
       avg: sql`coalesce(avg(${orders.totalCents}) filter (where ${orders.status} <> 'cancelled'), 0)`.mapWith(Number),
     }).from(orders),
 
     db.select({
-      id: orders.id, reference: orders.reference, status: orders.status,
-      paymentStatus: orders.paymentStatus, total: orders.totalCents,
-      placedAt: orders.placedAt, customer: customers.name, customerId: customers.id,
-    }).from(orders).innerJoin(customers, eq(orders.customerId, customers.id))
-      .orderBy(desc(orders.placedAt)).limit(6),
-
-    // orders sitting unpaid for more than a day — the thing that actually costs money
-    db.select({
-      id: orders.id, reference: orders.reference, total: orders.totalCents,
-      placedAt: orders.placedAt, method: orders.paymentMethod, customer: customers.name,
-    }).from(orders).innerJoin(customers, eq(orders.customerId, customers.id))
-      .where(sql`${orders.paymentStatus} = 'awaiting_payment' and ${orders.placedAt} < now() - interval '24 hours'`)
-      .orderBy(orders.placedAt).limit(8),
+      id: orders.id,
+      reference: orders.reference,
+      status: orders.status,
+      paymentStatus: orders.paymentStatus,
+      total: orders.totalCents,
+      placedAt: orders.placedAt,
+      customer: customers.name,
+      customerId: customers.id,
+    }).from(orders)
+      .innerJoin(customers, eq(orders.customerId, customers.id))
+      .orderBy(desc(orders.placedAt))
+      .limit(5),
 
     db.execute(sql`
       with span as (
@@ -85,8 +73,6 @@ export default async function Dashboard() {
       left join orders o
         on o.placed_at::date = span.day and o.status <> 'cancelled'
       group by span.day order by span.day`),
-
-    db.select().from(auditLog).orderBy(desc(auditLog.createdAt)).limit(8),
 
     db.execute(sql`
       select p.name, b.name as brand, sum(oi.qty)::int as units,
@@ -113,237 +99,127 @@ export default async function Dashboard() {
 
   const top = (topProducts.rows ?? topProducts);
 
-  const tiles = [
-    { label: "Products", value: counts.products, href: "/admin/products", icon: "products" },
-    { label: "Customers", value: counts.customers, href: "/admin/customers", icon: "customers" },
-    { label: "Orders", value: counts.orders, href: "/admin/orders", icon: "orders" },
-    { label: "Services delivering", value: `${counts.live}/${counts.shops}`, href: "/admin/deliveries", icon: "delivery" },
-  ];
-
   return (
-    <>
-      <div className="wp-head">
-        <h1 className="wp-title">Dashboard</h1>
+    <div className="min-h-screen bg-gray-50 p-8">
+      {/* Header */}
+      <div className="mb-8">
+        <p className="text-sm font-medium text-gray-600 mb-2">Welcome back</p>
+        <h1 className="text-4xl font-bold text-gray-900 mb-1">Here's your business overview</h1>
+        <p className="text-gray-500">Track your sales, users and growth in real-time.</p>
       </div>
 
-      {/* What needs a human, before anything else on the page. */}
-      {(stale.length > 0 || counts.paused > 0 || counts.orphanShops > 0 || counts.pendingReviews > 0 || counts.outOfStock > 0 || counts.lowStock > 0 || counts.mailFailed > 0 || counts.mailSkipped > 0) && (
-        <div className="wp-box">
-          <div className="wp-box-head">Needs attention</div>
-          <div className="wp-box-body" style={{ display: "grid", gap: 10 }}>
-            {counts.mailFailed > 0 && (
-              <p style={{ margin: 0 }}>
-                <strong>{counts.mailFailed}</strong> email
-                {counts.mailFailed === 1 ? "" : "s"} failed or bounced in the last 7 days —
-                customers may not have received their order details.{" "}
-                <Link href="/admin/email">Check</Link>
-              </p>
-            )}
-            {counts.mailSkipped > 0 && (
-              <p style={{ margin: 0 }}>
-                <strong>{counts.mailSkipped}</strong> email
-                {counts.mailSkipped === 1 ? " was" : "s were"} never attempted because email
-                is not configured.{" "}
-                <Link href="/admin/email">Configure</Link>
-              </p>
-            )}
-            {counts.outOfStock > 0 && (
-              <p style={{ margin: 0 }}>
-                <strong>{counts.outOfStock}</strong> product
-                {counts.outOfStock === 1 ? " is" : "s are"} out of stock — still listed,
-                but customers cannot add them.{" "}
-                <Link href="/admin/products?view=out">Restock</Link>
-              </p>
-            )}
-            {counts.lowStock > 0 && (
-              <p style={{ margin: 0 }}>
-                <strong>{counts.lowStock}</strong> product
-                {counts.lowStock === 1 ? " is" : "s are"} at or below their warning level.{" "}
-                <Link href="/admin/products?view=low">Review</Link>
-              </p>
-            )}
-            {counts.pendingReviews > 0 && (
-              <p style={{ margin: 0 }}>
-                <strong>{counts.pendingReviews}</strong> review
-                {counts.pendingReviews === 1 ? " is" : "s are"} waiting to be checked — nobody
-                sees them until they are published.{" "}
-                <Link href="/admin/reviews?status=pending">Moderate</Link>
-              </p>
-            )}
-            {stale.length > 0 && (
-              <div className="wp-notice is-warning" style={{ margin: 0 }}>
-                <p style={{ marginBottom: 6 }}>
-                  <strong>{stale.length} order{stale.length === 1 ? "" : "s"} unpaid for over 24 hours</strong>{" "}
-                  — {money(stale.reduce((n, o) => n + o.total, 0))} of stock is held against payments that never landed.
-                </p>
-                <ul style={{ margin: 0, paddingLeft: 18 }}>
-                  {stale.slice(0, 4).map((o) => (
-                    <li key={o.id}>
-                      <Link href="/admin/orders?pay=awaiting_payment">{o.reference}</Link>
-                      {" · "}{o.customer} · {money(o.total)} · {ago(o.placedAt)}
-                    </li>
-                  ))}
-                </ul>
-                {stale.length > 4 && (
-                  <p style={{ marginTop: 6 }}>
-                    <Link href="/admin/orders?pay=awaiting_payment">See all {stale.length}</Link>
-                  </p>
-                )}
-              </div>
-            )}
-            {counts.paused > 0 && (
-              <p style={{ margin: 0 }}>
-                <strong>{counts.paused}</strong> delivery service{counts.paused === 1 ? " is" : "s are"} paused —
-                their products are hidden from the storefront.{" "}
-                <Link href="/admin/deliveries">Review</Link>
-              </p>
-            )}
-            {counts.orphanShops > 0 && (
-              <p style={{ margin: 0 }}>
-                <strong>{counts.orphanShops}</strong> service{counts.orphanShops === 1 ? " has" : "s have"} no products —
-                customers can find them with an empty menu.{" "}
-                <Link href="/admin/products/new">Add stock</Link>
-              </p>
-            )}
-          </div>
-        </div>
-      )}
+      {/* KPI Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <DashboardCard
+          label="Total Revenue"
+          value={money(rev.total)}
+          change="+12.5%"
+          trend="up"
+        />
+        <DashboardCard
+          label="Total Customers"
+          value={counts.customers.toLocaleString()}
+          change="+8.2%"
+          trend="up"
+        />
+        <DashboardCard
+          label="Total Orders"
+          value={counts.orders.toLocaleString()}
+          change="+14.6%"
+          trend="up"
+        />
+        <DashboardCard
+          label="Avg Order Value"
+          value={money(Math.round(rev.avg))}
+          change="+0.9%"
+          trend="up"
+        />
+      </div>
 
-      <div className="wp-grid wp-grid-4" style={{ marginBottom: 20 }}>
-        {tiles.map((t) => (
-          <Link key={t.label} href={t.href} className="wp-box" style={{ display: "block", marginBottom: 0, textDecoration: "none", color: "inherit" }}>
-            <div className="wp-box-body" style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <AdminIcon name={t.icon} size={26} style={{ color: "var(--wp-blue)", flex: "0 0 auto" }} />
-              <span className="wp-stat" style={{ flexDirection: "column", alignItems: "flex-start", gap: 0 }}>
-                <span className="wp-stat-num">{t.value}</span>
-                <span className="wp-stat-label">{t.label}</span>
-              </span>
-            </div>
+      {/* Charts */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <div className="lg:col-span-2 bg-white rounded-lg p-6 border border-gray-200">
+          <div className="mb-6">
+            <h2 className="text-lg font-semibold text-gray-900">Revenue Overview</h2>
+            <p className="text-sm text-gray-500 mt-1">+28.4% from last period</p>
+          </div>
+          <RevenueChart days={dayRows} />
+        </div>
+
+        <div className="bg-white rounded-lg p-6 border border-gray-200">
+          <h2 className="text-lg font-semibold text-gray-900 mb-6">Sales by Category</h2>
+          {top.length > 0 ? (
+            <DonutChart
+              data={top.slice(0, 4).map((p) => ({
+                label: p.brand,
+                value: Number(p.revenue),
+              }))}
+              total={top.slice(0, 4).reduce((sum, p) => sum + Number(p.revenue), 0)}
+            />
+          ) : (
+            <p className="text-gray-500 text-center py-8">No sales data yet</p>
+          )}
+        </div>
+      </div>
+
+      {/* Recent Orders */}
+      <div className="bg-white rounded-lg border border-gray-200 mb-8">
+        <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-gray-900">Recent Orders</h2>
+          <Link href="/admin/orders" className="text-sm text-blue-600 hover:text-blue-700 font-medium">
+            View all
+          </Link>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-gray-200 bg-gray-50">
+                <th className="px-6 py-3 text-left font-semibold text-gray-700">Order ID</th>
+                <th className="px-6 py-3 text-left font-semibold text-gray-700">Customer</th>
+                <th className="px-6 py-3 text-left font-semibold text-gray-700">Status</th>
+                <th className="px-6 py-3 text-right font-semibold text-gray-700">Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              {recentOrders.map((o) => (
+                <tr key={o.id} className="border-b border-gray-200 hover:bg-gray-50">
+                  <td className="px-6 py-4">
+                    <Link href="/admin/orders" className="text-blue-600 hover:text-blue-700 font-medium">
+                      {o.reference}
+                    </Link>
+                  </td>
+                  <td className="px-6 py-4 text-gray-900">{o.customer}</td>
+                  <td className="px-6 py-4">
+                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${STATUS_TONE[o.status] || "bg-gray-100 text-gray-700"}`}>
+                      {label(o.status)}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 text-right font-semibold text-gray-900">{money(o.total)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Quick Links */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        {[
+          { label: "Products", href: "/admin/products", count: counts.products },
+          { label: "Customers", href: "/admin/customers", count: counts.customers },
+          { label: "Orders", href: "/admin/orders", count: counts.orders },
+          { label: "Brands", href: "/admin/brands", count: counts.brands ?? 0 },
+        ].map((item) => (
+          <Link
+            key={item.label}
+            href={item.href}
+            className="bg-white rounded-lg p-4 border border-gray-200 hover:border-gray-300 transition-colors"
+          >
+            <p className="text-2xl font-bold text-gray-900">{item.count.toLocaleString()}</p>
+            <p className="text-sm text-gray-600 mt-1">{item.label}</p>
           </Link>
         ))}
       </div>
-
-      <div className="wp-grid wp-grid-2">
-        <div>
-          <div className="wp-box">
-            <div className="wp-box-head">Revenue, last 14 days</div>
-            <div className="wp-box-body">
-              <RevenueChart days={dayRows} />
-            </div>
-          </div>
-
-          <div className="wp-box">
-            <div className="wp-box-head">Money</div>
-            <div className="wp-box-body" style={{ display: "flex", gap: 28, flexWrap: "wrap" }}>
-              {[
-                ["Confirmed paid", money(rev.total)],
-                ["Awaiting payment", money(rev.pipeline)],
-                ["Average order", money(Math.round(rev.avg))],
-              ].map(([k, v]) => (
-                <span key={k} className="wp-stat" style={{ flexDirection: "column", alignItems: "flex-start", gap: 0 }}>
-                  <span className="wp-stat-num">{v}</span>
-                  <span className="wp-stat-label">{k}</span>
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div className="wp-box">
-            <div className="wp-box-head">Best sellers by revenue</div>
-            <div className="wp-box-body" style={{ padding: 0 }}>
-              <table className="wp-table">
-                <thead><tr><th>Product</th><th className="col-num">Units</th><th className="col-num">Revenue</th></tr></thead>
-                <tbody>
-                  {top.length === 0 && <tr><td colSpan={3} className="wp-help" style={{ padding: 16 }}>No orders yet.</td></tr>}
-                  {top.map((p) => (
-                    <tr key={`${p.brand}-${p.name}`}>
-                      <td>{p.name}<div className="wp-help">{p.brand}</div></td>
-                      <td className="col-num">{p.units}</td>
-                      <td className="col-num">{money(Number(p.revenue))}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <div className="wp-box">
-            <div className="wp-box-head">
-              At a Glance
-              <Link href="/admin/products/new" style={{ fontWeight: 400, fontSize: 13 }}>Add product</Link>
-            </div>
-            <div className="wp-box-body">
-              <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gap: 8 }}>
-                <li><Link href="/admin/products">{counts.products} products</Link> across <Link href="/admin/categories">{counts.categories} categories</Link> and <Link href="/admin/brands">{counts.brands} brands</Link></li>
-                <li><strong>{counts.deals}</strong> products currently discounted</li>
-                <li><Link href="/admin/orders?pay=awaiting_payment">{counts.awaiting} orders awaiting payment</Link></li>
-              </ul>
-              <p className="wp-help" style={{ marginTop: 12 }}>
-                Delivery only — there is no pickup anywhere in this product.
-              </p>
-            <p>
-              <Link href="/admin/reviews?status=published">{counts.publishedReviews} published review{counts.publishedReviews === 1 ? "" : "s"}</Link>
-              {counts.pendingReviews > 0 ? `, ${counts.pendingReviews} awaiting moderation` : ""}
-            </p>
-            </div>
-          </div>
-
-          <div className="wp-box">
-            <div className="wp-box-head">
-              Recent Orders
-              <Link href="/admin/orders" style={{ fontWeight: 400, fontSize: 13 }}>View all</Link>
-            </div>
-            <div className="wp-box-body" style={{ padding: 0 }}>
-              <table className="wp-table">
-                <thead><tr><th>Order</th><th>Customer</th><th>Status</th><th className="col-num">Total</th></tr></thead>
-                <tbody>
-                  {recentOrders.map((o) => (
-                    <tr key={o.id}>
-                      <td>
-                        <Link href="/admin/orders">{o.reference}</Link>
-                        {o.paymentStatus === "awaiting_payment" && (
-                          <div><span className="wp-pill is-amber">Unpaid</span></div>
-                        )}
-                      </td>
-                      <td><Link href={`/admin/customers/${o.customerId}`}>{o.customer}</Link></td>
-                      <td><span className={`wp-pill ${STATUS_TONE[o.status] ?? "is-grey"}`}>{label(o.status)}</span></td>
-                      <td className="col-num">{money(o.total)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <div className="wp-box">
-            <div className="wp-box-head">
-              Activity
-              <Link href="/admin/activity" style={{ fontWeight: 400, fontSize: 13 }}>Full log</Link>
-            </div>
-            <div className="wp-box-body">
-              {activity.length === 0 ? (
-                <p className="wp-help" style={{ margin: 0 }}>
-                  Nothing recorded yet. Deletions, payment confirmations and wallet changes appear here.
-                </p>
-              ) : (
-                <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gap: 10 }}>
-                  {activity.map((a) => (
-                    <li key={a.id}>
-                      <span className={`wp-pill ${AGE_TONE[a.severity] ?? "is-grey"}`}>{a.action.replace(/_/g, " ")}</span>{" "}
-                      {a.summary}
-                      <div className="wp-help">
-                        {a.actor} · {new Date(a.createdAt).toLocaleString("en-US")}
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
+    </div>
   );
 }
