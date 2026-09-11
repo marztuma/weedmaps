@@ -42,6 +42,34 @@ export default function Footer({ site }) {
                 </li>
               ))}
             </ul>
+
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a
+                href="https://apps.apple.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2.5 rounded-lg bg-ink px-4 py-2.5 text-linen transition-all duration-200 hover:bg-ink-soft"
+              >
+                <Icon name="apple" size={20} />
+                <div className="flex flex-col">
+                  <span className="text-[0.65rem] leading-none">Download on the</span>
+                  <span className="font-semibold leading-none">App Store</span>
+                </div>
+              </a>
+
+              <a
+                href="https://play.google.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2.5 rounded-lg bg-ink px-4 py-2.5 text-linen transition-all duration-200 hover:bg-ink-soft"
+              >
+                <Icon name="android" size={20} />
+                <div className="flex flex-col">
+                  <span className="text-[0.65rem] leading-none">GET IT ON</span>
+                  <span className="font-semibold leading-none">Google Play</span>
+                </div>
+              </a>
+            </div>
           </div>
 
           {site.footer.columns.map((col) => (
