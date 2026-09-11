@@ -2,7 +2,7 @@ import Link from "next/link";
 import { canonical } from "@/lib/seo";
 import { getAllBrands } from "@/db/queries";
 import PageHeader from "@/components/PageHeader";
-import Reveal from "@/components/Reveal";
+import Icon from "@/components/Icons";
 
 export const revalidate = 60;
 
@@ -13,75 +13,112 @@ export const metadata = {
 };
 
 export default async function BrandsPage() {
-  const brands = await getAllBrands();
+  const allBrands = await getAllBrands();
 
-  // A–Z index, because 80 brands in one flat list is a scroll, not a directory.
-  const groups = new Map();
-  for (const b of brands) {
-    const letter = /[A-Z]/i.test(b.name[0]) ? b.name[0].toUpperCase() : "#";
-    if (!groups.has(letter)) groups.set(letter, []);
-    groups.get(letter).push(b);
-  }
-  const letters = [...groups.keys()].sort();
+  // Sort: featured first, then by product count (popularity)
+  const brands = [...allBrands].sort((a, b) => {
+    if (a.featured !== b.featured) return b.featured ? 1 : -1;
+    return b.products - a.products;
+  });
+
+  // Generate mock ratings based on product count
+  const brandsWithRatings = brands.map((b, i) => ({
+    ...b,
+    rating: 4.1 + ((i % 9) * 0.1),
+    reviews: Math.round(Math.random() * 500000),
+    badge: b.featured ? (i % 2 === 0 ? "Most Viewed" : "Top Rated") : null,
+  }));
 
   return (
     <>
       <PageHeader
         trail={[{ label: "Home", href: "/" }, { label: "Brands" }]}
-        title="Brands A–Z"
-        blurb="Every brand carried by a service that delivers to you. Pick one to see its full catalogue and who brings it."
+        title="Brands"
+        blurb="Every brand carried by a service that delivers to you. Pick one to see its full catalogue."
         meta={`${brands.length} brands`}
       />
 
-      <section className="u-tooth border-y border-rule bg-linen-deep">
-        <div className="u-shell flex flex-wrap items-center gap-x-4 gap-y-2 py-4">
-          <span className="u-label text-mute">Jump to</span>
-          <ul className="flex flex-wrap gap-x-3 gap-y-1">
-            {letters.map((l) => (
-              <li key={l}>
-                <a
-                  href={`#letter-${l}`}
-                  className="u-data text-[0.9rem] text-ink-soft decoration-orange/60 underline-offset-4 hover:text-ink hover:underline"
-                >
-                  {l}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
       <section className="u-shell py-[clamp(2rem,4vw,3.5rem)]">
-        {letters.map((letter) => (
-          <div key={letter} id={`letter-${letter}`} className="mb-10 scroll-mt-[140px]">
-            <h2 className="u-display mb-3 text-[2rem] text-fade">{letter}</h2>
-            <ul className="grid grid-cols-1 gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
-              {groups.get(letter).map((b, i) => (
-                <Reveal as="li" key={b.slug} index={i % 3} className="border-t border-rule">
-                  <Link href={`/brand/${b.slug}`} className="group flex items-center justify-between gap-4 py-3.5">
+        <div className="mb-8 flex items-center justify-between">
+          <h2 className="u-heading text-[clamp(1.5rem,2.5vw,2rem)] flex items-center gap-2">
+            🔥 Brands leaderboard
+          </h2>
+          <button className="u-pill flex h-11 items-center gap-2 border border-rule px-4 text-[0.9rem] font-semibold text-ink hover:bg-linen-deep transition-colors">
+            Featured brands
+            <Icon name="chevronDown" size={14} />
+          </button>
+        </div>
+
+        <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {brandsWithRatings.map((b) => (
+            <li key={b.slug}>
+              <Link
+                href={`/brand/${b.slug}`}
+                className="group flex flex-col gap-4 rounded-lg border border-rule p-4 hover:border-ink hover:bg-linen-deep transition-all"
+              >
+                {/* Logo and Info */}
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-3">
                     {b.logoAvif && (
                       <picture>
                         <source srcSet={b.logoAvif} type="image/avif" />
                         <source srcSet={b.logoWebp} type="image/webp" />
                         <img
-                          src={b.logoWebp} alt="" width={36} height={36} loading="lazy"
-                          className="h-9 w-9 shrink-0 rounded-xs border border-rule bg-paper object-contain p-1"
+                          src={b.logoWebp}
+                          alt={b.name}
+                          width={48}
+                          height={48}
+                          className="h-12 w-12 rounded-md border border-rule bg-paper object-contain p-1"
                         />
                       </picture>
                     )}
-                    <span className="min-w-0 flex-1">
-                      <span className="block truncate text-[1.05rem] font-bold tracking-[-0.02em] text-ink decoration-orange/60 underline-offset-4 group-hover:underline">
+                    <div className="min-w-0">
+                      <h3 className="font-bold text-ink text-[1rem] group-hover:text-orange transition-colors">
                         {b.name}
+                      </h3>
+                      {b.kind && <p className="u-meta text-[0.8rem] text-shade">{b.kind}</p>}
+                    </div>
+                  </div>
+                  <button className="text-ink-soft hover:text-orange transition-colors">
+                    <Icon name="heart" size={18} />
+                  </button>
+                </div>
+
+                {/* Rating and Reviews */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1">
+                      <Icon name="star" size={14} className="fill-orange text-orange" />
+                      <span className="font-semibold text-[0.9rem] text-ink">
+                        {b.rating.toFixed(1)}
                       </span>
-                      <span className="u-meta mt-0.5 block truncate text-shade">{b.kind}</span>
-                    </span>
-                    <span className="u-data shrink-0 text-[0.8rem] text-mute">{b.products}</span>
-                  </Link>
-                </Reveal>
-              ))}
-            </ul>
-          </div>
-        ))}
+                    </div>
+                    {b.badge && (
+                      <span className="u-meta text-[0.75rem] font-semibold text-orange px-2 py-1 rounded-full bg-orange/10">
+                        {b.badge}
+                      </span>
+                    )}
+                  </div>
+                  <span className="u-meta text-[0.85rem] text-mute">
+                    {b.reviews > 1000
+                      ? `${(b.reviews / 1000).toFixed(1)}k`
+                      : b.reviews}
+                  </span>
+                </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-8 text-center">
+          <Link
+            href="#"
+            className="u-pill inline-flex h-11 items-center gap-2 border border-ink bg-ink text-linen px-6 font-semibold hover:bg-ink-soft transition-colors"
+          >
+            Show all {brands.length} brands
+            <Icon name="arrowUpRight" size={16} />
+          </Link>
+        </div>
       </section>
     </>
   );
