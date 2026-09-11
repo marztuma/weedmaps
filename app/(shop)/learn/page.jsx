@@ -62,7 +62,7 @@ export default function LearnIndex() {
               <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3">Stay highly informed.</h2>
               <p className="text-lg text-white/80 mb-8">Get weekly cannabis news right to your inbox.</p>
               <Link
-                href="/subscribe"
+                href="/email-signup"
                 className="inline-block px-6 py-3 rounded-full bg-cyan-300 hover:bg-cyan-200 text-slate-900 font-semibold transition-colors duration-200"
               >
                 Get updates
