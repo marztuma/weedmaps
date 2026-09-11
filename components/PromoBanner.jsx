@@ -17,7 +17,18 @@ export default function PromoBanner() {
             textAlign: "center",
           }}
         >
-          <h2 className="u-heading" style={{ color: "inherit", fontSize: "clamp(1.5rem, 4vw, 2.5rem)", marginTop: 0 }}>
+          <h2
+            className="u-heading"
+            style={{
+              backgroundColor: "var(--color-orange)",
+              color: "var(--color-linen)",
+              fontSize: "clamp(1.5rem, 4vw, 2.5rem)",
+              marginTop: 0,
+              padding: "0.75rem 1.5rem",
+              borderRadius: "8px",
+              display: "inline-block"
+            }}
+          >
             ⏰ Services Opening Soon
           </h2>
 
