@@ -56,6 +56,16 @@ export async function POST(request, { params }) {
       .set({ lastMessageAt: new Date() })
       .where(eq(schema.chatConversations.id, parseInt(id)));
 
+    await fetch("http://localhost:3000/api/chat/sse", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        type: "message",
+        conversationId: parseInt(id),
+        data: { messageId: message.id, body: message.body },
+      }),
+    }).catch(() => {});
+
     return Response.json({ success: true, message });
   } catch (error) {
     console.error("Error sending message:", error);
