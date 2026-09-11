@@ -33,7 +33,7 @@ export async function POST(request) {
     for (const email of subscriberEmails) {
       try {
         const result = await resend.emails.send({
-          from: "Weedmaps <offers@weedmaps.store>",
+          from: "Weedmaps <onboarding@resend.dev>",
           to: email,
           subject: `🎉 This Week's Hot Deals - ${topDeals.length} Offers Just For You`,
           html: emailHtml,

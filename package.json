@@ -20,6 +20,7 @@
     "stock:clear": "node scripts/seed-stock.mjs --clear",
     "mail:test": "node scripts/test-mail-safe.mjs",
     "mail:webhook-test": "node scripts/test-webhook.mjs",
+    "promo:send": "node scripts/send-promo-email.mjs",
     "chat:test": "node scripts/test-chat.mjs",
     "seo:crawl": "node scripts/seo-crawl.mjs",
     "admin:list": "node scripts/admin-user.mjs list",

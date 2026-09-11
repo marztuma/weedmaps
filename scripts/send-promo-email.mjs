@@ -171,7 +171,7 @@ async function sendPromoEmail() {
       console.log(`Sending to: ${email}...`);
 
       const result = await resend.emails.send({
-        from: "Weedmaps Offers <offers@weedmaps.store>",
+        from: "Weedmaps Offers <onboarding@resend.dev>",
         to: email,
         subject: `🎉 This Week's Hot Deals - ${sampleDeals.length} Offers Just For You!`,
         html: emailTemplate(sampleDeals, sampleDeals.length),
