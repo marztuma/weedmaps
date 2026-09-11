@@ -49,6 +49,44 @@ export default function LearnIndex() {
           ))}
         </ul>
       </section>
+
+      <section className="u-shell py-[clamp(2.5rem,5vw,4rem)]">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-900 via-teal-900 to-slate-900 p-8 sm:p-12 lg:p-16">
+          <div className="absolute inset-0 opacity-30">
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-teal-600/30 via-transparent to-transparent" />
+          </div>
+
+          <div className="relative z-10 grid gap-12 lg:grid-cols-2 lg:items-center">
+            {/* Left Side */}
+            <div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3">Stay highly informed.</h2>
+              <p className="text-lg text-white/80 mb-8">Get weekly cannabis news right to your inbox.</p>
+              <Link
+                href="/subscribe"
+                className="inline-block px-6 py-3 rounded-full bg-cyan-300 hover:bg-cyan-200 text-slate-900 font-semibold transition-colors duration-200"
+              >
+                Get updates
+              </Link>
+            </div>
+
+            {/* Right Side */}
+            <div className="space-y-4 lg:pl-8">
+              <div className="flex items-center gap-3">
+                <Icon name="pin" size={24} className="text-cyan-300 flex-shrink-0" />
+                <span className="text-lg text-white">Learn about strains</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Icon name="pin" size={24} className="text-cyan-300 flex-shrink-0" />
+                <span className="text-lg text-white">Get the latest cannabis news</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Icon name="pin" size={24} className="text-cyan-300 flex-shrink-0" />
+                <span className="text-lg text-white">Get curated content</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   );
 }
