@@ -53,10 +53,10 @@ async function main() {
   console.log("seeding delivery services…");
   const shopIds = [];
   const shopRows = await db.insert(schema.shops).values(
-    SHOPS.map(([name, serviceArea, license, rating, reviewCount, deliveringNow,
+    SHOPS.map(([state, name, serviceArea, license, rating, reviewCount, deliveringNow,
                 windowLabel, etaMinMinutes, etaMaxMinutes, minOrderCents,
                 deliveryFeeCents, freeDeliveryOverCents, menuCount, deal]) => ({
-      slug: slugify(name), name, serviceArea, license, rating: String(rating), reviewCount,
+      slug: slugify(name), name, state, serviceArea, license, rating: String(rating), reviewCount,
       deliveringNow, windowLabel, etaMinMinutes, etaMaxMinutes, minOrderCents,
       deliveryFeeCents, freeDeliveryOverCents, menuCount, deal,
     }))
