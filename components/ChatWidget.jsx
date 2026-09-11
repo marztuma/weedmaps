@@ -142,10 +142,11 @@ export default function ChatWidget() {
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
         aria-controls="wm-chat-panel"
-        className="fixed bottom-6 right-6 z-40 grid h-14 w-14 place-items-center rounded-full border-2 bg-transparent text-black shadow-lg transition-all duration-200 hover:scale-110 hover:shadow-xl"
-        style={{ borderColor: '#D4A574' }}
+        className="fixed bottom-6 right-6 z-40 grid h-14 w-14 place-items-center rounded-full bg-black shadow-lg transition-all duration-200 hover:scale-110 hover:shadow-xl"
       >
-        <Icon name={open ? "x" : "messageCircle"} size={20} />
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
         <span className="sr-only">{open ? "Close chat" : "Ask a question"}</span>
       </button>
 
