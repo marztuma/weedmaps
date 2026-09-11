@@ -142,9 +142,9 @@ export default function ChatWidget() {
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
         aria-controls="wm-chat-panel"
-        className="fixed bottom-6 right-6 z-40 grid h-16 w-16 place-items-center rounded-full bg-gradient-to-br from-indigo-600 to-blue-600 text-white shadow-2xl transition-all duration-200 hover:scale-110 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        className="fixed bottom-6 right-6 z-40 grid h-14 w-14 place-items-center rounded-full bg-black text-white shadow-lg transition-all duration-200 hover:scale-110 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-800"
       >
-        <Icon name={open ? "close" : "messageCircle"} size={24} />
+        <Icon name={open ? "x" : "messageCircle"} size={20} />
         <span className="sr-only">{open ? "Close chat" : "Ask a question"}</span>
       </button>
 
@@ -156,9 +156,9 @@ export default function ChatWidget() {
         hidden={!open}
         className="fixed bottom-28 right-6 z-40 flex max-h-[min(42rem,calc(100vh-6rem))] w-[min(26rem,calc(100vw-2rem))] flex-col overflow-hidden rounded-lg border border-gray-200 bg-white shadow-2xl"
       >
-        <div className="flex items-center justify-between border-b border-gray-200 bg-gradient-to-r from-indigo-50 to-blue-50 px-5 py-4">
+        <div className="flex items-center justify-between border-b border-gray-200 bg-white px-5 py-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 text-white">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-black text-white">
               <Icon name="messageCircle" size={16} />
             </div>
             <div>
@@ -220,7 +220,7 @@ export default function ChatWidget() {
             <div key={i} className={`mb-3 flex ${m.role === "visitor" ? "justify-end" : "justify-start"}`}>
               <div
                 className={`max-w-[85%] rounded-lg px-3 py-2 text-[0.9rem] leading-relaxed ${
-                  m.role === "visitor" ? "bg-indigo-600 text-white rounded-br-none" : "bg-gray-100 text-gray-900 rounded-bl-none"
+                  m.role === "visitor" ? "bg-black text-white rounded-br-none" : "bg-gray-100 text-gray-900 rounded-bl-none"
                 }`}
               >
                 <p>{m.text}</p>
@@ -315,19 +315,19 @@ export default function ChatWidget() {
               onClick={() => setSelectedMode("agent")}
               className={`w-full rounded-sm p-3 transition-all cursor-pointer ${
                 selectedMode === "agent"
-                  ? "bg-ink-soft/40 border-2 border-ink shadow-sm"
-                  : "bg-ink-soft/20 border-2 border-transparent hover:bg-ink-soft/30"
+                  ? "bg-black/10 border-2 border-black shadow-sm"
+                  : "bg-gray-100 border-2 border-transparent hover:bg-gray-150"
               }`}
             >
               <div className="flex items-start gap-2">
-                <Icon name="sparkles" size={16} className="mt-0.5 shrink-0 text-ink" />
+                <Icon name="sparkles" size={16} className="mt-0.5 shrink-0 text-black" />
                 <div className="min-w-0 text-left flex-1">
-                  <p className="text-[0.8rem] font-semibold text-ink">Agent</p>
-                  <p className="mt-0.5 text-[0.75rem] leading-relaxed text-shade">
+                  <p className="text-[0.8rem] font-semibold text-gray-900">Agent</p>
+                  <p className="mt-0.5 text-[0.75rem] leading-relaxed text-gray-600">
                     Instant help with browsing, orders & delivery
                   </p>
                 </div>
-                {selectedMode === "agent" && <Icon name="check" size={16} className="shrink-0 text-ink mt-0.5" />}
+                {selectedMode === "agent" && <Icon name="check" size={16} className="shrink-0 text-black mt-0.5" />}
               </div>
             </button>
 
@@ -337,33 +337,33 @@ export default function ChatWidget() {
               onClick={() => setSelectedMode("support")}
               className={`w-full rounded-sm p-3 transition-all cursor-pointer ${
                 selectedMode === "support"
-                  ? "bg-linen-deep/70 border-2 border-ink shadow-sm"
-                  : "bg-linen-deep/50 border-2 border-transparent hover:bg-linen-deep/60"
+                  ? "bg-gray-200 border-2 border-black shadow-sm"
+                  : "bg-gray-100 border-2 border-transparent hover:bg-gray-150"
               }`}
             >
               <div className="flex items-start gap-2">
-                <Icon name="headphones" size={16} className="mt-0.5 shrink-0 text-ink" />
+                <Icon name="headphones" size={16} className="mt-0.5 shrink-0 text-black" />
                 <div className="min-w-0 text-left flex-1">
-                  <p className="text-[0.8rem] font-semibold text-ink">Support</p>
-                  <p className="mt-0.5 text-[0.75rem] leading-relaxed text-shade">
+                  <p className="text-[0.8rem] font-semibold text-gray-900">Support</p>
+                  <p className="mt-0.5 text-[0.75rem] leading-relaxed text-gray-600">
                     Help with account, tracking & general questions
                   </p>
                 </div>
-                {selectedMode === "support" && <Icon name="check" size={16} className="shrink-0 text-ink mt-0.5" />}
+                {selectedMode === "support" && <Icon name="check" size={16} className="shrink-0 text-black mt-0.5" />}
               </div>
             </button>
           </div>
 
           {/* Mode-Specific Message */}
-          <div className="bg-linen-deep/30 rounded-sm p-2.5 mb-2">
-            <p className="text-[0.7rem] text-shade leading-relaxed margin-0">
+          <div className="bg-gray-100 rounded-sm p-2.5 mb-2">
+            <p className="text-[0.7rem] text-gray-700 leading-relaxed margin-0">
               {selectedMode === "agent"
                 ? "💡 Ask about menus, pricing, delivery times, or place an order"
                 : "📞 We'll help with account issues, tracking, or other questions"}
             </p>
           </div>
 
-          <p className="text-center text-[0.7rem] text-mute">
+          <p className="text-center text-[0.7rem] text-gray-600">
             💬 We reply instantly
           </p>
         </div>
@@ -372,7 +372,7 @@ export default function ChatWidget() {
         {!minimized && (
         <form
           onSubmit={(e) => { e.preventDefault(); const v = inputRef.current.value; inputRef.current.value = ""; send(v); }}
-          className="flex items-center gap-2 border-t border-rule p-3"
+          className="flex items-center gap-2 border-t border-gray-200 p-3"
         >
           <input
             ref={inputRef}
@@ -380,12 +380,12 @@ export default function ChatWidget() {
             maxLength={1000}
             placeholder="Ask a question…"
             aria-label="Your question"
-            className="h-11 min-w-0 flex-1 rounded-sm border border-rule bg-linen px-3 text-[0.9rem] text-ink outline-none focus:border-ink"
+            className="h-11 min-w-0 flex-1 rounded-sm border border-gray-300 bg-white px-3 text-[0.9rem] text-gray-900 outline-none focus:border-black"
           />
           <button
             type="submit"
             disabled={busy}
-            className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-ink text-linen hover:bg-ink-soft disabled:opacity-60"
+            className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-black text-white hover:bg-gray-800 disabled:opacity-60"
           >
             <Icon name="arrowUpRight" size={16} />
             <span className="sr-only">Send</span>
