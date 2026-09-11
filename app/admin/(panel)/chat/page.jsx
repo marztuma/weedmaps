@@ -1,186 +1,108 @@
+﻿"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { desc, eq, sql } from "drizzle-orm";
-import { db, schema } from "@/db/client";
-import Notice from "@/components/admin/Notice";
-import ChatThread from "./ChatThread";
+import Icon from "@/components/Icons";
 
-export const dynamic = "force-dynamic";
+export default function ChatDashboard() {
+  const [conversations, setConversations] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-const STATUS_TONE = {
-  open: "is-blue",
-  needs_reply: "is-red",
-  answered: "is-green",
-  closed: "is-grey",
-};
+  useEffect(() => {
+    fetchConversations();
+    const interval = setInterval(fetchConversations, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
-const formatTime = (d) => {
-  const date = new Date(d);
-  return date.toLocaleString("en-US", {
-    month: "short",
-    day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true,
-  });
-};
+  async function fetchConversations() {
+    try {
+      const res = await fetch("/api/chat/conversations");
+      const data = await res.json();
+      if (data.success) {
+        setConversations(data.conversations);
+      }
+    } catch (error) {
+      console.error("Error fetching conversations:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
 
-export default async function ChatAdmin({ searchParams }) {
-  const sp = await searchParams;
-  const conversationId = sp?.id ? Number(sp.id) : null;
-
-  // Fetch all conversations with message counts
-  const [conversations, [stats]] = await Promise.all([
-    db
-      .select({
-        id: schema.chatConversations.id,
-        status: schema.chatConversations.status,
-        contactEmail: schema.chatConversations.contactEmail,
-        lastMessageAt: schema.chatConversations.lastMessageAt,
-        createdAt: schema.chatConversations.createdAt,
-        messageCount: sql`count(${schema.chatMessages.id})`.mapWith(Number),
-      })
-      .from(schema.chatConversations)
-      .leftJoin(
-        schema.chatMessages,
-        eq(schema.chatMessages.conversationId, schema.chatConversations.id)
-      )
-      .groupBy(schema.chatConversations.id)
-      .orderBy(desc(schema.chatConversations.lastMessageAt))
-      .limit(100),
-    db
-      .select({
-        total: sql`count(*)`.mapWith(Number),
-        needsReply: sql`count(*) filter (where status = 'needs_reply')`.mapWith(
-          Number
-        ),
-        answered: sql`count(*) filter (where status = 'answered')`.mapWith(
-          Number
-        ),
-        closed: sql`count(*) filter (where status = 'closed')`.mapWith(Number),
-      })
-      .from(schema.chatConversations),
-  ]);
-
-  const selectedConversation =
-    conversationId && conversations.find((c) => c.id === conversationId);
+  const statusColors = {
+    open: "bg-blue-100 text-blue-800",
+    needs_reply: "bg-red-100 text-red-800",
+    answered: "bg-green-100 text-green-800",
+    closed: "bg-gray-100 text-gray-800",
+  };
 
   return (
-    <>
-      <h1 className="wp-title">Support Chat</h1>
+    <div>
+      <div className="mb-8">
+        <h1 className="text-4xl font-bold text-gray-900">Live Support Chat</h1>
+        <p className="mt-2 text-gray-600">Manage incoming customer messages in real-time</p>
+      </div>
 
-      <Notice
-        map={{
-          reply_sent: [
-            "is-success",
-            "Your reply has been sent to the visitor.",
-          ],
-          status_updated: ["is-success", "Conversation status updated."],
-          invalid_convo: ["is-error", "Conversation not found."],
-        }}
-      />
-
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 2fr",
-          gap: 16,
-          alignItems: "start",
-        }}
-      >
-        {/* Left: Conversation List */}
-        <div className="wp-box">
-          <div className="wp-box-head">Conversations</div>
-          <div className="wp-box-body">
-            <div style={{ marginBottom: 16 }}>
-              <p className="wp-help" style={{ marginTop: 0 }}>
-                <strong>{stats.needsReply}</strong> waiting •{" "}
-                <strong>{stats.answered}</strong> answered •{" "}
-                <strong>{stats.closed}</strong> closed
-              </p>
-            </div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-1 bg-white rounded-lg border border-gray-200 overflow-hidden">
+          <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-gray-900">Conversations</h2>
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+              {conversations.length}
+            </span>
           </div>
 
-          <div className="wp-table-wrap">
-            <table className="wp-table">
-              <thead>
-                <tr>
-                  <th style={{ width: 80 }}>Status</th>
-                  <th>Visitor</th>
-                  <th style={{ width: 100 }}>Last Message</th>
-                </tr>
-              </thead>
-              <tbody>
-                {conversations.length === 0 && (
-                  <tr>
-                    <td colSpan={3} style={{ textAlign: "center", padding: 24 }}>
-                      No conversations yet.
-                    </td>
-                  </tr>
-                )}
-                {conversations.map((convo) => (
-                  <tr
-                    key={convo.id}
-                    onClick={() => {}}
-                    style={{
-                      backgroundColor:
-                        selectedConversation?.id === convo.id
-                          ? "#f5f5f5"
-                          : "transparent",
-                      cursor: "pointer",
-                    }}
-                  >
-                    <td>
-                      <span className={`wp-pill ${STATUS_TONE[convo.status]}`}>
-                        {convo.status}
-                      </span>
-                    </td>
-                    <td>
-                      <Link
-                        href={`/admin/chat?id=${convo.id}`}
-                        style={{
-                          color: "#0066cc",
-                          textDecoration: "none",
-                          display: "block",
-                        }}
-                      >
-                        <div style={{ fontWeight: 500, marginBottom: 4 }}>
-                          {convo.contactEmail || "Anonymous"}
-                        </div>
-                        <div
-                          className="wp-help"
-                          style={{ fontSize: "0.8rem", marginBottom: 2 }}
-                        >
-                          {convo.messageCount} messages
-                        </div>
-                      </Link>
-                    </td>
-                    <td className="wp-help">
-                      {formatTime(convo.lastMessageAt)}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="divide-y divide-gray-200 max-h-[calc(100vh-300px)] overflow-y-auto">
+            {loading ? (
+              <div className="px-6 py-8 text-center text-gray-500">
+                <p>Loading conversations...</p>
+              </div>
+            ) : conversations.length === 0 ? (
+              <div className="px-6 py-8 text-center text-gray-500">
+                <p>No conversations yet</p>
+                <p className="text-sm text-gray-400 mt-2">
+                  When customers start chatting, they'll appear here
+                </p>
+              </div>
+            ) : (
+              conversations.map((conv) => (
+                <Link
+                  key={conv.id}
+                  href={`/admin/chat/${conv.id}`}
+                  className="block px-6 py-4 hover:bg-gray-50 transition-colors"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-gray-900 truncate">
+                        {conv.contactEmail || `Visitor ${conv.visitorKey.slice(0, 8)}`}
+                      </p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        Last message: {new Date(conv.lastMessageAt).toLocaleString()}
+                      </p>
+                    </div>
+                    <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium whitespace-nowrap ${
+                      statusColors[conv.status] || statusColors.open
+                    }`}>
+                      {conv.status.replace('_', ' ')}
+                    </span>
+                  </div>
+                </Link>
+              ))
+            )}
           </div>
         </div>
 
-        {/* Right: Conversation Detail */}
-        {selectedConversation ? (
-          <ChatThread conversation={selectedConversation} />
-        ) : (
-          <div className="wp-box">
-            <div className="wp-box-head">Select a Conversation</div>
-            <div
-              className="wp-box-body"
-              style={{ textAlign: "center", padding: "3rem 2rem" }}
-            >
-              <p className="wp-help">
-                Click a conversation on the left to view and reply to messages.
-              </p>
+        <div className="lg:col-span-2 bg-white rounded-lg border border-gray-200 p-12 flex items-center justify-center">
+          <div className="text-center">
+            <div className="inline-flex items-center justify-center h-12 w-12 rounded-full bg-gray-100 mb-4">
+              <Icon name="messageCircle" size={24} className="text-gray-600" />
             </div>
+            <h3 className="text-lg font-medium text-gray-900">No conversation selected</h3>
+            <p className="text-gray-600 text-sm mt-2">
+              Click on a conversation from the list to view messages and reply
+            </p>
           </div>
-        )}
+        </div>
       </div>
-    </>
+    </div>
   );
 }
