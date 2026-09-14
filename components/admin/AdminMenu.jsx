@@ -36,6 +36,7 @@ const MENU = [
       { label: "Campaigns", href: "/admin/campaigns" },
     ],
   },
+  { label: "Live Chat", href: "/admin/chat", icon: "customers" },
   { sep: true },
   { label: "Discounts", href: "/admin/discounts", icon: "orders" },
   { sep: true },
