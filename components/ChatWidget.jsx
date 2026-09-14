@@ -446,7 +446,7 @@ export default function ChatWidget() {
             placeholder={mode === "agent" ? "Ask the agent…" : "Message support…"}
             aria-label="Your message"
             onChange={(e) => {
-              if (conversationId && e.target.value) {
+              if (mode === "support" && conversationId && e.target.value) {
                 fetch("/api/chat/typing", {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },

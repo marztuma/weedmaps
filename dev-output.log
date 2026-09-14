@@ -42,3 +42,84 @@ Error: Route "/api/chat/conversations/[id]" used `params.id`. `params` should be
  POST /api/chat/read-receipt 200 in 2150ms
  ✓ Compiled /api/chat/visitor in 149ms (199 modules)
  GET /api/chat/visitor?visitorKey=testkey123456789abc 200 in 2120ms
+ ⨯ Error: Cannot find module './5873.js'
+Require stack:
+- C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\webpack-runtime.js
+- C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\api\chat\visitor\route.js
+- C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\node_modules\next\dist\server\require.js
+- C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\node_modules\next\dist\server\load-components.js
+- C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\node_modules\next\dist\build\utils.js
+- C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\node_modules\next\dist\build\swc\options.js
+- C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\node_modules\next\dist\build\swc\index.js
+- C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\api\chat\typing\route.js:1:7962)
+    at Object.<anonymous> (C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\app\api\chat\typing\route.js:1:8008) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array],
+  page: '/api/chat/typing'
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 7.2s (629 modules)
+ ⨯ Error: Cannot find module './chunks/vendor-chunks/next.js'
+Require stack:
+- C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\webpack-runtime.js
+- C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\pages\_document.js
+- C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\node_modules\next\dist\server\require.js
+- C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\node_modules\next\dist\server\load-components.js
+- C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\node_modules\next\dist\build\utils.js
+- C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\node_modules\next\dist\build\swc\options.js
+- C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\node_modules\next\dist\build\swc\index.js
+- C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\node_modules\next\dist\build\analysis\parse-module.js
+- C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\node_modules\next\dist\build\analysis\get-page-static-info.js
+- C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\node_modules\next\dist\server\lib\router-utils\setup-dev-bundler.js
+- C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\node_modules\next\dist\server\lib\router-server.js
+- C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\node_modules\next\dist\server\lib\start-server.js
+    at <unknown> (C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\pages\_document.js:63:47)
+    at Object.<anonymous> (C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\server\pages\_document.js:66:3) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ POST /api/chat/typing 500 in 14653ms
+ GET /api/chat/typing?conversationId=10 200 in 223ms
+ ✓ Compiled in 189ms (281 modules)
+[Error: ENOENT: no such file or directory, stat 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\cache\webpack\server-development\9.pack.gz'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\cache\\webpack\\server-development\\9.pack.gz"
+}
+ ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\cache\webpack\server-development\9.pack.gz'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\cache\\webpack\\server-development\\9.pack.gz"
+}
+ ⨯ unhandledRejection:  [Error: ENOENT: no such file or directory, stat 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\cache\webpack\server-development\9.pack.gz'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\cache\\webpack\\server-development\\9.pack.gz"
+}
+[Error: ENOENT: no such file or directory, stat 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\cache\webpack\server-development\12.pack.gz'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\cache\\webpack\\server-development\\12.pack.gz"
+}
+ ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\cache\webpack\server-development\12.pack.gz'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\cache\\webpack\\server-development\\12.pack.gz"
+}
+ ⨯ unhandledRejection:  [Error: ENOENT: no such file or directory, stat 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\cache\webpack\server-development\12.pack.gz'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'stat',
+  path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\cache\\webpack\\server-development\\12.pack.gz"
+}
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, stat 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\cache\webpack\server-development\9.pack.gz'

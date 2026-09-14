@@ -1,5 +1,15 @@
 const typingState = new Map();
 
+// Cleanup interval for expired typing states
+setInterval(() => {
+  const now = Date.now();
+  for (const [key, state] of typingState.entries()) {
+    if (now - state.timestamp > 5000) {
+      typingState.delete(key);
+    }
+  }
+}, 2000);
+
 export async function POST(req) {
   try {
     const { conversationId, role, isTyping } = await req.json();
@@ -8,10 +18,10 @@ export async function POST(req) {
       return Response.json({ success: false, error: "Missing required fields" }, { status: 400 });
     }
 
-    const key = `${conversationId}:${role}`;
+    const key = `${String(conversationId)}:${String(role)}`;
 
     if (isTyping) {
-      typingState.set(key, { role, timestamp: Date.now() });
+      typingState.set(key, { role: String(role), timestamp: Date.now() });
     } else {
       typingState.delete(key);
     }
@@ -26,9 +36,9 @@ export async function POST(req) {
 export async function GET(req) {
   try {
     const { searchParams } = new URL(req.url);
-    const conversationId = searchParams.get("conversationId");
+    const conversationId = String(searchParams.get("conversationId"));
 
-    if (!conversationId) {
+    if (!conversationId || conversationId === "null") {
       return Response.json({ success: false, error: "Missing conversationId" }, { status: 400 });
     }
 
@@ -37,7 +47,7 @@ export async function GET(req) {
 
     for (const [key, state] of typingState.entries()) {
       const [convId, role] = key.split(":");
-      if (convId === conversationId && now - state.timestamp < 3000) {
+      if (convId === conversationId && now - state.timestamp < 5000) {
         typingUsers.push({ role });
       }
     }

@@ -80,7 +80,7 @@ export default function ChatDetail() {
       await fetch("/api/chat/typing", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ conversationId: parseInt(id), role: "staff", isTyping: false }),
+        body: JSON.stringify({ conversationId: String(id), role: "staff", isTyping: false }),
       }).catch(() => {});
 
       const res = await fetch(`/api/chat/conversations/${id}`, {
@@ -194,11 +194,11 @@ export default function ChatDetail() {
               value={replyText}
               onChange={(e) => {
                 setReplyText(e.target.value);
-                if (e.target.value) {
+                if (e.target.value.trim()) {
                   fetch("/api/chat/typing", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ conversationId: parseInt(id), role: "staff", isTyping: true }),
+                    body: JSON.stringify({ conversationId: String(id), role: "staff", isTyping: true }),
                   }).catch(() => {});
                 }
               }}
