@@ -25,7 +25,11 @@ export async function GET(request) {
       .from(schema.chatMessages)
       .where(eq(schema.chatMessages.conversationId, conversation.id));
 
-    return Response.json({ success: true, conversation, messages });
+    return Response.json({
+      success: true,
+      conversationId: conversation.id,
+      messages
+    });
   } catch (error) {
     console.error("Error fetching visitor conversation:", error);
     return Response.json(

@@ -450,9 +450,15 @@ export const chatMessages = pgTable("chat_messages", {
      rather than inferred. */
   intent: varchar("intent", { length: 32 }),
 
+  // sending | sent | delivered | read
+  status: varchar("status", { length: 12 }).notNull().default("sent"),
+  readAt: timestamp("read_at", { withTimezone: true }),
+
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 }, (t) => ({
   conversationIdx: index("chat_messages_conversation_idx").on(t.conversationId),
+  statusIdx: index("chat_messages_status_idx").on(t.status),
+  readIdx: index("chat_messages_read_idx").on(t.readAt),
 }));
 
 /* ─────────────────────────────────────────────────────────────

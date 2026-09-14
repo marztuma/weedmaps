@@ -42,6 +42,7 @@ export default function ChatWidget() {
   const { count, subtotal } = useCart();
   const [open, setOpen] = useState(false);
   const [key, setKey] = useState(null);
+  const [conversationId, setConversationId] = useState(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
   const [askingHuman, setAskingHuman] = useState(false);
@@ -50,6 +51,7 @@ export default function ChatWidget() {
   const [showCart, setShowCart] = useState(true);
   const [mode, setMode] = useState(null);
   const [thread, setThread] = useState([]);
+  const [typing, setTyping] = useState([]);
 
   const panelRef = useRef(null);
   const launcherRef = useRef(null);
@@ -88,12 +90,30 @@ export default function ChatWidget() {
         const res = await fetch(`/api/chat/visitor?visitorKey=${key}`);
         const data = await res.json();
         if (data.success && data.messages) {
+          if (data.conversationId && !conversationId) {
+            setConversationId(data.conversationId);
+          }
+
           setThread(
             data.messages.map((m) => ({
+              id: m.id,
               role: m.role,
               text: m.body,
+              status: m.status,
+              readAt: m.readAt,
             }))
           );
+
+          // Mark staff messages as read
+          data.messages.forEach((m) => {
+            if (m.role === "staff" && m.status !== "read") {
+              fetch("/api/chat/read-receipt", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ visitorKey: key, messageId: m.id }),
+              }).catch(() => {});
+            }
+          });
         }
       } catch (error) {
         console.error("Error fetching messages:", error);
@@ -103,7 +123,28 @@ export default function ChatWidget() {
     fetchMessages();
     const interval = setInterval(fetchMessages, 1000);
     return () => clearInterval(interval);
-  }, [key]);
+  }, [key, conversationId]);
+
+  // Fetch typing indicators
+  useEffect(() => {
+    if (!conversationId) return;
+
+    const fetchTyping = async () => {
+      try {
+        const res = await fetch(`/api/chat/typing?conversationId=${conversationId}`);
+        const data = await res.json();
+        if (data.success) {
+          setTyping(data.typing || []);
+        }
+      } catch (error) {
+        console.error("Error fetching typing state:", error);
+      }
+    };
+
+    fetchTyping();
+    const interval = setInterval(fetchTyping, 300);
+    return () => clearInterval(interval);
+  }, [conversationId]);
 
   async function send(text) {
     const message = String(text ?? "").trim();
@@ -244,36 +285,54 @@ export default function ChatWidget() {
         >
           {thread.map((m, i) => (
             <div key={i} className={`mb-3 flex ${m.role === "visitor" ? "justify-end" : "justify-start"}`}>
-              <div
-                className={`max-w-[85%] rounded-lg px-3 py-2 text-[0.9rem] leading-relaxed ${
-                  m.role === "visitor"
-                    ? "bg-black text-white rounded-br-none"
-                    : m.role === "staff"
-                    ? "bg-green-100 text-gray-900 rounded-bl-none border-l-4 border-green-600"
-                    : "bg-gray-100 text-gray-900 rounded-bl-none"
-                }`}
-              >
-                <p>{m.text}</p>
-                {m.links?.length > 0 && (
-                  <ul className="mt-2 flex flex-col gap-1">
-                    {m.links.map((l) => (
-                      <li key={l.href}>
-                        <Link
-                          href={l.href}
-                          onClick={() => setOpen(false)}
-                          className={`text-[0.85rem] font-semibold underline underline-offset-4 hover:opacity-80 ${
-                            m.role === "visitor" ? "text-blue-100" : "text-blue-600"
-                          }`}
-                        >
-                          {l.label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
+              <div className="flex flex-col items-end gap-1">
+                <div
+                  className={`max-w-[85%] rounded-lg px-3 py-2 text-[0.9rem] leading-relaxed ${
+                    m.role === "visitor"
+                      ? "bg-black text-white rounded-br-none"
+                      : m.role === "staff"
+                      ? "bg-green-100 text-gray-900 rounded-bl-none border-l-4 border-green-600"
+                      : "bg-gray-100 text-gray-900 rounded-bl-none"
+                  }`}
+                >
+                  <p>{m.text}</p>
+                  {m.links?.length > 0 && (
+                    <ul className="mt-2 flex flex-col gap-1">
+                      {m.links.map((l) => (
+                        <li key={l.href}>
+                          <Link
+                            href={l.href}
+                            onClick={() => setOpen(false)}
+                            className={`text-[0.85rem] font-semibold underline underline-offset-4 hover:opacity-80 ${
+                              m.role === "visitor" ? "text-blue-100" : "text-blue-600"
+                            }`}
+                          >
+                            {l.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+                {m.role === "visitor" && (
+                  <span className="text-[0.7rem] text-gray-500 mr-1">
+                    {m.status === "read" ? "✓✓" : m.status === "delivered" ? "✓✓" : m.status === "sent" ? "✓" : "..."}
+                  </span>
                 )}
               </div>
             </div>
           ))}
+
+          {typing.length > 0 && typing.some(t => t.role === "staff") && (
+            <div className="flex gap-2 items-center mb-3">
+              <div className="flex gap-1">
+                <span className="w-2 h-2 bg-gray-400 rounded-full animate-pulse"></span>
+                <span className="w-2 h-2 bg-gray-400 rounded-full animate-pulse" style={{ animationDelay: "0.2s" }}></span>
+                <span className="w-2 h-2 bg-gray-400 rounded-full animate-pulse" style={{ animationDelay: "0.4s" }}></span>
+              </div>
+              <span className="text-xs text-gray-500">Support is typing…</span>
+            </div>
+          )}
 
           {busy && <p className="u-meta text-mute">Checking the menu…</p>}
           {error && <p className="u-meta text-orange-text" role="alert">{error}</p>}
@@ -386,6 +445,15 @@ export default function ChatWidget() {
             maxLength={1000}
             placeholder={mode === "agent" ? "Ask the agent…" : "Message support…"}
             aria-label="Your message"
+            onChange={(e) => {
+              if (conversationId && e.target.value) {
+                fetch("/api/chat/typing", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ conversationId, role: "visitor", isTyping: true }),
+                }).catch(() => {});
+              }
+            }}
             className="h-11 min-w-0 flex-1 rounded-sm border border-gray-300 bg-white px-3 text-[0.9rem] text-gray-900 outline-none focus:border-black"
             disabled={!mode}
           />

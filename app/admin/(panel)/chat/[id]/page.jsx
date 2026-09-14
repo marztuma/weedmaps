@@ -14,6 +14,7 @@ export default function ChatDetail() {
   const [loading, setLoading] = useState(true);
   const [replying, setReplying] = useState(false);
   const [replyText, setReplyText] = useState("");
+  const [typing, setTyping] = useState([]);
 
   useEffect(() => {
     fetchConversation();
@@ -33,6 +34,26 @@ export default function ChatDetail() {
     };
 
     return () => eventSource.close();
+  }, [id]);
+
+  useEffect(() => {
+    if (!id) return;
+
+    const fetchTyping = async () => {
+      try {
+        const res = await fetch(`/api/chat/typing?conversationId=${id}`);
+        const data = await res.json();
+        if (data.success) {
+          setTyping(data.typing || []);
+        }
+      } catch (error) {
+        console.error("Error fetching typing state:", error);
+      }
+    };
+
+    fetchTyping();
+    const interval = setInterval(fetchTyping, 300);
+    return () => clearInterval(interval);
   }, [id]);
 
   async function fetchConversation() {
@@ -56,6 +77,12 @@ export default function ChatDetail() {
 
     setReplying(true);
     try {
+      await fetch("/api/chat/typing", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ conversationId: parseInt(id), role: "staff", isTyping: false }),
+      }).catch(() => {});
+
       const res = await fetch(`/api/chat/conversations/${id}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -122,24 +149,42 @@ export default function ChatDetail() {
                 key={msg.id}
                 className={`flex ${msg.role === 'visitor' ? 'justify-end' : 'justify-start'}`}
               >
-                <div
-                  className={`max-w-xs px-4 py-2 rounded-lg ${
-                    msg.role === 'visitor'
-                      ? 'bg-blue-600 text-white'
-                      : msg.role === 'staff'
-                      ? 'bg-green-600 text-white'
-                      : 'bg-gray-100 text-gray-900'
-                  }`}
-                >
-                  <p className="text-sm">{msg.body}</p>
-                  <p className={`text-xs mt-1 ${
-                    msg.role === 'visitor' ? 'text-blue-100' : 'text-green-100'
-                  }`}>
-                    {new Date(msg.createdAt).toLocaleTimeString()}
-                  </p>
+                <div className="flex flex-col items-end gap-1">
+                  <div
+                    className={`max-w-xs px-4 py-2 rounded-lg ${
+                      msg.role === 'visitor'
+                        ? 'bg-blue-600 text-white'
+                        : msg.role === 'staff'
+                        ? 'bg-green-600 text-white'
+                        : 'bg-gray-100 text-gray-900'
+                    }`}
+                  >
+                    <p className="text-sm">{msg.body}</p>
+                    <p className={`text-xs mt-1 ${
+                      msg.role === 'visitor' ? 'text-blue-100' : 'text-green-100'
+                    }`}>
+                      {new Date(msg.createdAt).toLocaleTimeString()}
+                    </p>
+                  </div>
+                  {msg.role === 'staff' && msg.status && (
+                    <span className="text-xs text-gray-500 mr-2">
+                      {msg.status === 'read' ? '✓✓ Read' : msg.status === 'delivered' ? '✓✓ Delivered' : msg.status === 'sent' ? '✓ Sent' : 'Sending...'}
+                    </span>
+                  )}
                 </div>
               </div>
             ))
+          )}
+
+          {typing.length > 0 && typing.some(t => t.role === 'visitor') && (
+            <div className="flex gap-2 items-center">
+              <div className="flex gap-1">
+                <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></span>
+                <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse" style={{ animationDelay: "0.2s" }}></span>
+                <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse" style={{ animationDelay: "0.4s" }}></span>
+              </div>
+              <span className="text-xs text-gray-500">Customer is typing…</span>
+            </div>
           )}
         </div>
 
@@ -147,7 +192,16 @@ export default function ChatDetail() {
           <div className="flex gap-3">
             <textarea
               value={replyText}
-              onChange={(e) => setReplyText(e.target.value)}
+              onChange={(e) => {
+                setReplyText(e.target.value);
+                if (e.target.value) {
+                  fetch("/api/chat/typing", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ conversationId: parseInt(id), role: "staff", isTyping: true }),
+                  }).catch(() => {});
+                }
+              }}
               placeholder="Type your reply..."
               className="flex-1 rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none resize-none"
               rows="3"
