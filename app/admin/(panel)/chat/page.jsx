@@ -1,12 +1,18 @@
 ﻿"use client";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useEffect, useState, useRef } from "react";
 import Icon from "@/components/Icons";
 
 export default function ChatDashboard() {
   const [conversations, setConversations] = useState([]);
+  const [selectedId, setSelectedId] = useState(null);
+  const [selectedConv, setSelectedConv] = useState(null);
+  const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [replying, setReplying] = useState(false);
+  const [replyText, setReplyText] = useState("");
+  const [typing, setTyping] = useState([]);
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     fetchConversations();
@@ -17,6 +23,7 @@ export default function ChatDashboard() {
       const data = JSON.parse(event.data);
       if (data.type === "connected" || data.type === "heartbeat") return;
       fetchConversations();
+      if (selectedId) fetchConversationDetail(selectedId);
     };
 
     eventSource.onerror = () => {
@@ -26,7 +33,38 @@ export default function ChatDashboard() {
     };
 
     return () => eventSource.close();
-  }, []);
+  }, [selectedId]);
+
+  useEffect(() => {
+    if (selectedId) {
+      fetchConversationDetail(selectedId);
+      const interval = setInterval(() => fetchConversationDetail(selectedId), 3000);
+      return () => clearInterval(interval);
+    }
+  }, [selectedId]);
+
+  useEffect(() => {
+    if (selectedId) {
+      const fetchTyping = async () => {
+        try {
+          const res = await fetch(`/api/chat/typing?conversationId=${selectedId}`);
+          const data = await res.json();
+          if (data.success) setTyping(data.typing || []);
+        } catch (error) {
+          console.error("Error fetching typing state:", error);
+        }
+      };
+      fetchTyping();
+      const interval = setInterval(fetchTyping, 300);
+      return () => clearInterval(interval);
+    }
+  }, [selectedId]);
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
 
   async function fetchConversations() {
     try {
@@ -39,6 +77,48 @@ export default function ChatDashboard() {
       console.error("Error fetching conversations:", error);
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function fetchConversationDetail(convId) {
+    try {
+      const res = await fetch(`/api/chat/conversations/${convId}`);
+      const data = await res.json();
+      if (data.success) {
+        setSelectedConv(data.conversation);
+        setMessages(data.messages);
+      }
+    } catch (error) {
+      console.error("Error fetching conversation:", error);
+    }
+  }
+
+  async function handleReply(e) {
+    e.preventDefault();
+    if (!replyText.trim() || !selectedId) return;
+
+    setReplying(true);
+    try {
+      await fetch("/api/chat/typing", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ conversationId: String(selectedId), role: "staff", isTyping: false }),
+      }).catch(() => {});
+
+      const res = await fetch(`/api/chat/conversations/${selectedId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ body: replyText }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setReplyText("");
+        await fetchConversationDetail(selectedId);
+      }
+    } catch (error) {
+      console.error("Error sending reply:", error);
+    } finally {
+      setReplying(false);
     }
   }
 
@@ -57,6 +137,7 @@ export default function ChatDashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Conversations List */}
         <div className="lg:col-span-1 bg-white rounded-lg border border-gray-200 overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
             <h2 className="text-lg font-semibold text-gray-900">Conversations</h2>
@@ -79,10 +160,12 @@ export default function ChatDashboard() {
               </div>
             ) : (
               conversations.map((conv) => (
-                <Link
+                <button
                   key={conv.id}
-                  href={`/admin/chat/${conv.id}`}
-                  className="block px-6 py-4 hover:bg-gray-50 transition-colors"
+                  onClick={() => setSelectedId(conv.id)}
+                  className={`w-full text-left px-6 py-4 hover:bg-gray-50 transition-colors border-l-4 ${
+                    selectedId === conv.id ? "border-l-blue-600 bg-gray-50" : "border-l-transparent"
+                  }`}
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex-1 min-w-0">
@@ -99,22 +182,108 @@ export default function ChatDashboard() {
                       {conv.status.replace('_', ' ')}
                     </span>
                   </div>
-                </Link>
+                </button>
               ))
             )}
           </div>
         </div>
 
-        <div className="lg:col-span-2 bg-white rounded-lg border border-gray-200 p-12 flex items-center justify-center">
-          <div className="text-center">
-            <div className="inline-flex items-center justify-center h-12 w-12 rounded-full bg-gray-100 mb-4">
-              <Icon name="messageCircle" size={24} className="text-gray-600" />
+        {/* Conversation Detail */}
+        <div className="lg:col-span-2 bg-white rounded-lg border border-gray-200 flex flex-col overflow-hidden">
+          {!selectedId ? (
+            <div className="p-12 flex items-center justify-center flex-1">
+              <div className="text-center">
+                <div className="inline-flex items-center justify-center h-12 w-12 rounded-full bg-gray-100 mb-4">
+                  <Icon name="messageCircle" size={24} className="text-gray-600" />
+                </div>
+                <h3 className="text-lg font-medium text-gray-900">No conversation selected</h3>
+                <p className="text-gray-600 text-sm mt-2">
+                  Click on a conversation from the list to view messages and reply
+                </p>
+              </div>
             </div>
-            <h3 className="text-lg font-medium text-gray-900">No conversation selected</h3>
-            <p className="text-gray-600 text-sm mt-2">
-              Click on a conversation from the list to view messages and reply
-            </p>
-          </div>
+          ) : (
+            <>
+              {/* Header */}
+              <div className="px-6 py-4 border-b border-gray-200">
+                <h2 className="text-lg font-semibold text-gray-900">
+                  {selectedConv?.contactEmail || `Visitor ${selectedConv?.visitorKey.slice(0, 8)}`}
+                </h2>
+                <p className="text-xs text-gray-500 mt-1">
+                  Status: <span className="font-medium">{selectedConv?.status}</span> •
+                  Started: {selectedConv && new Date(selectedConv.createdAt).toLocaleString()}
+                </p>
+              </div>
+
+              {/* Messages */}
+              <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                {messages.length === 0 ? (
+                  <p className="text-gray-500 text-center py-8">No messages yet</p>
+                ) : (
+                  messages.map((msg) => (
+                    <div key={msg.id} className={`flex ${msg.role === 'visitor' ? 'justify-start' : 'justify-end'}`}>
+                      <div className={`max-w-xs px-4 py-2 rounded-lg ${
+                        msg.role === 'visitor'
+                          ? 'bg-blue-600 text-white'
+                          : msg.role === 'staff'
+                          ? 'bg-green-600 text-white'
+                          : 'bg-gray-100 text-gray-900'
+                      }`}>
+                        <p className="text-sm">{msg.body}</p>
+                        <p className={`text-xs mt-1 ${
+                          msg.role === 'visitor' ? 'text-blue-100' : 'text-green-100'
+                        }`}>
+                          {new Date(msg.createdAt).toLocaleTimeString()}
+                        </p>
+                      </div>
+                    </div>
+                  ))
+                )}
+
+                {typing.length > 0 && typing.some(t => t.role === 'visitor') && (
+                  <div className="flex gap-2 items-center">
+                    <div className="flex gap-1">
+                      <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></span>
+                      <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse" style={{ animationDelay: "0.2s" }}></span>
+                      <span className="w-2 h-2 bg-blue-400 rounded-full animate-pulse" style={{ animationDelay: "0.4s" }}></span>
+                    </div>
+                    <span className="text-xs text-gray-500">Customer is typing…</span>
+                  </div>
+                )}
+
+                <div ref={messagesEndRef} />
+              </div>
+
+              {/* Reply Form */}
+              <div className="border-t border-gray-200 p-4">
+                <form onSubmit={handleReply} className="flex gap-3">
+                  <textarea
+                    value={replyText}
+                    onChange={(e) => {
+                      setReplyText(e.target.value);
+                      if (e.target.value.trim()) {
+                        fetch("/api/chat/typing", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({ conversationId: String(selectedId), role: "staff", isTyping: true }),
+                        }).catch(() => {});
+                      }
+                    }}
+                    placeholder="Type your reply..."
+                    className="flex-1 rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none resize-none"
+                    rows="3"
+                  />
+                  <button
+                    type="submit"
+                    disabled={replying || !replyText.trim()}
+                    className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors h-fit whitespace-nowrap"
+                  >
+                    {replying ? "Sending..." : "Send"}
+                  </button>
+                </form>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

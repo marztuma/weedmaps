@@ -123,3 +123,7 @@ Require stack:
   path: "C:\\Users\\HP x360 1030 G2\\OneDrive\\Desktop\\mitchees' disto\\.next\\cache\\webpack\\server-development\\12.pack.gz"
 }
 <w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, stat 'C:\Users\HP x360 1030 G2\OneDrive\Desktop\mitchees' disto\.next\cache\webpack\server-development\9.pack.gz'
+ POST /api/chat/typing 200 in 48ms
+ GET /api/chat/typing?conversationId=10 200 in 35ms
+ POST /api/chat/typing 200 in 31ms
+ GET /api/chat/typing?conversationId=11 200 in 39ms
