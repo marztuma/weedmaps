@@ -101,7 +101,7 @@ export default function ChatWidget() {
     };
 
     fetchMessages();
-    const interval = setInterval(fetchMessages, 2000);
+    const interval = setInterval(fetchMessages, 1000);
     return () => clearInterval(interval);
   }, [key]);
 
