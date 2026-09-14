@@ -136,17 +136,17 @@ export default function ChatDashboard() {
         <p className="mt-2 text-gray-600">Manage incoming customer messages in real-time</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-280px)]">
         {/* Conversations List */}
-        <div className="lg:col-span-1 bg-white rounded-lg border border-gray-200 overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+        <div className="lg:col-span-1 bg-white rounded-lg border border-gray-200 overflow-hidden flex flex-col">
+          <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between flex-shrink-0">
             <h2 className="text-lg font-semibold text-gray-900">Conversations</h2>
             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
               {conversations.length}
             </span>
           </div>
 
-          <div className="divide-y divide-gray-200 max-h-[calc(100vh-300px)] overflow-y-auto">
+          <div className="divide-y divide-gray-200 overflow-y-auto flex-1">
             {loading ? (
               <div className="px-6 py-8 text-center text-gray-500">
                 <p>Loading conversations...</p>
@@ -205,7 +205,7 @@ export default function ChatDashboard() {
           ) : (
             <>
               {/* Header */}
-              <div className="px-6 py-4 border-b border-gray-200">
+              <div className="px-6 py-4 border-b border-gray-200 flex-shrink-0">
                 <h2 className="text-lg font-semibold text-gray-900">
                   {selectedConv?.contactEmail || `Visitor ${selectedConv?.visitorKey.slice(0, 8)}`}
                 </h2>
@@ -216,7 +216,7 @@ export default function ChatDashboard() {
               </div>
 
               {/* Messages */}
-              <div className="flex-1 overflow-y-auto p-4 space-y-4">
+              <div className="flex-1 overflow-y-auto p-4 space-y-4 min-h-0">
                 {messages.length === 0 ? (
                   <p className="text-gray-500 text-center py-8">No messages yet</p>
                 ) : (
@@ -255,7 +255,7 @@ export default function ChatDashboard() {
               </div>
 
               {/* Reply Form */}
-              <div className="border-t border-gray-200 p-4">
+              <div className="border-t border-gray-200 p-4 flex-shrink-0">
                 <form onSubmit={handleReply} className="flex gap-3">
                   <textarea
                     value={replyText}
