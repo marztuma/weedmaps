@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { desc, eq, sql } from "drizzle-orm";
 import { db, schema } from "@/db/client";
-import { maskEmail } from "@/lib/mail/safe";
 import Notice from "@/components/admin/Notice";
 import ConfirmSubmit from "@/components/admin/ConfirmSubmit";
 import { removeSubscriber, exportSubscribers } from "@/app/admin/actions";
@@ -101,8 +100,8 @@ export default async function Subscribers({ searchParams }) {
             )}
             {rows.map((s) => (
               <tr key={s.id}>
-                <td title="Masked on screen — use the export if you need the full address">
-                  {maskEmail(s.email)}
+                <td>
+                  {s.email}
                 </td>
                 <td>{s.name ?? <span className="wp-help">—</span>}</td>
                 <td>
