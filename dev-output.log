@@ -127,3 +127,34 @@ Require stack:
  GET /api/chat/typing?conversationId=10 200 in 35ms
  POST /api/chat/typing 200 in 31ms
  GET /api/chat/typing?conversationId=11 200 in 39ms
+ ○ Compiling /api/chat/visitor/message ...
+ ✓ Compiled /api/chat/visitor/message in 1931ms (315 modules)
+ POST /api/chat/visitor/message 200 in 11484ms
+ ✓ Compiled in 1271ms (662 modules)
+ ○ Compiling /api/test-email ...
+ ✓ Compiled /api/test-email in 632ms (664 modules)
+Email status: {
+  configured: true,
+  hasKey: true,
+  from: 'Weedmaps <weedmaps.com@weedmap.store>',
+  adminEmail: 'weedmaps.com@weedmap.store',
+  webhookReady: true,
+  usingTestSender: false
+}
+ GET /api/test-email 200 in 6287ms
+ ✓ Compiled in 124ms (108 modules)
+ ✓ Compiled in 586ms (455 modules)
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 14.2s (895 modules)
+ GET /api/test-email 404 in 14929ms
+ ✓ Compiled in 1857ms (877 modules)
+ ✓ Compiled in 435ms (400 modules)
+ ○ Compiling /api/check-email ...
+ ✓ Compiled /api/check-email in 3s (995 modules)
+ GET /api/check-email 200 in 6187ms
+ ✓ Compiled in 2.3s (508 modules)
+ ✓ Compiled in 491ms (400 modules)
+ ✓ Compiled /api/email-log in 510ms (679 modules)
+ GET /api/email-log 200 in 774ms
+ ✓ Compiled in 920ms (695 modules)
+ ✓ Compiled in 586ms (400 modules)
