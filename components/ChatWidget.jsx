@@ -38,13 +38,6 @@ function visitorKey() {
   }
 }
 
-const OPENERS = [
-  "Do you deliver to me?",
-  "How long does delivery take?",
-  "What payment do you take?",
-  "Is there a minimum order?",
-];
-
 export default function ChatWidget() {
   const { count, subtotal } = useCart();
   const [open, setOpen] = useState(false);
@@ -55,13 +48,8 @@ export default function ChatWidget() {
   const [handoff, setHandoff] = useState(null);
   const [minimized, setMinimized] = useState(false);
   const [showCart, setShowCart] = useState(true);
-  const [selectedMode, setSelectedMode] = useState("agent");
-  const [thread, setThread] = useState([
-    {
-      role: "bot",
-      text: "Hi. Ask me about delivery, fees, minimums, payment, ID or what is in stock. If I cannot answer, I will pass it to a person.",
-    },
-  ]);
+  const [mode, setMode] = useState(null);
+  const [thread, setThread] = useState([]);
 
   const panelRef = useRef(null);
   const launcherRef = useRef(null);
@@ -91,45 +79,53 @@ export default function ChatWidget() {
     if (logRef.current) logRef.current.scrollTop = logRef.current.scrollHeight;
   }, [thread, askingHuman, handoff]);
 
-  // Poll for staff replies after handoff
+  // Poll for all messages (staff replies + bot responses)
   useEffect(() => {
-    if (!handoff || !key) return;
+    if (!key) return;
 
-    const fetchStaffReplies = async () => {
+    const fetchMessages = async () => {
       try {
         const res = await fetch(`/api/chat/visitor?visitorKey=${key}`);
         const data = await res.json();
         if (data.success && data.messages) {
-          const staffMessages = data.messages
-            .filter((m) => m.role === "staff")
-            .map((m) => ({ role: "staff", text: m.body }));
-
-          const threadsWithoutStaff = thread.filter((m) => m.role !== "staff");
-          if (staffMessages.length > 0) {
-            setThread([...threadsWithoutStaff, ...staffMessages]);
-          }
+          setThread(
+            data.messages.map((m) => ({
+              role: m.role,
+              text: m.body,
+            }))
+          );
         }
       } catch (error) {
-        console.error("Error fetching staff replies:", error);
+        console.error("Error fetching messages:", error);
       }
     };
 
-    fetchStaffReplies();
-    const interval = setInterval(fetchStaffReplies, 3000);
+    fetchMessages();
+    const interval = setInterval(fetchMessages, 2000);
     return () => clearInterval(interval);
-  }, [handoff, key]);
+  }, [key]);
 
   async function send(text) {
-    const question = String(text ?? "").trim();
-    if (!question || busy || !key) return;
+    const message = String(text ?? "").trim();
+    if (!message || busy || !key) return;
 
     setError(null);
-    setThread((t) => [...t, { role: "visitor", text: question }]);
+    setThread((t) => [...t, { role: "visitor", text: message }]);
     setBusy(true);
+
+    if (mode === "support") {
+      await fetch("/api/chat/visitor/message", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ visitorKey: key, message }),
+      }).catch(() => {});
+      setBusy(false);
+      return;
+    }
 
     const fd = new FormData();
     fd.set("visitorKey", key);
-    fd.set("message", question);
+    fd.set("message", message);
 
     try {
       const res = await ask(null, fd);
@@ -321,104 +317,81 @@ export default function ChatWidget() {
             </form>
           )}
 
-          {thread.length === 1 && (
-            <ul className="mt-2 flex flex-wrap gap-2">
-              {OPENERS.map((o) => (
-                <li key={o}>
-                  <button
-                    type="button"
-                    onClick={() => send(o)}
-                    className="u-pill inline-flex h-11 items-center border border-rule px-3 text-[0.8rem] text-ink-soft hover:border-ink hover:text-ink"
-                  >
-                    {o}
-                  </button>
-                </li>
-              ))}
-            </ul>
+          {thread.length === 0 && !mode && (
+            <div className="text-center py-8 text-gray-500">
+              <p className="text-sm">Select Agent or Support mode to start</p>
+            </div>
           )}
         </div>
         )}
 
-        {!minimized && (
-        <div className="border-t border-rule px-4 py-3">
-          {/* Mode Selection Buttons */}
-          <div className="space-y-2 mb-3">
-            {/* Agent Section - Clickable */}
-            <button
-              type="button"
-              onClick={() => setSelectedMode("agent")}
-              className={`w-full rounded-sm p-3 transition-all cursor-pointer ${
-                selectedMode === "agent"
-                  ? "bg-black/10 border-2 border-black shadow-sm"
-                  : "bg-gray-100 border-2 border-transparent hover:bg-gray-150"
-              }`}
-            >
-              <div className="flex items-start gap-2">
-                <Icon name="sparkles" size={16} className="mt-0.5 shrink-0 text-black" />
-                <div className="min-w-0 text-left flex-1">
-                  <p className="text-[0.8rem] font-semibold text-gray-900">Agent</p>
-                  <p className="mt-0.5 text-[0.75rem] leading-relaxed text-gray-600">
-                    Instant help with browsing, orders & delivery
-                  </p>
-                </div>
-                {selectedMode === "agent" && <Icon name="check" size={16} className="shrink-0 text-black mt-0.5" />}
+        {!minimized && !mode && (
+        <div className="border-t border-rule px-4 py-3 space-y-2">
+          <button
+            type="button"
+            onClick={() => setMode("agent")}
+            className="w-full rounded-sm p-3 bg-blue-50 border-2 border-blue-500 hover:bg-blue-100 transition-all"
+          >
+            <div className="flex items-start gap-2">
+              <Icon name="sparkles" size={16} className="mt-0.5 shrink-0 text-blue-600" />
+              <div className="min-w-0 text-left flex-1">
+                <p className="text-[0.8rem] font-semibold text-gray-900">Ask Agent</p>
+                <p className="mt-0.5 text-[0.75rem] leading-relaxed text-gray-600">
+                  Instant help with browsing, orders & delivery
+                </p>
               </div>
-            </button>
+            </div>
+          </button>
 
-            {/* Support Section - Clickable */}
-            <button
-              type="button"
-              onClick={() => setSelectedMode("support")}
-              className={`w-full rounded-sm p-3 transition-all cursor-pointer ${
-                selectedMode === "support"
-                  ? "bg-gray-200 border-2 border-black shadow-sm"
-                  : "bg-gray-100 border-2 border-transparent hover:bg-gray-150"
-              }`}
-            >
-              <div className="flex items-start gap-2">
-                <Icon name="headphones" size={16} className="mt-0.5 shrink-0 text-black" />
-                <div className="min-w-0 text-left flex-1">
-                  <p className="text-[0.8rem] font-semibold text-gray-900">Support</p>
-                  <p className="mt-0.5 text-[0.75rem] leading-relaxed text-gray-600">
-                    Help with account, tracking & general questions
-                  </p>
-                </div>
-                {selectedMode === "support" && <Icon name="check" size={16} className="shrink-0 text-black mt-0.5" />}
+          <button
+            type="button"
+            onClick={() => setMode("support")}
+            className="w-full rounded-sm p-3 bg-green-50 border-2 border-green-500 hover:bg-green-100 transition-all"
+          >
+            <div className="flex items-start gap-2">
+              <Icon name="headphones" size={16} className="mt-0.5 shrink-0 text-green-600" />
+              <div className="min-w-0 text-left flex-1">
+                <p className="text-[0.8rem] font-semibold text-gray-900">Contact Support</p>
+                <p className="mt-0.5 text-[0.75rem] leading-relaxed text-gray-600">
+                  Talk to a person directly
+                </p>
               </div>
+            </div>
+          </button>
+        </div>
+        )}
+
+        {!minimized && mode && (
+        <div className="border-t border-rule px-4 py-2 text-center">
+          <p className="text-[0.75rem] text-gray-600">
+            Connected to {mode === "agent" ? "Agent" : "Support"}
+            <button
+              onClick={() => setMode(null)}
+              className="ml-2 text-blue-600 hover:underline text-[0.7rem]"
+            >
+              change
             </button>
-          </div>
-
-          {/* Mode-Specific Message */}
-          <div className="bg-gray-100 rounded-sm p-2.5 mb-2">
-            <p className="text-[0.7rem] text-gray-700 leading-relaxed margin-0">
-              {selectedMode === "agent"
-                ? "💡 Ask about menus, pricing, delivery times, or place an order"
-                : "📞 We'll help with account issues, tracking, or other questions"}
-            </p>
-          </div>
-
-          <p className="text-center text-[0.7rem] text-gray-600">
-            💬 We reply instantly
           </p>
         </div>
         )}
 
-        {!minimized && (
+        {!minimized && mode && (
         <form
-          onSubmit={(e) => { e.preventDefault(); const v = inputRef.current.value; inputRef.current.value = ""; send(v); }}
+          onSubmit={(e) => { e.preventDefault(); if (mode) { const v = inputRef.current.value; inputRef.current.value = ""; send(v); } }}
           className="flex items-center gap-2 border-t border-gray-200 p-3"
         >
           <input
             ref={inputRef}
             name="message"
             maxLength={1000}
-            placeholder="Ask a question…"
-            aria-label="Your question"
+            placeholder={mode === "agent" ? "Ask the agent…" : "Message support…"}
+            aria-label="Your message"
             className="h-11 min-w-0 flex-1 rounded-sm border border-gray-300 bg-white px-3 text-[0.9rem] text-gray-900 outline-none focus:border-black"
+            disabled={!mode}
           />
           <button
             type="submit"
-            disabled={busy}
+            disabled={busy || !mode}
             className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-black text-white hover:bg-gray-800 disabled:opacity-60"
           >
             <Icon name="arrowUpRight" size={16} />
