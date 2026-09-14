@@ -13,6 +13,8 @@ export default function ChatDashboard() {
   const [replyText, setReplyText] = useState("");
   const [typing, setTyping] = useState([]);
   const messagesEndRef = useRef(null);
+  const messagesContainerRef = useRef(null);
+  const isAtBottomRef = useRef(true);
 
   useEffect(() => {
     fetchConversations();
@@ -60,13 +62,21 @@ export default function ChatDashboard() {
     }
   }, [selectedId]);
 
+  // Track if user is scrolled to bottom
+  const handleScroll = () => {
+    if (!messagesContainerRef.current) return;
+    const { scrollTop, scrollHeight, clientHeight } = messagesContainerRef.current;
+    isAtBottomRef.current = scrollHeight - scrollTop - clientHeight < 50;
+  };
+
+  // Auto-scroll only when at bottom and new message arrives
   useEffect(() => {
-    if (messagesEndRef.current) {
+    if (isAtBottomRef.current && messagesEndRef.current) {
       setTimeout(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
       }, 100);
     }
-  }, [messages, selectedId]);
+  }, [messages]);
 
   async function fetchConversations() {
     try {
@@ -218,7 +228,11 @@ export default function ChatDashboard() {
               </div>
 
               {/* Messages */}
-              <div className="flex-1 overflow-y-auto p-4 space-y-4 min-h-0 scroll-smooth">
+              <div
+                ref={messagesContainerRef}
+                onScroll={handleScroll}
+                className="flex-1 overflow-y-auto p-4 space-y-4 min-h-0 scroll-smooth"
+              >
                 {messages.length === 0 ? (
                   <p className="text-gray-500 text-center py-8">No messages yet</p>
                 ) : (
