@@ -62,9 +62,11 @@ export default function ChatDashboard() {
 
   useEffect(() => {
     if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+      }, 100);
     }
-  }, [messages]);
+  }, [messages, selectedId]);
 
   async function fetchConversations() {
     try {
@@ -216,7 +218,7 @@ export default function ChatDashboard() {
               </div>
 
               {/* Messages */}
-              <div className="flex-1 overflow-y-auto p-4 space-y-4 min-h-0">
+              <div className="flex-1 overflow-y-auto p-4 space-y-4 min-h-0 scroll-smooth">
                 {messages.length === 0 ? (
                   <p className="text-gray-500 text-center py-8">No messages yet</p>
                 ) : (
