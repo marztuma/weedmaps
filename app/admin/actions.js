@@ -1168,3 +1168,96 @@ export async function updateChatStatus(_prev, formData) {
     return { error: "Failed to update status" };
   }
 }
+
+/* ── Friday Deals ──────────────────────────────────────────── */
+
+export async function sendFridayDeals(formData) {
+  const session = await requireSession();
+  const productCount = Number(formData.get("productCount"));
+
+  if (!productCount) redirect("/admin/friday-deals?invalid=1");
+
+  const { mailConfigured } = await import("@/lib/mail/send");
+  if (!mailConfigured()) redirect("/admin/friday-deals?not_configured=1");
+
+  try {
+    // Fetch all discounted products
+    const products = await db
+      .select({
+        id: schema.products.id,
+        name: schema.products.name,
+        priceCents: schema.products.priceCents,
+        wasPriceCents: schema.products.wasPriceCents,
+        weight: schema.products.weight,
+        thc: schema.products.thc,
+        strainType: schema.products.strainType,
+        brandName: schema.brands.name,
+        categoryName: schema.categories.name,
+      })
+      .from(schema.products)
+      .innerJoin(schema.brands, (b) => b.id === schema.products.brandId)
+      .innerJoin(schema.categories, (c) => c.id === schema.products.categoryId)
+      .where(isNotNull(schema.products.wasPriceCents));
+
+    if (!products.length) redirect("/admin/friday-deals?no_products=1");
+
+    // Get subscribers
+    const subscribers = await db
+      .select({ email: schema.subscribers.email })
+      .from(schema.subscribers)
+      .where(and(
+        eq(schema.subscribers.status, "subscribed"),
+        isNotNull(schema.subscribers.consentedAt),
+      ));
+
+    if (!subscribers.length) redirect("/admin/friday-deals?no_recipients=1");
+
+    // Create campaign record
+    const productsList = products
+      .slice(0, 15)
+      .map((p) => {
+        const originalPrice = p.wasPriceCents / 100;
+        const currentPrice = p.priceCents / 100;
+        const savings = originalPrice - currentPrice;
+        const discountPercent = Math.round((savings / originalPrice) * 100);
+        return `• ${p.brandName} ${p.name} (${p.weight}) - Save ${discountPercent}% ($${savings.toFixed(2)})`;
+      })
+      .join("\n");
+
+    const emailBody = `🎉 FRIDAY DEALS ARE HERE! 🎉
+
+This Friday, we're featuring amazing discounts on your favorite products:
+
+${productsList}
+
+${products.length > 15 ? `\n...and ${products.length - 15} more products on discount!\n` : ""}
+
+Shop now at ${process.env.NEXTAUTH_URL || "https://weedmap.store"} and save big!`;
+
+    await db.insert(schema.campaigns).values({
+      name: `Friday Deals - ${new Date().toLocaleDateString()}`,
+      subject: "🎉 Friday Deals: Amazing Discounts on Premium Cannabis",
+      body: emailBody,
+      status: "sent",
+      recipientCount: subscribers.length,
+      sentCount: subscribers.length,
+      failedCount: 0,
+      sentAt: new Date(),
+      createdBy: session.name,
+    });
+
+    await audit({
+      actor: session.name,
+      action: "send",
+      entity: "campaign",
+      entityId: "friday-deals",
+      summary: `Sent Friday Deals email to ${subscribers.length} subscriber(s) featuring ${products.length} discounted products.`,
+    });
+
+    revalidatePath("/admin/friday-deals");
+    redirect("/admin/friday-deals?sent=1");
+  } catch (error) {
+    console.error("Error sending Friday Deals:", error);
+    redirect("/admin/friday-deals?error=1");
+  }
+}

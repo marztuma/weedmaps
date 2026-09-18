@@ -34,6 +34,7 @@ const MENU = [
       { label: "Subscribers", href: "/admin/subscribers" },
       { label: "Messages", href: "/admin/messages" },
       { label: "Campaigns", href: "/admin/campaigns" },
+      { label: "🎉 Friday Deals", href: "/admin/friday-deals" },
     ],
   },
   { label: "Live Chat", href: "/admin/chat", icon: "customers" },

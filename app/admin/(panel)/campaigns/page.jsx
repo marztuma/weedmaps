@@ -3,6 +3,7 @@ import { desc, sql, eq, and, isNotNull } from "drizzle-orm";
 import { db, schema } from "@/db/client";
 import Notice from "@/components/admin/Notice";
 import ConfirmSubmit from "@/components/admin/ConfirmSubmit";
+import FridayDealsButton from "@/components/admin/FridayDealsButton";
 import { mailStatus } from "@/lib/notify";
 import { saveCampaign, sendCampaign, deleteCampaign } from "@/app/admin/actions";
 
@@ -37,11 +38,15 @@ export default async function Campaigns({ searchParams }) {
           saved: ["is-success", "Draft saved."],
           sent: ["is-success", "Campaign sent. Per-message results are in Email."],
           deleted: ["is-success", "Campaign deleted."],
+          friday_sent: ["is-success", "🎉 Friday Deals sent to all subscribers!"],
           no_recipients: ["is-warning", "Nobody is mailable — no subscriber has both an active subscription and recorded consent."],
           not_configured: ["is-warning", "Email is not configured, so nothing was sent."],
           invalid: ["is-error", "A campaign needs a name, a subject and a body."],
         }}
       />
+
+      {/* Quick Friday Deals Send Button */}
+      <FridayDealsButton />
 
       <p className="wp-subtitle">
         <strong>{audience.mailable}</strong> subscriber{audience.mailable === 1 ? "" : "s"} can receive a
