@@ -74,6 +74,7 @@ Limited time offers - Shop now!`;
     let sentCount = 0;
     let failedCount = 0;
     const errors = [];
+    const emailLogs = [];
 
     for (const subscriber of subscribers) {
       try {
@@ -89,18 +90,44 @@ Limited time offers - Shop now!`;
 
         if (result.sent) {
           sentCount++;
+          emailLogs.push({
+            template: "friday-deals",
+            recipient: subscriber.email,
+            subject: "🎉 FRIDAY DEALS: Amazing Discounts on Premium Cannabis",
+            status: "sent",
+            providerId: result.id || idempotencyKey,
+            idempotencyKey: idempotencyKey,
+            sentAt: new Date(),
+          });
         } else {
           failedCount++;
           errors.push(`${subscriber.email}: ${result.error}`);
+          emailLogs.push({
+            template: "friday-deals",
+            recipient: subscriber.email,
+            subject: "🎉 FRIDAY DEALS: Amazing Discounts on Premium Cannabis",
+            status: "failed",
+            error: result.error || "Unknown error",
+            idempotencyKey: idempotencyKey,
+          });
         }
       } catch (error) {
         failedCount++;
-        errors.push(`${subscriber.email}: ${error.message}`);
+        const errorMsg = error.message;
+        errors.push(`${subscriber.email}: ${errorMsg}`);
+        emailLogs.push({
+          template: "friday-deals",
+          recipient: subscriber.email,
+          subject: "🎉 FRIDAY DEALS: Amazing Discounts on Premium Cannabis",
+          status: "failed",
+          error: errorMsg,
+          idempotencyKey: `friday-deals-${new Date().toISOString().split("T")[0]}-${subscriber.email}`,
+        });
       }
     }
 
     // Create campaign record
-    await db.insert(schema.campaigns).values({
+    const [campaign] = await db.insert(schema.campaigns).values({
       name: `Friday Deals - ${new Date().toLocaleDateString()}`,
       subject: "🎉 FRIDAY DEALS: Amazing Discounts on Premium Cannabis",
       body: emailTemplate,
@@ -110,7 +137,15 @@ Limited time offers - Shop now!`;
       failedCount: failedCount,
       sentAt: new Date(),
       createdBy: "admin-direct",
-    });
+    }).returning();
+
+    // Log all emails
+    for (const log of emailLogs) {
+      await db.insert(schema.emailLog).values({
+        ...log,
+        providerId: `campaign-${campaign.id}`,
+      });
+    }
 
     return Response.json({
       success: true,
