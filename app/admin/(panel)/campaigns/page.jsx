@@ -117,7 +117,9 @@ export default async function Campaigns({ searchParams }) {
             {rows.map((c) => (
               <tr key={c.id}>
                 <td>
-                  <span className="wp-row-title">{c.name}</span>
+                  <Link href={`/admin/campaigns/${c.id}`} className="wp-row-title">
+                    {c.name}
+                  </Link>
                   <div className="wp-help">{c.subject}</div>
                 </td>
                 <td>
