@@ -3,6 +3,10 @@
     {
       "path": "/api/cron/update-learn",
       "schedule": "0 20 * * 6"
+    },
+    {
+      "path": "/api/admin/cleanup-db",
+      "schedule": "0 2 1 * *"
     }
   ]
 }
