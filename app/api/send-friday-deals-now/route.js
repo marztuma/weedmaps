@@ -15,7 +15,7 @@ export async function POST(request) {
         brandName: schema.brands.name,
       })
       .from(schema.products)
-      .innerJoin(schema.brands, (b) => b.id === schema.products.brandId)
+      .leftJoin(schema.brands, eq(schema.brands.id, schema.products.brandId))
       .where(isNotNull(schema.products.wasPriceCents))
       .limit(20);
 

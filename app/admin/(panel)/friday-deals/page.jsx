@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { desc, isNotNull } from "drizzle-orm";
+import { desc, isNotNull, eq } from "drizzle-orm";
 import { db, schema } from "@/db/client";
 import Notice from "@/components/admin/Notice";
 import ConfirmSubmit from "@/components/admin/ConfirmSubmit";
@@ -23,7 +23,7 @@ export default async function FridayDeals({ searchParams }) {
       brandName: schema.brands.name,
     })
     .from(schema.products)
-    .innerJoin(schema.brands, (b) => b.id === schema.products.brandId)
+    .leftJoin(schema.brands, eq(schema.brands.id, schema.products.brandId))
     .where(isNotNull(schema.products.wasPriceCents))
     .orderBy(desc(schema.products.createdAt));
 

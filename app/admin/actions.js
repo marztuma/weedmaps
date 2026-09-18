@@ -1195,8 +1195,8 @@ export async function sendFridayDeals(formData) {
         categoryName: schema.categories.name,
       })
       .from(schema.products)
-      .innerJoin(schema.brands, (b) => b.id === schema.products.brandId)
-      .innerJoin(schema.categories, (c) => c.id === schema.products.categoryId)
+      .leftJoin(schema.brands, eq(schema.brands.id, schema.products.brandId))
+      .leftJoin(schema.categories, eq(schema.categories.id, schema.products.categoryId))
       .where(isNotNull(schema.products.wasPriceCents));
 
     if (!products.length) redirect("/admin/friday-deals?no_products=1");

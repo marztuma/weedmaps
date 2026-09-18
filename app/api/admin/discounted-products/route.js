@@ -1,4 +1,4 @@
-import { isNotNull } from "drizzle-orm";
+import { isNotNull, eq } from "drizzle-orm";
 import { db, schema } from "@/db/client";
 
 export async function GET(request) {
@@ -17,8 +17,8 @@ export async function GET(request) {
         categoryName: schema.categories.name,
       })
       .from(schema.products)
-      .innerJoin(schema.brands, (b) => b.id === schema.products.brandId)
-      .innerJoin(schema.categories, (c) => c.id === schema.products.categoryId)
+      .leftJoin(schema.brands, eq(schema.brands.id, schema.products.brandId))
+      .leftJoin(schema.categories, eq(schema.categories.id, schema.products.categoryId))
       .where(isNotNull(schema.products.wasPriceCents))
       .orderBy(schema.products.createdAt);
 

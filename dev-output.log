@@ -158,3 +158,21 @@ Email status: {
  GET /api/email-log 200 in 774ms
  ✓ Compiled in 920ms (695 modules)
  ✓ Compiled in 586ms (400 modules)
+ GET /api/email-log 200 in 1308ms
+ ✓ Compiled in 2.2s (508 modules)
+ ✓ Compiled in 1167ms (400 modules)
+ ✓ Compiled in 440ms (400 modules)
+ ✓ Compiled in 1109ms (400 modules)
+ ✓ Compiled in 909ms (400 modules)
+ ✓ Compiled in 825ms (400 modules)
+ ✓ Compiled in 494ms (400 modules)
+ ○ Compiling /api/chat/visitor/message ...
+ ✓ Compiled /api/chat/visitor/message in 800ms (315 modules)
+ POST /api/chat/visitor/message 400 in 1133ms
+ POST /api/chat/visitor/message 200 in 9007ms
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 821ms (609 modules)
+ GET /api/email-log 404 in 1455ms
+ POST /api/test-email 404 in 111ms
+ POST /api/test-email 404 in 85ms
+ POST /api/chat/visitor/message 200 in 10854ms
