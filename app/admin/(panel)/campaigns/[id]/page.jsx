@@ -1,29 +1,33 @@
+"use client";
+
 import Link from "next/link";
-import { eq } from "drizzle-orm";
-import { db, schema } from "@/db/client";
-import Icon from "@/components/Icons";
+import { useState, useEffect } from "react";
 
 export const dynamic = "force-dynamic";
 
-export default async function CampaignDetail({ params }) {
-  const campaignId = Number((await params).id);
-  if (!campaignId) return <div>Campaign not found</div>;
+export default function CampaignDetail({ params, searchParams }) {
+  const [campaign, setCampaign] = useState(null);
+  const [emailLogs, setEmailLogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [filterStatus, setFilterStatus] = useState(null);
 
-  const [campaign] = await db
-    .select()
-    .from(schema.campaigns)
-    .where(eq(schema.campaigns.id, campaignId))
-    .limit(1);
+  useEffect(() => {
+    async function fetchData() {
+      const campaignId = (await params).id;
+      const filter = (await searchParams)?.filter || null;
 
-  if (!campaign) {
-    return <div className="wp-container"><h1>Campaign not found</h1></div>;
-  }
+      const res = await fetch(`/api/campaigns/${campaignId}`);
+      const data = await res.json();
+      setCampaign(data.campaign);
+      setEmailLogs(data.emailLogs);
+      setFilterStatus(filter);
+      setLoading(false);
+    }
+    fetchData();
+  }, [params, searchParams]);
 
-  const emailLogs = await db
-    .select()
-    .from(schema.emailLog)
-    .where(eq(schema.emailLog.providerId, `campaign-${campaignId}`))
-    .orderBy(schema.emailLog.createdAt);
+  if (loading) return <div className="wp-container"><p>Loading...</p></div>;
+  if (!campaign) return <div className="wp-container"><h1>Campaign not found</h1></div>;
 
   const statusCounts = {
     queued: emailLogs.filter((e) => e.status === "queued").length,
@@ -33,6 +37,10 @@ export default async function CampaignDetail({ params }) {
     complained: emailLogs.filter((e) => e.status === "complained").length,
     failed: emailLogs.filter((e) => e.status === "failed").length,
   };
+
+  const filteredLogs = filterStatus
+    ? emailLogs.filter((log) => log.status === filterStatus)
+    : emailLogs;
 
   const when = (d) =>
     d ? new Date(d).toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }) : "—";
@@ -68,16 +76,40 @@ export default async function CampaignDetail({ params }) {
                 </span>
               </p>
             </div>
-            <div>
+            <button
+              onClick={() => setFilterStatus(filterStatus === "sent" ? null : "sent")}
+              style={{
+                background: "none",
+                border: filterStatus === "sent" ? "2px solid #27ae60" : "1px solid #ddd",
+                padding: 12,
+                borderRadius: 4,
+                cursor: "pointer",
+                transition: "all 0.2s",
+              }}
+              onMouseEnter={(e) => (e.target.style.backgroundColor = "#f5f5f5")}
+              onMouseLeave={(e) => (e.target.style.backgroundColor = "transparent")}
+            >
               <p style={{ margin: "0 0 4px 0", fontSize: 12, color: "#666", textTransform: "uppercase" }}>Sent</p>
               <p style={{ margin: 0, fontSize: 18, fontWeight: "bold", color: "#27ae60" }}>{campaign.sentCount}</p>
-            </div>
-            <div>
+            </button>
+            <button
+              onClick={() => setFilterStatus(filterStatus === "failed" ? null : "failed")}
+              style={{
+                background: "none",
+                border: filterStatus === "failed" ? "2px solid #d63638" : "1px solid #ddd",
+                padding: 12,
+                borderRadius: 4,
+                cursor: "pointer",
+                transition: "all 0.2s",
+              }}
+              onMouseEnter={(e) => (e.target.style.backgroundColor = "#f5f5f5")}
+              onMouseLeave={(e) => (e.target.style.backgroundColor = "transparent")}
+            >
               <p style={{ margin: "0 0 4px 0", fontSize: 12, color: "#666", textTransform: "uppercase" }}>Failed</p>
               <p style={{ margin: 0, fontSize: 18, fontWeight: "bold", color: campaign.failedCount > 0 ? "#d63638" : "#999" }}>
                 {campaign.failedCount}
               </p>
-            </div>
+            </button>
             <div>
               <p style={{ margin: "0 0 4px 0", fontSize: 12, color: "#666", textTransform: "uppercase" }}>Sent At</p>
               <p style={{ margin: 0, fontSize: 14 }}>{when(campaign.sentAt)}</p>
@@ -141,7 +173,27 @@ export default async function CampaignDetail({ params }) {
       {/* Email Log Details */}
       {emailLogs.length > 0 && (
         <div className="wp-box">
-          <div className="wp-box-head">Email Log ({emailLogs.length} messages)</div>
+          <div className="wp-box-head" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <span>
+              Email Log ({filteredLogs.length}/{emailLogs.length} messages)
+              {filterStatus && <span style={{ marginLeft: 8, color: "#666" }}>• Filtered by: <strong>{filterStatus}</strong></span>}
+            </span>
+            {filterStatus && (
+              <button
+                onClick={() => setFilterStatus(null)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  color: "#0073aa",
+                  cursor: "pointer",
+                  textDecoration: "underline",
+                  fontSize: 12,
+                }}
+              >
+                Clear filter
+              </button>
+            )}
+          </div>
           <div className="wp-table-wrap">
             <table className="wp-table">
               <thead>
@@ -154,7 +206,14 @@ export default async function CampaignDetail({ params }) {
                 </tr>
               </thead>
               <tbody>
-                {emailLogs.map((log) => (
+                {filteredLogs.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} style={{ textAlign: "center", padding: 20, color: "#999" }}>
+                      No emails match the selected filter
+                    </td>
+                  </tr>
+                ) : (
+                  filteredLogs.map((log) => (
                   <tr key={log.id}>
                     <td className="wp-help">{log.recipient}</td>
                     <td>
@@ -191,7 +250,8 @@ export default async function CampaignDetail({ params }) {
                       {log.error || "—"}
                     </td>
                   </tr>
-                ))}
+                  ))
+                )}
               </tbody>
             </table>
           </div>
