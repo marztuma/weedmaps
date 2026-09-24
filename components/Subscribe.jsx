@@ -3,15 +3,6 @@
 import { useActionState, useEffect, useState } from "react";
 import { subscribe } from "@/app/(shop)/subscribe-actions";
 
-/* The signup form with integrated age verification.
- *
- * Age check is a legal requirement, not a marketing gate. Both age and consent
- * boxes are required and start unticked. A pre-ticked box is not consent under
- * the GDPR and is a poor idea under CAN-SPAM.
- */
-
-const AGE_KEY = "wm-age-ok";
-
 export default function Subscribe({ source = "site", compact = false }) {
   const [state, action, pending] = useActionState(subscribe, null);
   const [visitorKey, setVisitorKey] = useState("");
@@ -19,14 +10,6 @@ export default function Subscribe({ source = "site", compact = false }) {
   useEffect(() => {
     try { setVisitorKey(localStorage.getItem("wm-visitor") ?? ""); } catch { /* blocked storage */ }
   }, []);
-
-  useEffect(() => {
-    if (state?.ok && source === "age-gate") {
-      try {
-        window.sessionStorage.setItem(AGE_KEY, "1");
-      } catch { /* private mode */ }
-    }
-  }, [state?.ok, source]);
 
   if (state?.ok) {
     return (
@@ -59,19 +42,6 @@ export default function Subscribe({ source = "site", compact = false }) {
           {pending ? "Subscribing…" : "Subscribe"}
         </button>
       </div>
-
-      <label className="mt-3 flex cursor-pointer items-start gap-2.5">
-        <input
-          type="checkbox"
-          name="ageVerified"
-          required
-          className="mt-0.5 h-5 w-5 shrink-0 rounded-sm border-rule text-ink accent-ink"
-        />
-        <span className="u-prose text-[0.85rem] leading-relaxed text-shade">
-          I confirm I am 21 or over (or 18+ with valid medical recommendation) to receive
-          cannabis retailer information and deals.
-        </span>
-      </label>
 
       <label className="mt-3 flex cursor-pointer items-start gap-2.5">
         <input

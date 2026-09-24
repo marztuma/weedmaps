@@ -168,14 +168,6 @@ export default function CheckoutForm({ methods }) {
                 ))}
               </div>
             </fieldset>
-
-            <label className="mt-8 flex cursor-pointer items-start gap-3">
-              <input type="checkbox" name="age" required className="mt-1 accent-[var(--color-orange)]" />
-              <span className="u-prose text-[0.9rem] leading-relaxed text-shade">
-                I am 21 or over (or 18+ with a valid medical recommendation), and someone 21+
-                with government ID will be present to receive the delivery.
-              </span>
-            </label>
           </section>
         </div>
 

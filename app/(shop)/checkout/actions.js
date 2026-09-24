@@ -2,7 +2,7 @@
 
 import { validState } from "@/lib/states";
 import { evaluateCode, recordRedemption } from "@/lib/discounts";
-
+import { validEmail } from "@/lib/mail/safe";
 import { priceFromCents } from "@/lib/money";
 
 import { randomInt } from "node:crypto";
@@ -15,7 +15,6 @@ import { notifyNewOrder } from "@/lib/notify";
 const { products, shops, brands, customers, orders, orderItems, paymentMethods } = schema;
 
 const str = (fd, k) => String(fd.get(k) ?? "").trim();
-const isEmail = (v) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v);
 
 function reference() {
   // WM-XXXXXX, unambiguous alphabet (no O/0/I/1) so it survives being read aloud.
@@ -43,7 +42,6 @@ export async function placeOrder(_prev, formData) {
   const state = validState(rawState) ? rawState : null;
   const notes = str(formData, "notes");
   const methodCode = str(formData, "method");
-  const ageOk = formData.get("age") === "on";
 
   let cart;
   try {
@@ -54,11 +52,10 @@ export async function placeOrder(_prev, formData) {
 
   const errors = [];
   if (!name) errors.push("Enter the name the driver should ask for.");
-  if (!isEmail(email)) errors.push("Enter a valid email address — this is how we send payment details and updates.");
+  if (!validEmail(email)) errors.push("Enter a valid email address — this is how we send payment details and updates.");
   if (!address) errors.push("Enter the delivery address.");
   if (!state) errors.push("Choose the state we are delivering to.");
   if (!methodCode) errors.push("Choose how you want to pay.");
-  if (!ageOk) errors.push("You must confirm you are 21 or over, and that someone 21+ will receive the delivery.");
   if (!Array.isArray(cart) || cart.length === 0) errors.push("Your bag is empty.");
   if (errors.length) return { errors };
 
@@ -128,12 +125,11 @@ export async function placeOrder(_prev, formData) {
     await db.update(customers).set({
       name, phone: phone || existing.phone, address: address || existing.address,
       state: state || existing.state,
-      ageVerified: true,
       stage: existing.stage === "lead" ? "first_order" : existing.stage,
     }).where(eq(customers.id, existing.id));
   } else {
     const [created] = await db.insert(customers).values({
-      name, email, phone: phone || null, address, state, stage: "first_order", ageVerified: true,
+      name, email, phone: phone || null, address, state, stage: "first_order",
     }).returning({ id: customers.id });
     customerId = created.id;
   }
