@@ -9,11 +9,7 @@ import JsonLd from "@/components/JsonLd";
 import { itemListSchema, breadcrumbSchema, canonicalPage } from "@/lib/seo";
 
 export const revalidate = 60;
-
-export async function generateStaticParams() {
-  const cats = await getCategoryIndex();
-  return cats.map((c) => ({ category: c.slug }));
-}
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params, searchParams }) {
   const { category } = await params;
