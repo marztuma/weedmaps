@@ -14,7 +14,12 @@ import Track from "@/components/Track";
 export const dynamic = 'force-dynamic';
 
 export default async function ShopLayout({ children }) {
-  const shops = await getShops();
+  let shops = [];
+  try {
+    shops = await getShops();
+  } catch {
+    // Database unavailable, use empty shops list
+  }
 
   return (
     <DeliveryProvider defaultLocation={site.location.label}>
