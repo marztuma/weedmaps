@@ -8,6 +8,7 @@ import { sitemapEntries, sitemapXml } from "@/lib/site-map-data";
    never touches that loader and produces byte-identical output. */
 
 export const revalidate = 3600;
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   const xml = sitemapXml(await sitemapEntries());
