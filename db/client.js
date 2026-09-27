@@ -1,5 +1,5 @@
-import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
+import { neon, neonConfig } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-http";
 import * as schema from "./schema.js";
 
 if (!process.env.DATABASE_URL) {
@@ -22,7 +22,31 @@ if (!process.env.DATABASE_URL) {
   );
 }
 
-const client = postgres(process.env.DATABASE_URL);
+const TRANSIENT = /fetch failed|ECONNRESET|ETIMEDOUT|EAI_AGAIN|socket hang up|network|terminated|aborted/i;
 
-export const db = drizzle(client, { schema });
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+neonConfig.fetchFunction = async (input, init) => {
+  let lastError;
+  for (let attempt = 1; attempt <= 4; attempt++) {
+    try {
+      const res = await fetch(input, init);
+      if (res.status >= 500 && res.status < 600 && attempt < 4) {
+        lastError = new Error(`neon responded ${res.status}`);
+        await sleep(attempt * 300);
+        continue;
+      }
+      return res;
+    } catch (err) {
+      lastError = err;
+      if (!TRANSIENT.test(String(err?.message ?? err)) || attempt === 4) throw err;
+      await sleep(attempt * 300);
+    }
+  }
+  throw lastError;
+};
+
+const sql = neon(process.env.DATABASE_URL);
+
+export const db = drizzle(sql, { schema });
 export { schema };
