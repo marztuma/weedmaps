@@ -22,10 +22,7 @@ if (!process.env.DATABASE_URL) {
   );
 }
 
-const client = postgres(process.env.DATABASE_URL, {
-  ssl: 'require',
-  max: 1,
-});
+const client = postgres(process.env.DATABASE_URL);
 
 export const db = drizzle(client, { schema });
 export { schema };
