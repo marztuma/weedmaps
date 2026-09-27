@@ -11,6 +11,8 @@ import Footer from "@/components/Footer";
 import ChatWidget from "@/components/ChatWidget";
 import Track from "@/components/Track";
 
+export const dynamic = 'force-dynamic';
+
 export default async function ShopLayout({ children }) {
   const shops = await getShops();
 
