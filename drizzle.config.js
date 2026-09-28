@@ -1,6 +1,6 @@
 import { config } from "dotenv";
 
-// Neon writes to .env.local, not .env — load that explicitly.
+// Load from .env.local explicitly
 config({ path: ".env.local" });
 
 /** @type {import('drizzle-kit').Config} */
@@ -12,5 +12,5 @@ export default {
     url: process.env.DATABASE_URL_UNPOOLED || process.env.DATABASE_URL,
   },
   strict: false,
-  verbose: true,
+  verbose: false,
 };
