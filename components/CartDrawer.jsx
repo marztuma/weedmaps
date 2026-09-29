@@ -173,7 +173,7 @@ export default function CartDrawer() {
               )}
 
               <p className="u-meta mt-2 leading-relaxed text-shade">
-                Order from any service — we arrange the delivery. 21+ and ID at the door.
+                Order from any service — we arrange the delivery.
               </p>
               <Link
                 href="/checkout"

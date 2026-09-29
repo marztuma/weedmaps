@@ -170,7 +170,7 @@ export default async function ProductPage({ params }) {
                 </p>
               )}
               <p className="u-meta mt-3 text-center text-mute">
-                Checkout happens on the service&rsquo;s own menu. 21+ and ID at the door.
+                Checkout happens on the service&rsquo;s own menu.
               </p>
             </div>
 
