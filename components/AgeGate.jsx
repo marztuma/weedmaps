@@ -78,11 +78,11 @@ export default function AgeGate() {
         </span>
 
         <h2 id="restock-title" className="u-display mt-6 text-[clamp(1.9rem,5vw,2.5rem)]">
-          Restock Alerts
+          Restock Alerts & Exclusive Deals
         </h2>
         <p className="mt-4 text-[0.95rem] leading-relaxed text-shade">
           Be first to hear when something is back in stock, and when new flavours and drops land.
-          One email, only when there&rsquo;s something worth saying.
+          Plus, get <strong>15% off your first order</strong> when you subscribe.
         </p>
 
         <div className="mt-8">
@@ -90,7 +90,7 @@ export default function AgeGate() {
         </div>
 
         <p className="mt-6 border-t border-rule pt-5 text-[0.8rem] leading-relaxed text-mute">
-          For adults 21 and over. We never sell your information.
+          We never sell your information.
         </p>
       </div>
     </div>
@@ -141,19 +141,6 @@ function SubscribeFormWrapper({ source, onSubscribe }) {
           placeholder="you@email.com"
           className="h-12 w-full rounded-sm border border-rule bg-linen px-3.5 text-[0.95rem] text-ink outline-none focus:border-ink"
         />
-      </label>
-
-      <label className="flex cursor-pointer items-start gap-2.5">
-        <input
-          type="checkbox"
-          name="ageVerified"
-          required
-          className="mt-0.5 h-5 w-5 shrink-0 rounded-sm border-rule text-ink accent-ink"
-        />
-        <span className="u-prose text-[0.85rem] leading-relaxed text-shade">
-          I confirm I am 21 or over (or 18+ with valid medical recommendation) to receive
-          cannabis retailer information and deals.
-        </span>
       </label>
 
       <label className="flex cursor-pointer items-start gap-2.5">

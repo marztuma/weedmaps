@@ -22,6 +22,12 @@ export default function Subscribe({ source = "site", compact = false }) {
       <input type="hidden" name="source" value={source} />
       <input type="hidden" name="visitorKey" value={visitorKey} />
 
+      <div className="mb-4 rounded-sm bg-orange-tint px-4 py-3">
+        <p className="text-[0.9rem] font-semibold text-orange-deep">
+          🎁 Get 15% off your first order when you subscribe
+        </p>
+      </div>
+
       <div className="flex flex-col gap-3 sm:flex-row">
         <label className="min-w-0 flex-1">
           <span className="sr-only">Your email</span>
