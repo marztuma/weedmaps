@@ -25,7 +25,7 @@ function Submit({ disabled }) {
 }
 
 export default function CheckoutForm({ methods }) {
-  const { lines, groups, subtotal, count, identity } = useCart();
+  const { lines, groups, subtotal, count, identity, cartMeetsMinimum, cartShortfall, globalMinimum } = useCart();
   const { location } = useDelivery();
   const [state, action] = useActionState(placeOrder, {});
 
@@ -43,7 +43,6 @@ export default function CheckoutForm({ methods }) {
   const apps = methods.filter((m) => m.kind === "app");
   const crypto = methods.filter((m) => m.kind === "crypto");
   const deliveryTotal = groups.reduce((n, g) => n + (g.fee ?? 0), 0);
-  const blocked = groups.filter((g) => !g.meetsMinimum);
 
   if (count === 0) {
     return (
@@ -203,11 +202,6 @@ export default function CheckoutForm({ methods }) {
                   <p className="u-meta flex justify-between text-shade">
                     <span>Delivery</span><span className="u-data text-ink">{g.fee ? `$${g.fee}` : "Free"}</span>
                   </p>
-                  {!g.meetsMinimum && (
-                    <p className="u-meta mt-1 rounded-xs px-3 py-2 leading-relaxed" style={{ backgroundColor: "var(--color-orange-tint)", color: "var(--color-orange-deep)" }}>
-                      ${g.shortfall.toFixed(0)} below {g.shop}&rsquo;s ${g.min} minimum.
-                    </p>
-                  )}
                 </div>
               </section>
             ))}
@@ -252,10 +246,10 @@ export default function CheckoutForm({ methods }) {
                 <span className="u-meta mt-1 block text-mute">Checked when you place the order.</span>
               </label>
 
-              <Submit disabled={blocked.length > 0} />
-              {blocked.length > 0 && (
+              <Submit disabled={!cartMeetsMinimum} />
+              {!cartMeetsMinimum && (
                 <p className="u-meta mt-2 text-center leading-relaxed text-orange-text">
-                  Add more to reach every service&rsquo;s minimum first.
+                  Add ${cartShortfall.toFixed(0)} more to reach the ${globalMinimum} order minimum.
                 </p>
               )}
               <p className="u-meta mt-3 text-center leading-relaxed text-mute">

@@ -6,7 +6,7 @@ import { useCart } from "./CartContext";
 import Icon from "./Icons";
 
 export default function CartDrawer() {
-  const { open, setOpen, groups, count, subtotal, setQty, remove, clear } = useCart();
+  const { open, setOpen, groups, count, subtotal, setQty, remove, clear, cartMeetsMinimum, cartShortfall, globalMinimum } = useCart();
 
   useEffect(() => {
     if (!open) return;
@@ -140,23 +140,14 @@ export default function CartDrawer() {
                       <span className="u-data text-ink">{g.fee ? `$${g.fee}` : "Free"}</span>
                     </p>
 
-                    {!g.meetsMinimum ? (
-                      <p
-                        className="u-meta mt-1.5 rounded-xs px-3 py-2 leading-relaxed"
-                        style={{ backgroundColor: "var(--color-orange-tint)", color: "var(--color-orange-deep)" }}
-                      >
-                        Add ${g.shortfall.toFixed(0)} more to reach {g.shop}&rsquo;s ${g.min} minimum.
-                      </p>
-                    ) : (
-                      <Link
-                        href="/checkout"
-                        onClick={() => setOpen(false)}
-                        className="u-pill mt-2 flex h-11 w-full items-center justify-center gap-2 bg-ink px-5 text-[0.85rem] text-linen hover:bg-ink-soft"
-                      >
-                        <Icon name="truck" size={15} />
-                        Checkout with {g.shop} · ${g.total.toFixed(0)}
-                      </Link>
-                    )}
+                    <Link
+                      href="/checkout"
+                      onClick={() => setOpen(false)}
+                      className="u-pill mt-2 flex h-11 w-full items-center justify-center gap-2 bg-ink px-5 text-[0.85rem] text-linen hover:bg-ink-soft"
+                    >
+                      <Icon name="truck" size={15} />
+                      Checkout with {g.shop} · ${g.total.toFixed(0)}
+                    </Link>
                   </div>
                 </section>
               ))}
@@ -171,6 +162,16 @@ export default function CartDrawer() {
                   ${subtotal.toFixed(0)}
                 </span>
               </p>
+
+              {!cartMeetsMinimum && (
+                <p
+                  className="u-meta mt-2 mb-3 rounded-xs px-3 py-2 leading-relaxed"
+                  style={{ backgroundColor: "var(--color-orange-tint)", color: "var(--color-orange-deep)" }}
+                >
+                  Add ${cartShortfall.toFixed(0)} more to reach the ${globalMinimum} order minimum.
+                </p>
+              )}
+
               <p className="u-meta mt-2 leading-relaxed text-shade">
                 Order from any service — we arrange the delivery. 21+ and ID at the door.
               </p>

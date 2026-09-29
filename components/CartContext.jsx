@@ -173,23 +173,25 @@ export function CartProvider({ children }) {
       }
       map.get(l.shop).lines.push(l);
     }
+    const GLOBAL_MINIMUM = 150;
     const groups = [...map.values()].map((g) => {
       const sub = g.lines.reduce((n, l) => n + l.price * l.qty, 0);
-      const shortfall = g.min != null ? Math.max(0, g.min - sub) : 0;
       return {
         ...g,
         subtotal: sub,
-        shortfall,
-        meetsMinimum: shortfall === 0,
         total: sub + (g.fee ?? 0),
       };
     });
+
+    const cartMeetsMinimum = subtotal >= GLOBAL_MINIMUM;
+    const cartShortfall = Math.max(0, GLOBAL_MINIMUM - subtotal);
 
     return {
       lines, groups, count, subtotal, ready, open, setOpen,
       add, setQty, remove, clear,
       gateOpen, gateReason, openGate, closeGate,
       identity, setIdentity, signOut,
+      cartMeetsMinimum, cartShortfall, globalMinimum: GLOBAL_MINIMUM,
     };
   }, [lines, ready, open, add, setQty, remove, clear,
       gateOpen, gateReason, openGate, closeGate, identity, setIdentity, signOut]);
