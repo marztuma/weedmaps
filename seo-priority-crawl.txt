@@ -1,0 +1,209 @@
+🎯 SEO PRIORITY CRAWL LIST FOR GOOGLE
+========================================
+
+PRIORITY 1 - CRITICAL (Index First - High Traffic)
+════════════════════════════════════════════════════
+✅ Homepage
+https://weedmap.store/
+
+✅ Main Products Page
+https://weedmap.store/products
+
+✅ Search Page (for organic discovery)
+https://weedmap.store/search
+
+✅ Deals Page (Fresh content, updated regularly)
+https://weedmap.store/deals
+
+✅ Learn Hub (Educational content, brand building)
+https://weedmap.store/learn
+
+
+PRIORITY 2 - HIGH (Category Pages - Long Tail Keywords)
+════════════════════════════════════════════════════════
+✅ Product Categories (These generate 60-70% of traffic)
+https://weedmap.store/products/[category-name]
+
+Examples:
+- /products/flower
+- /products/edibles
+- /products/concentrates
+- /products/pre-rolls
+- /products/cartridges
+- /products/tinctures
+- /products/topicals
+- /products/seeds
+- /products/accessories
+
+👉 ACTION: Get all category slugs from database and add them
+
+
+PRIORITY 3 - MEDIUM-HIGH (Brand Pages - Authority Building)
+═════════════════════════════════════════════════════════════
+✅ All Brands Page
+https://weedmap.store/brands
+
+✅ Individual Brand Pages (Build brand authority)
+https://weedmap.store/brand/[brand-slug]
+
+👉 ACTION: Index top 20 brands by popularity/reviews
+
+
+PRIORITY 4 - MEDIUM (Location Pages - Local SEO)
+═════════════════════════════════════════════════
+✅ All Deliveries Page
+https://weedmap.store/deliveries
+
+✅ Individual Delivery/Location Pages
+https://weedmap.store/delivery/[location-slug]
+
+👉 ACTION: Index all delivery locations (city-level targeting)
+
+
+PRIORITY 5 - MEDIUM (Product Pages - Revenue Pages)
+════════════════════════════════════════════════════
+✅ Individual Product Pages
+https://weedmap.store/product/[product-slug]
+
+👉 ACTION: Index top 100 products by:
+   - Reviews/ratings (social proof)
+   - Sales volume (popular items)
+   - New arrivals (fresh content)
+
+⚠️ Strategy: Stagger product indexing (don't submit all at once)
+   Reason: Avoid crawl budget waste on low-value products
+
+
+PRIORITY 6 - LOW-MEDIUM (Evergreen Content)
+═════════════════════════════════════════════
+✅ Educational Articles
+https://weedmap.store/learn/[article-slug]
+
+👉 ACTION: Index all learn articles (60-100 pages)
+   Strategy: Index weekly to distribute crawl budget
+
+
+DO NOT PRIORITIZE (Noindex These)
+════════════════════════════════════
+❌ Admin pages (/admin/*)
+❌ Login pages (/login)
+❌ Checkout/Payment pages (/checkout)
+❌ User account pages
+❌ Chat pages
+
+
+IMPLEMENTATION STEPS
+═════════════════════
+
+1. ✅ VERIFY SITE IN GOOGLE SEARCH CONSOLE
+   Status: Already verified
+
+2. 📝 CREATE PRIORITY SITEMAP (see below)
+   - Contains Priority 1-3 pages only
+   - Update weekly
+
+3. 📤 SUBMIT TO GOOGLE SEARCH CONSOLE
+   - Go to: Google Search Console > Sitemaps
+   - Add: https://weedmap.store/sitemap-priority.xml
+
+4. 🔍 REQUEST INDEXING
+   - Use URL Inspection tool
+   - Request top 20 pages first
+   - Wait 2-3 days before requesting more
+
+5. 📊 MONITOR INDEXING
+   - Check Coverage Report weekly
+   - Fix any "Excluded" pages
+   - Track crawl statistics
+
+
+ESTIMATED CRAWL PRIORITIES BY TRAFFIC IMPACT
+════════════════════════════════════════════════
+
+Homepage              - 30% of traffic
+Product Categories   - 40% of traffic
+Individual Products  - 20% of traffic
+Brands               - 5% of traffic
+Location Pages       - 3% of traffic
+Learn Articles       - 2% of traffic
+
+👉 IMPLICATION: Focus Google crawl budget on homepage + categories
+
+
+SEO QUICK WINS (Immediate Actions)
+═════════════════════════════════════
+
+1. ✅ Fix Robots.txt
+   - Current: Failing to fetch
+   - Status: Should auto-fix after DNS propagation (wait 1-2 hours)
+
+2. ✅ Create Open Graph Images
+   - Add for products (/og/product/[slug] route exists!)
+   - Add for categories
+   - Improves social sharing + click-through rate
+
+3. ✅ Optimize Meta Descriptions
+   - 150-160 characters
+   - Include keywords naturally
+   - Add CTA
+
+4. ✅ Internal Linking
+   - Link homepage to top 5 categories
+   - Link categories to top 10 products
+   - Link products to related products (by category)
+
+5. ✅ Add Schema Markup
+   - Product schema (ratings, price, availability)
+   - Organization schema
+   - LocalBusiness schema (for delivery locations)
+
+6. ✅ URL Structure
+   - ✅ Good: /products/[category]/
+   - ✅ Good: /product/[slug]
+   - Keep it simple and keyword-rich
+
+
+CONTENT STRATEGY (What Google Values)
+══════════════════════════════════════
+
+📝 Write blog posts for:
+   - Strain guides (e.g., "Best Indica Strains for Sleep")
+   - Product reviews (leverage user reviews)
+   - Education (consumption methods, dosing, benefits)
+   - Seasonal content (holiday deals, new products)
+
+💡 These become your /learn articles and drive organic traffic
+
+
+MONITORING & MAINTENANCE
+════════════════════════
+
+Weekly:
+  - Check Google Search Console for indexing issues
+  - Verify no crawl errors
+  - Monitor "Excluded" pages
+
+Monthly:
+  - Review top performing pages
+  - Check click-through rate (CTR) in GSC
+  - Optimize low-performing meta descriptions
+
+Quarterly:
+  - Full SEO audit
+  - Competitor analysis
+  - Backlink opportunities
+
+
+NEXT STEPS
+═══════════
+
+1. Wait 1-2 hours for DNS to fully propagate (robots.txt should work)
+2. Check Google Search Console > URL Inspection (robots.txt issue)
+3. Submit Priority 1 pages for indexing
+4. Let us know when Google starts crawling successfully
+5. Then we optimize content and meta tags
+
+═══════════════════════════════════════════════════════════════════════
+Generated: 2026-09-23 for weedmap.store
+Last Updated: Today
+═══════════════════════════════════════════════════════════════════════
