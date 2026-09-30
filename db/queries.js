@@ -291,6 +291,7 @@ const SORTS = {
   potency: [desc(products.thc), asc(products.id)],
   fastest: [asc(shops.etaMinMinutes), asc(products.id)],
   rated: [desc(shops.rating), asc(products.id)],
+  reviews: null, // Special case: handled separately
 };
 
 /* Listings are paged rather than capped.
@@ -326,14 +327,33 @@ export async function getCategoryProducts(slug, opts = {}) {
   if (sub) where.push(eq(subcategories.name, sub));
   if (brand) where.push(eq(brands.slug, brand));
   if (liveOnly) where.push(eq(shops.deliveringNow, true));
+  const predicate = and(...where);
+
+  let query;
+  if (sort === "reviews") {
+    // Sort by review count
+    query = db.select({
+      ...productSelect,
+      reviewCount: sql`count(${schema.reviews.id})`.mapWith(Number),
+    })
+      .from(products)
+      .innerJoin(brands, eq(products.brandId, brands.id))
+      .innerJoin(categories, eq(products.categoryId, categories.id))
+      .innerJoin(shops, eq(products.shopId, shops.id))
+      .leftJoin(subcategories, eq(products.subcategoryId, subcategories.id))
+      .leftJoin(schema.reviews, eq(products.id, schema.reviews.productId))
+      .where(predicate)
+      .groupBy(products.id, brands.id, categories.id, shops.id, subcategories.id)
+      .orderBy(desc(sql`count(${schema.reviews.id})`), asc(products.id));
+  } else {
+    query = withJoins(db.select(productSelect))
+      .where(predicate)
+      .orderBy(...(SORTS[sort] ?? SORTS.price_asc));
+  }
 
   const [rows, [{ total }]] = await Promise.all([
-    withJoins(db.select(productSelect))
-      .where(and(...where))
-      .orderBy(...(SORTS[sort] ?? SORTS.price_asc))
-      .limit(PER_PAGE)
-      .offset((page - 1) * PER_PAGE),
-    withJoins(db.select({ total: sql`count(*)`.mapWith(Number) })).where(and(...where)),
+    query.limit(PER_PAGE).offset((page - 1) * PER_PAGE),
+    withJoins(db.select({ total: sql`count(*)`.mapWith(Number) })).where(predicate),
   ]);
 
   return { items: rows.map(shapeProduct), ...paged(total, page) };
@@ -345,12 +365,30 @@ export async function getAllProducts(opts = {}) {
   const where = liveOnly ? [eq(shops.deliveringNow, true)] : [];
   const predicate = where.length ? and(...where) : undefined;
 
-  const [rows, [{ total }]] = await Promise.all([
-    withJoins(db.select(productSelect))
+  let query;
+  if (sort === "reviews") {
+    // Sort by review count
+    query = db.select({
+      ...productSelect,
+      reviewCount: sql`count(${schema.reviews.id})`.mapWith(Number),
+    })
+      .from(products)
+      .innerJoin(brands, eq(products.brandId, brands.id))
+      .innerJoin(categories, eq(products.categoryId, categories.id))
+      .innerJoin(shops, eq(products.shopId, shops.id))
+      .leftJoin(subcategories, eq(products.subcategoryId, subcategories.id))
+      .leftJoin(schema.reviews, eq(products.id, schema.reviews.productId))
       .where(predicate)
-      .orderBy(...(SORTS[sort] ?? SORTS.price_asc))
-      .limit(PER_PAGE)
-      .offset((page - 1) * PER_PAGE),
+      .groupBy(products.id, brands.id, categories.id, shops.id, subcategories.id)
+      .orderBy(desc(sql`count(${schema.reviews.id})`), asc(products.id));
+  } else {
+    query = withJoins(db.select(productSelect))
+      .where(predicate)
+      .orderBy(...(SORTS[sort] ?? SORTS.price_asc));
+  }
+
+  const [rows, [{ total }]] = await Promise.all([
+    query.limit(PER_PAGE).offset((page - 1) * PER_PAGE),
     withJoins(db.select({ total: sql`count(*)`.mapWith(Number) })).where(predicate),
   ]);
 
@@ -668,4 +706,32 @@ export async function getGenuineRating({ productId, shopId }) {
 
   if (!row || row.n === 0) return null;
   return { count: row.n, average: Math.round(row.avg * 10) / 10 };
+}
+
+/** New arrivals — most recently created products. */
+export async function getNewArrivals(limit = 12) {
+  const rows = await withJoins(db.select(productSelect))
+    .where(eq(shops.deliveringNow, true))
+    .orderBy(desc(products.createdAt), asc(products.id))
+    .limit(limit);
+  return rows.map(shapeProduct);
+}
+
+/** Most reviewed products — highest review count first. */
+export async function getMostReviewed(limit = 12) {
+  const rows = await db.select({
+    ...productSelect,
+    reviewCount: sql`count(${schema.reviews.id})`.mapWith(Number),
+  })
+    .from(products)
+    .innerJoin(brands, eq(products.brandId, brands.id))
+    .innerJoin(categories, eq(products.categoryId, categories.id))
+    .innerJoin(shops, eq(products.shopId, shops.id))
+    .leftJoin(subcategories, eq(products.subcategoryId, subcategories.id))
+    .leftJoin(schema.reviews, eq(products.id, schema.reviews.productId))
+    .where(eq(shops.deliveringNow, true))
+    .groupBy(products.id, brands.id, categories.id, shops.id, subcategories.id)
+    .orderBy(desc(sql`count(${schema.reviews.id})`), asc(products.id))
+    .limit(limit);
+  return rows.map(shapeProduct);
 }

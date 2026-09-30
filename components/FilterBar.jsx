@@ -9,6 +9,7 @@ const SORTS = [
   { id: "price_desc", label: "Price ↓" },
   { id: "potency", label: "Potency" },
   { id: "fastest", label: "Fastest" },
+  { id: "reviews", label: "⭐ Most Reviewed" },
 ];
 
 /* Filters write to the URL, so a filtered view is a shareable address and the

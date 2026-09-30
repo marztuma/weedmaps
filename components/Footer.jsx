@@ -143,6 +143,40 @@ export default function Footer({ site }) {
           </div>
         </div>
 
+        <div className="mt-10 border-t border-rule pt-8">
+          <h4 className="u-label text-mute mb-4">Why customers trust us</h4>
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 text-[0.85rem]">
+            <div className="flex items-start gap-2.5">
+              <span className="text-lg">✓</span>
+              <div>
+                <p className="font-semibold text-ink">Lab Tested</p>
+                <p className="text-shade text-[0.8rem]">All products verified</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-2.5">
+              <span className="text-lg">🔒</span>
+              <div>
+                <p className="font-semibold text-ink">Secure Checkout</p>
+                <p className="text-shade text-[0.8rem]">Your data protected</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-2.5">
+              <span className="text-lg">⭐</span>
+              <div>
+                <p className="font-semibold text-ink">Real Reviews</p>
+                <p className="text-shade text-[0.8rem]">From customers</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-2.5">
+              <span className="text-lg">🚚</span>
+              <div>
+                <p className="font-semibold text-ink">Fast Delivery</p>
+                <p className="text-shade text-[0.8rem]">45-90 minutes</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="mt-10 flex flex-col gap-5 border-t border-rule pt-7 md:flex-row md:items-start md:justify-between">
           <p className="u-prose text-[0.8rem] leading-relaxed text-shade">{site.footer.legal}</p>
           <p className="u-label shrink-0 text-mute">© 2026 Weedmaps · Terms · Privacy</p>

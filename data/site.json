@@ -109,6 +109,35 @@
         ]
       },
       {
+        "title": "Customer Resources",
+        "links": [
+          {
+            "label": "Getting started",
+            "href": "/learn"
+          },
+          {
+            "label": "Cannabis 101",
+            "href": "/learn"
+          },
+          {
+            "label": "Lab testing",
+            "href": "/learn"
+          },
+          {
+            "label": "Product guides",
+            "href": "/learn"
+          },
+          {
+            "label": "FAQ",
+            "href": "/learn"
+          },
+          {
+            "label": "Contact support",
+            "href": "/search"
+          }
+        ]
+      },
+      {
         "title": "For business",
         "links": [
           {

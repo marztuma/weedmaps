@@ -1,0 +1,191 @@
+🔗 PRIORITY URLS FOR GOOGLE SEARCH CONSOLE
+═══════════════════════════════════════════════════════════════
+
+PHASE 1: SUBMIT THESE TODAY/TOMORROW (Top 10 URLs)
+═══════════════════════════════════════════════════
+
+⭐ CRITICAL - Submit First:
+
+1. https://weedmap.store/
+2. https://weedmap.store/products
+3. https://weedmap.store/deals
+4. https://weedmap.store/learn
+5. https://weedmap.store/search
+
+📌 HIGH PRIORITY - Submit Next:
+
+6. https://weedmap.store/brands
+7. https://weedmap.store/deliveries
+8. https://weedmap.store/products/flower
+9. https://weedmap.store/products/edibles
+10. https://weedmap.store/products/pre-rolls
+
+
+HOW TO SUBMIT TO GOOGLE SEARCH CONSOLE
+═════════════════════════════════════════
+
+1. Go to: https://search.google.com/search-console
+2. Select property: weedmap.store
+3. In left menu, click: "URL Inspection"
+4. Paste ONE URL from above
+5. Click: "Request Indexing" button
+6. Repeat for all 10 URLs
+
+⏱️ Time required: ~5 minutes
+
+
+PHASE 2: SUBMIT WEEK 1 (All Product Categories)
+═════════════════════════════════════════════════
+
+After Phase 1 URLs are submitted, add these:
+
+https://weedmap.store/products/flower
+https://weedmap.store/products/edibles
+https://weedmap.store/products/pre-rolls
+https://weedmap.store/products/concentrates
+https://weedmap.store/products/cartridges
+https://weedmap.store/products/tinctures
+https://weedmap.store/products/topicals
+https://weedmap.store/products/seeds
+https://weedmap.store/products/accessories
+
+💡 TIP: Submit top 5 first, wait 2 days, then submit remaining
+
+
+PHASE 3: SUBMIT WEEK 2 (All Delivery Locations)
+════════════════════════════════════════════════
+
+Get these from your admin panel and submit:
+
+https://weedmap.store/deliveries
+https://weedmap.store/delivery/[city-name]
+https://weedmap.store/delivery/[city-name]
+... (repeat for all locations)
+
+📍 These help with LOCAL SEO ("cannabis delivery near me")
+
+
+WHAT TO DO AFTER SUBMITTING
+═════════════════════════════
+
+1. ✅ Go to Coverage Report
+   - Check for errors
+   - Look for "Excluded" pages
+   - Verify robots.txt is fetching
+
+2. ✅ Monitor "Crawl Stats"
+   - Go to Settings > Crawl Stats
+   - Should see Google crawling your site
+   - Requests per day should increase
+
+3. ✅ Check Indexing
+   - Go to Coverage
+   - Should see pages move from "Discovered" → "Indexed"
+   - Timeline: 24-72 hours per page
+
+4. ✅ Monitor Click-Through Rate
+   - Go to Performance
+   - Check clicks and impressions
+   - Target CTR: 3%+ (if lower, improve meta descriptions)
+
+
+QUICK TROUBLESHOOTING
+══════════════════════
+
+❌ "URL not available to Google"
+   └─ Likely: robots.txt still unreachable
+   └─ Fix: Wait 1-2 hours for DNS propagation
+   └─ Then: Retry indexing request
+
+❌ "Crawled but not indexed"
+   └─ Reason: Page quality issue (Google doesn't think it's valuable)
+   └─ Fix: Improve page content, add more text, improve meta tags
+   └─ Action: Resubmit after improvements
+
+❌ "404 Not Found"
+   └─ Reason: Page doesn't exist
+   └─ Fix: Check URL is correct (case-sensitive on Linux servers)
+
+✅ "Indexed"
+   └─ 🎉 SUCCESS! Page is in Google's index
+   └─ Timeline: Will start appearing in search results in days
+
+
+IMPORTANT NOTES
+════════════════
+
+🔴 DON'T submit ALL 200+ products at once
+   Reason: Wastes crawl budget
+   Instead: Let Google discover them naturally from category pages
+
+🟢 DO prioritize pages with:
+   - High traffic potential (homepage, categories)
+   - Fresh content (deals, new arrivals)
+   - Revenue impact (products, categories)
+
+⏱️ Stagger submissions:
+   - Phase 1 (10 URLs): Today
+   - Phase 2 (9 categories): Day 3-4
+   - Phase 3 (locations): Week 1-2
+   - Phase 4 (products): Let Google crawl naturally
+
+
+EXPECTED TIMELINE
+═══════════════════
+
+Day 1-2: Submit Phase 1 URLs
+Day 3-5: Homepage + main pages indexed ✅
+Day 5-7: Category pages indexed ✅
+Week 2: 50+ pages indexed
+Week 3: 100+ pages indexed
+Month 1: 200+ pages indexed (most important content)
+
+🎯 GOAL: Get to 100+ indexed pages in first month
+
+
+MONITORING DASHBOARD
+═════════════════════
+
+Bookmark these URLs in Google Search Console:
+
+1. Coverage Report
+   https://search.google.com/search-console
+
+2. URL Inspection
+   (Use this to submit URLs)
+
+3. Performance Report
+   (Track clicks, impressions, CTR)
+
+4. Coverage → Index Status
+   (See what's indexed vs excluded)
+
+
+AFTER FIRST MONTH
+═══════════════════
+
+✅ Analyze top-performing pages
+   - Which pages get most clicks?
+   - Which have low CTR?
+
+✅ Improve meta descriptions for low-CTR pages
+   - Make them more compelling
+   - Include primary keyword
+   - Add call-to-action
+
+✅ Create new content
+   - Blog posts targeting high-value keywords
+   - Educational articles
+   - Strain/product reviews
+
+✅ Build internal links
+   - Homepage → Top categories
+   - Categories → Top products
+   - Products → Related products
+
+
+═══════════════════════════════════════════════════════════════
+Generated: 2026-09-23
+For: weedmap.store SEO Campaign
+Status: 🟢 READY TO SUBMIT
+═══════════════════════════════════════════════════════════════

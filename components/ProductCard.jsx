@@ -34,7 +34,19 @@ export default function ProductCard({ product, category, quickAdd = true }) {
         <h4 className="mt-1 truncate text-[0.95rem] font-bold leading-snug tracking-[-0.02em] text-ink decoration-orange/60 underline-offset-4 group-hover:underline">
           {product.name}
         </h4>
-        <div className="mt-1.5">
+        {product.effects && product.effects.length > 0 && (
+          <div className="mt-1.5 flex flex-wrap gap-1">
+            {product.effects.slice(0, 3).map((effect) => (
+              <span
+                key={effect}
+                className="u-meta inline-block rounded-full bg-orange-bg px-2 py-0.5 text-[0.75rem] font-medium text-orange-text"
+              >
+                {effect}
+              </span>
+            ))}
+          </div>
+        )}
+        <div className={product.effects && product.effects.length > 0 ? "mt-1.5" : "mt-1.5"}>
           <PriceTicket price={product.price} was={product.was} />
         </div>
         <p className="u-meta mt-2 flex items-start gap-1.5 leading-relaxed text-shade">
