@@ -60,11 +60,17 @@ export default function ProductCard({ product, category, quickAdd = true }) {
       </div>
     </Link>
     {quickAdd && product.shopLive !== false && (
-      <div className="mt-3 pt-0">
+      <div className="mt-3 pt-0 space-y-2">
         {product.lowStock && (
           <p className="u-meta mt-2 text-orange-text">Only {product.stock} left</p>
         )}
         <QuickAdd product={product} />
+        <Link
+          href={`/compare?ids=${product.id}`}
+          className="block w-full text-center py-2 text-sm font-medium text-orange hover:bg-orange/5 rounded transition-colors"
+        >
+          Compare
+        </Link>
       </div>
     )}
     </div>

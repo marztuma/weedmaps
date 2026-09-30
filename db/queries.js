@@ -735,3 +735,67 @@ export async function getMostReviewed(limit = 12) {
     .limit(limit);
   return rows.map(shapeProduct);
 }
+
+/** All products for filtering (e.g., quiz, comparison tool) — no pagination. */
+export async function getAllProductsArray(liveOnly = true) {
+  const where = liveOnly ? [eq(shops.deliveringNow, true)] : [];
+  const predicate = where.length ? and(...where) : undefined;
+  const rows = await withJoins(db.select(productSelect))
+    .where(predicate)
+    .orderBy(asc(products.id));
+  return rows.map(shapeProduct);
+}
+
+/** Products by IDs (for comparison tool). */
+export async function getProductsByIds(ids) {
+  if (!ids || ids.length === 0) return [];
+  const rows = await withJoins(db.select(productSelect))
+    .where(inArray(products.id, ids));
+  return rows.map(shapeProduct);
+}
+
+/** Products filtered by effect name (for landing pages). */
+export async function getProductsByEffect(effectName, limit = 12) {
+  const rows = await withJoins(db.select(productSelect))
+    .where(and(
+      eq(shops.deliveringNow, true),
+      sql`${products.effects} @> array[${effectName}]::text[]`
+    ))
+    .orderBy(desc(products.featured), asc(products.priceCents))
+    .limit(limit);
+  return rows.map(shapeProduct);
+}
+
+/** Products in a category (for landing pages). */
+export async function getProductsByCategory(categorySlug, limit = 12) {
+  const rows = await withJoins(db.select(productSelect))
+    .where(and(
+      eq(categories.slug, categorySlug),
+      eq(shops.deliveringNow, true)
+    ))
+    .orderBy(desc(products.featured), asc(products.priceCents))
+    .limit(limit);
+  return rows.map(shapeProduct);
+}
+
+/** Published reviews for landing pages. */
+export async function getUserReviews(limit = 12) {
+  const shapeReview = (r) => ({
+    id: r.id,
+    rating: r.rating,
+    title: r.title,
+    body: r.body,
+    author: r.authorHandle,
+    location: r.authorLocation,
+    createdAt: r.createdAt,
+    seeded: r.seeded,
+  });
+
+  const rows = await db.select()
+    .from(schema.reviews)
+    .where(eq(schema.reviews.status, "published"))
+    .orderBy(desc(schema.reviews.createdAt))
+    .limit(limit);
+
+  return rows.map(shapeReview);
+}
