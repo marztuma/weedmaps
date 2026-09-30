@@ -1,0 +1,159 @@
+================================================================================
+PRIORITY 3 FEATURES - URLs for Google Search Console Submission
+Generated: September 30, 2026
+Status: ✅ Ready to Submit
+================================================================================
+
+COPY & PASTE THESE URLS INTO GOOGLE SEARCH CONSOLE:
+
+================================================================================
+HIGH-INTENT LANDING PAGES (5 Pages - Highest Priority)
+================================================================================
+
+https://weedmaps.store/best-thca-products
+
+https://weedmaps.store/cannabis-for-sleep
+
+https://weedmaps.store/cannabis-for-anxiety
+
+https://weedmaps.store/best-edibles
+
+https://weedmaps.store/beginner-cannabis-guide
+
+================================================================================
+CONVERSION FEATURES (2 Pages - High Priority)
+================================================================================
+
+https://weedmaps.store/strain-quiz
+
+https://weedmaps.store/compare
+
+================================================================================
+UPDATED PAGES (1 Page - Medium Priority)
+================================================================================
+
+https://weedmaps.store/
+
+================================================================================
+SUBMISSION METHOD:
+
+Option 1 (RECOMMENDED - Fastest):
+1. Go to: https://search.google.com/search-console
+2. Select your property: weedmaps.store
+3. Click "URL inspection" (top search bar)
+4. Paste each URL above one by one
+5. Click "Request indexing"
+
+Option 2 (Automatic via Sitemap):
+1. Go to Google Search Console
+2. Click "Sitemaps" in left menu
+3. Verify https://weedmaps.store/sitemap.xml is submitted
+4. Pages will be discovered automatically (24-48 hours)
+
+================================================================================
+EXPECTED RANKING TIMELINE:
+
+Quick Wins (2-4 weeks):
+- "beginner cannabis guide" → Page 1
+- "best edibles" → Page 2-3
+
+Medium Term (4-12 weeks):
+- "cannabis for sleep" → Page 1
+- "cannabis for anxiety" → Page 2-3
+- "best thca products" → Page 2-3
+
+Long Term (3-6 months):
+- "strain quiz" → Top 3 for branded searches
+- "compare cannabis" → Page 2-3
+
+================================================================================
+KEYWORDS TARGETED:
+
+best-thca-products:
+  - "best thca products"
+  - "thca strains"
+  - "high potency cannabis"
+  - "thca flower"
+
+cannabis-for-sleep:
+  - "cannabis for sleep"
+  - "best sleep strains"
+  - "edibles for sleep"
+  - "indica strains"
+  - "cannabis insomnia"
+
+cannabis-for-anxiety:
+  - "cannabis anxiety"
+  - "cbd anxiety"
+  - "calm strains"
+  - "relaxing cannabis"
+  - "anxiety relief cannabis"
+
+best-edibles:
+  - "best cannabis edibles"
+  - "cannabis gummies"
+  - "cannabis chocolate"
+  - "edibles dosing"
+
+beginner-cannabis-guide:
+  - "cannabis for beginners"
+  - "first time cannabis"
+  - "how to use cannabis"
+  - "cannabis dosage guide"
+  - "cannabis strains explained"
+
+strain-quiz:
+  - "find my strain"
+  - "cannabis strain quiz"
+  - "what strain am i"
+
+compare:
+  - "compare cannabis products"
+  - "cannabis product comparison"
+
+================================================================================
+MONITORING CHECKLIST:
+
+After submission, monitor these metrics in Google Search Console:
+
+□ Click "Coverage" → Verify all 7 pages show as "Covered"
+□ Click "Enhancements" → Check for any issues
+□ Click "Performance" → Track impressions and clicks after 2-4 weeks
+□ Set up email alerts for any crawl errors
+□ Check "Core Web Vitals" → Should show "Good" for all pages
+
+================================================================================
+BACKLINK STRATEGY:
+
+To accelerate ranking, get backlinks from:
+
+1. Cannabis blogs and publications
+2. Local cannabis guides
+3. Health and wellness sites
+4. Relevant Reddit communities
+5. Cannabis forums and communities
+
+Key anchor texts:
+- "best cannabis edibles"
+- "strain quiz"
+- "cannabis for sleep"
+- "cannabis anxiety relief"
+
+================================================================================
+CONTENT UPDATES PLAN:
+
+Week 1: Submit to GSC ← YOU ARE HERE
+Week 2: Monitor impressions in Search Analytics
+Week 3: Add internal cross-links if needed
+Week 4: Request backlinks from authority sites
+Week 6: Check rankings in Google
+Month 2: Analyze performance data
+Month 3: Optimize based on CTR and ranking data
+
+================================================================================
+
+Questions? The full technical documentation is in:
+- PRIORITY_3_SUBMISSION_LIST.md (detailed page info)
+- LINK_VERIFICATION_MAP.md (link structure details)
+
+Ready to submit? Start with the 7 URLs above! 🚀
