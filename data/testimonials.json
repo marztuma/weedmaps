@@ -1,0 +1,47 @@
+{
+  "_placeholder": "Customer testimonials for social proof.",
+  "testimonials": [
+    {
+      "name": "Alex M.",
+      "location": "Los Angeles",
+      "rating": 5,
+      "quote": "Finally a delivery service that lists effects on products. I know exactly what I'm getting before I order.",
+      "product": "Indica Flower"
+    },
+    {
+      "name": "Jordan L.",
+      "location": "Long Beach",
+      "rating": 5,
+      "quote": "The quality is amazing and the reviews are genuine. I've tried 3 strains now and loved all of them.",
+      "product": "Sativa Vape"
+    },
+    {
+      "name": "Casey R.",
+      "location": "San Francisco",
+      "rating": 5,
+      "quote": "45-minute delivery and lab-tested products? This is how it should be everywhere.",
+      "product": "Edibles"
+    },
+    {
+      "name": "Morgan T.",
+      "location": "Denver",
+      "rating": 5,
+      "quote": "The strain quiz helped me find my perfect product. Been ordering from here ever since.",
+      "product": "Hybrid Flower"
+    },
+    {
+      "name": "Riley K.",
+      "location": "Portland",
+      "rating": 5,
+      "quote": "Customer service is top-notch. My order was wrong and they fixed it immediately.",
+      "product": "Concentrates"
+    },
+    {
+      "name": "Drew S.",
+      "location": "Seattle",
+      "rating": 5,
+      "quote": "The product education on their site actually helped me understand what I'm buying. This is the future.",
+      "product": "Pre-rolls"
+    }
+  ]
+}

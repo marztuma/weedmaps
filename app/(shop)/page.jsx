@@ -12,7 +12,9 @@ import ShopList from "@/components/ShopList";
 import BrandRibbon from "@/components/BrandRibbon";
 import Learn from "@/components/Learn";
 import AppCta from "@/components/AppCta";
+import Testimonials from "@/components/Testimonials";
 import learn from "@/data/learn.json";
+import testimonials from "@/data/testimonials.json";
 
 import { canonical } from "@/lib/seo";
 
@@ -42,6 +44,7 @@ export default async function HomePage() {
       <ShopList shops={safeShops} />
       <Shelf shelf={shelf("edibles", "Edibles", "Gummies, chocolate and mints, 2mg and up", edibles)} tone="deep" />
       <Shelf shelf={shelf("most-reviewed", "Customer Favorites", "Highest-rated products from real customers", mostReviewed)} />
+      <Testimonials testimonials={testimonials.testimonials} />
       <BrandRibbon brands={brands} />
       <Learn learn={learn} />
       <AppCta />
