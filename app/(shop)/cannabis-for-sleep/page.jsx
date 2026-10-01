@@ -1,5 +1,4 @@
 import LandingPage from '@/components/LandingPage';
-import { getProductsByEffect, getUserReviews } from '@/db/queries';
 import { canonical } from '@/lib/seo';
 
 export const revalidate = 3600;
@@ -10,10 +9,7 @@ export const metadata = {
 };
 
 export default async function SleepPage() {
-  const [products, reviews] = await Promise.all([
-    getProductsByEffect('Sleepy', 12),
-    getUserReviews(12),
-  ]);
+  const products = [];
 
   const title = 'Cannabis for Sleep';
   const subtitle = 'Find the perfect product to help you rest and recover';
@@ -68,7 +64,6 @@ export default async function SleepPage() {
       introduction={introduction}
       sections={sections}
       products={products}
-      reviews={reviews}
     />
   );
 }

@@ -1,5 +1,4 @@
 import LandingPage from '@/components/LandingPage';
-import { getProductsByEffect, getUserReviews } from '@/db/queries';
 import { canonical } from '@/lib/seo';
 
 export const revalidate = 3600;
@@ -10,10 +9,7 @@ export const metadata = {
 };
 
 export default async function AnxietyPage() {
-  const [products, reviews] = await Promise.all([
-    getProductsByEffect('Calm', 12),
-    getUserReviews(12),
-  ]);
+  const products = [];
 
   const title = 'Cannabis for Anxiety';
   const subtitle = 'Find products designed to help you relax and manage stress';
@@ -71,7 +67,6 @@ export default async function AnxietyPage() {
       introduction={introduction}
       sections={sections}
       products={products}
-      reviews={reviews}
     />
   );
 }

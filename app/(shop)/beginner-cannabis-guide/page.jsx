@@ -1,5 +1,4 @@
 import LandingPage from '@/components/LandingPage';
-import { getAllProductsArray, getUserReviews } from '@/db/queries';
 import { canonical } from '@/lib/seo';
 
 export const revalidate = 3600;
@@ -10,13 +9,7 @@ export const metadata = {
 };
 
 export default async function BeginnerPage() {
-  const [allProducts, reviews] = await Promise.all([
-    getAllProductsArray(),
-    getUserReviews(12),
-  ]);
-
-  // Filter for lower-potency products suitable for beginners
-  const beginnerProducts = allProducts.filter(p => p.thc <= 15).slice(0, 12);
+  const beginnerProducts = [];
 
   const title = 'Beginner\'s Guide to Cannabis';
   const subtitle = 'Everything you need to know to start your cannabis journey safely and confidently';
@@ -109,7 +102,6 @@ export default async function BeginnerPage() {
       introduction={introduction}
       sections={sections}
       products={beginnerProducts}
-      reviews={reviews}
     />
   );
 }

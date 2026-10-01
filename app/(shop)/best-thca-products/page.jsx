@@ -1,5 +1,4 @@
 import LandingPage from '@/components/LandingPage';
-import { getProductsByEffect, getUserReviews } from '@/db/queries';
 import { canonical } from '@/lib/seo';
 
 export const revalidate = 3600;
@@ -10,10 +9,7 @@ export const metadata = {
 };
 
 export default async function BestThcaPage() {
-  const [products, reviews] = await Promise.all([
-    getProductsByEffect('Uplifted', 12),
-    getUserReviews(12),
-  ]);
+  const products = [];
 
   const title = 'Best THCa Products';
   const subtitle = 'Discover high-potency THCa strains and products';
@@ -58,7 +54,6 @@ export default async function BestThcaPage() {
       introduction={introduction}
       sections={sections}
       products={products}
-      reviews={reviews}
     />
   );
 }

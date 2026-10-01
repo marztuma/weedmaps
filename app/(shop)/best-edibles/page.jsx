@@ -1,5 +1,4 @@
 import LandingPage from '@/components/LandingPage';
-import { getProductsByCategory, getUserReviews } from '@/db/queries';
 import { canonical } from '@/lib/seo';
 
 export const revalidate = 3600;
@@ -10,10 +9,7 @@ export const metadata = {
 };
 
 export default async function EdiblesPage() {
-  const [products, reviews] = await Promise.all([
-    getProductsByCategory('edibles', 12),
-    getUserReviews(12),
-  ]);
+  const products = [];
 
   const title = 'Best Cannabis Edibles';
   const subtitle = 'Gummies, chocolate, mints, and more—carefully selected for quality and taste';
@@ -75,7 +71,6 @@ export default async function EdiblesPage() {
       introduction={introduction}
       sections={sections}
       products={products}
-      reviews={reviews}
     />
   );
 }
