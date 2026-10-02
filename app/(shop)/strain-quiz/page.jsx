@@ -10,11 +10,11 @@ export const metadata = {
 };
 
 export default async function StrainQuizPage() {
-  // Load only available shelves for quiz (flower, vape, edibles) instead of all products
+  // Load only available shelves for quiz with minimal items to prevent timeout
   const [flower, vape, edibles] = await Promise.all([
-    getShelf('flower', 6),
-    getShelf('vape', 6),
-    getShelf('edibles', 6),
+    getShelf('flower', 3),
+    getShelf('vape', 3),
+    getShelf('edibles', 3),
   ]);
 
   const products = [...flower, ...vape, ...edibles];

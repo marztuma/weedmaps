@@ -23,10 +23,15 @@ export const revalidate = 60;
 export const metadata = { alternates: canonical("/") };
 
 export default async function HomePage() {
-  const [flower, vape, edibles, cats, deals, shops, brands, stats, spotlight, newArrivals, mostReviewed] = await Promise.all([
-    getShelf("flower", 6), getShelf("vape", 6), getShelf("edibles", 6),
-    getCategoryIndex(), getDeals(3), getShops(), getBrands(12), getStats(),
-    getSpotlight(4), getNewArrivals(6), getMostReviewed(6),
+  // Load fast queries first to avoid connection pool exhaustion
+  const [cats, deals, shops, brands, stats, spotlight] = await Promise.all([
+    getCategoryIndex(), getDeals(3), getShops(), getBrands(12), getStats(), getSpotlight(4),
+  ]);
+
+  // Then load product queries with minimal items to avoid timeout
+  const [flower, vape, edibles, newArrivals, mostReviewed] = await Promise.all([
+    getShelf("flower", 3), getShelf("vape", 3), getShelf("edibles", 3),
+    getNewArrivals(3), getMostReviewed(3),
   ]);
 
   const safeShops = shops ?? [];
