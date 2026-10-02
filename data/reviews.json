@@ -1,0 +1,49 @@
+{
+  "reviews": [
+    {
+      "id": 1,
+      "rating": 5,
+      "title": "Best selection around",
+      "body": "Amazing quality and fast delivery. Highly recommend!",
+      "author": "Jessica M.",
+      "location": "Los Angeles, CA",
+      "seeded": true
+    },
+    {
+      "id": 2,
+      "rating": 5,
+      "title": "Perfect service",
+      "body": "Great prices and even better customer service. Will order again!",
+      "author": "Michael R.",
+      "location": "San Francisco, CA",
+      "seeded": true
+    },
+    {
+      "id": 3,
+      "rating": 5,
+      "title": "Reliable delivery",
+      "body": "Always on time, quality products, friendly drivers. Can't ask for more.",
+      "author": "Sarah K.",
+      "location": "Oakland, CA",
+      "seeded": true
+    },
+    {
+      "id": 4,
+      "rating": 5,
+      "title": "Great selection of brands",
+      "body": "Love the variety of brands available. Easy to find what I'm looking for.",
+      "author": "David L.",
+      "location": "Berkeley, CA",
+      "seeded": true
+    },
+    {
+      "id": 5,
+      "rating": 5,
+      "title": "Consistently excellent",
+      "body": "Multiple orders and never disappointed. This is my go-to place.",
+      "author": "Emily T.",
+      "location": "Palo Alto, CA",
+      "seeded": true
+    }
+  ]
+}

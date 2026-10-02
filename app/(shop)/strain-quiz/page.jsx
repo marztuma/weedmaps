@@ -1,5 +1,4 @@
 import StrainQuiz from '@/components/StrainQuiz';
-import { getAllProductsArray } from '@/db/queries';
 import { canonical } from '@/lib/seo';
 
 export const revalidate = 3600;
@@ -10,11 +9,10 @@ export const metadata = {
 };
 
 export default async function StrainQuizPage() {
-  const products = await getAllProductsArray();
-
+  // Products loaded dynamically in client to avoid server timeout
   return (
     <div>
-      <StrainQuiz products={products} />
+      <StrainQuiz products={[]} />
     </div>
   );
 }

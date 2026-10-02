@@ -12,8 +12,8 @@ export const metadata = {
 export default async function ComparePage({ searchParams }) {
   let products = [];
 
-  if (searchParams.ids) {
-    const ids = searchParams.ids
+  if (searchParams?.ids) {
+    const ids = (searchParams.ids)
       .split(',')
       .map(id => parseInt(id, 10))
       .filter(id => !isNaN(id))
