@@ -19,7 +19,7 @@ import testimonials from "@/data/testimonials.json";
 
 import { canonical } from "@/lib/seo";
 
-export const revalidate = 60;
+export const revalidate = 300; // ISR: revalidate every 5 minutes
 export const metadata = { alternates: canonical("/") };
 
 export default async function HomePage() {
