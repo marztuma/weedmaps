@@ -44,6 +44,9 @@ const shapeProduct = (r) => ({
   description: r.description ?? null,
   effects: r.effects ?? [],
   flavors: r.flavors ?? [],
+  terpenes: r.terpenes ?? [],
+  rating: r.rating ? Number(r.rating) : null,
+  reviewCount: r.reviewCount ?? 0,
 });
 
 const productSelect = {
@@ -56,6 +59,7 @@ const productSelect = {
   stockQty: products.stockQty, lowStockAt: products.lowStockAt,
   imageCloudId: products.imageCloudId,
   description: products.description, effects: products.effects, flavors: products.flavors,
+  terpenes: products.terpenes, rating: products.rating, reviewCount: products.reviewCount,
   brand: brands.name,
   category: categories.slug,
   subcategory: subcategories.name,

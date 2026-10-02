@@ -13,50 +13,72 @@ export const metadata = {
 };
 
 export default async function DealsPage() {
-  const deals = await getAllDeals();
-  const deepest = deals.length
-    ? Math.max(...deals.map((d) => Math.round(((d.was - d.price) / d.was) * 100)))
-    : 0;
-  const saved = deals.reduce((n, d) => n + (d.was - d.price), 0);
+  try {
+    const deals = await getAllDeals();
+    const deepest = deals.length
+      ? Math.max(...deals.map((d) => Math.round(((d.was - d.price) / d.was) * 100)))
+      : 0;
+    const saved = deals.reduce((n, d) => n + (d.was - d.price), 0);
 
-  return (
-    <>
-      <PageHeader
-        trail={[{ label: "Home", href: "/" }, { label: "Deals" }]}
-        title="Cheaper today than yesterday."
-        blurb="Every discount from a service that can actually reach you tonight. A deal you cannot receive is not a deal, so paused services are left out."
-        meta={
-          <span className="flex items-center gap-2">
-            <Icon name="clock" size={14} />
-            Ends 11:59 PM tonight
-          </span>
-        }
-      />
-
-      <section className="bg-orange text-ink">
-        <div className="u-shell flex flex-wrap items-center gap-x-10 gap-y-3 py-5">
-          <p className="u-meta flex items-center gap-2 text-ember">
-            <span className="u-data text-[1.5rem] font-semibold text-ink">{deals.length}</span>
-            products discounted
-          </p>
-          <p className="u-meta flex items-center gap-2 text-ember">
-            <span className="u-data text-[1.5rem] font-semibold text-ink">{deepest}%</span>
-            deepest cut
-          </p>
-          <p className="u-meta flex items-center gap-2 text-ember">
-            <span className="u-data text-[1.5rem] font-semibold text-ink">${saved}</span>
-            off across the board
-          </p>
-        </div>
-      </section>
-
-      <section className="u-shell py-[clamp(2.5rem,5vw,4rem)]">
-        <ProductGrid
-          products={deals}
-          emptyTitle="No deals running tonight."
-          emptyBody="Nothing is discounted from a service currently delivering to you. Check back tomorrow."
+    return (
+      <>
+        <PageHeader
+          trail={[{ label: "Home", href: "/" }, { label: "Deals" }]}
+          title="Cheaper today than yesterday."
+          blurb="Every discount from a service that can actually reach you tonight. A deal you cannot receive is not a deal, so paused services are left out."
+          meta={
+            <span className="flex items-center gap-2">
+              <Icon name="clock" size={14} />
+              Ends 11:59 PM tonight
+            </span>
+          }
         />
-      </section>
-    </>
-  );
+
+        {deals.length > 0 && (
+          <section className="bg-orange text-ink">
+            <div className="u-shell flex flex-wrap items-center gap-x-10 gap-y-3 py-5">
+              <p className="u-meta flex items-center gap-2 text-ember">
+                <span className="u-data text-[1.5rem] font-semibold text-ink">{deals.length}</span>
+                products discounted
+              </p>
+              <p className="u-meta flex items-center gap-2 text-ember">
+                <span className="u-data text-[1.5rem] font-semibold text-ink">{deepest}%</span>
+                deepest cut
+              </p>
+              <p className="u-meta flex items-center gap-2 text-ember">
+                <span className="u-data text-[1.5rem] font-semibold text-ink">${(saved / 100).toFixed(2)}</span>
+                off across the board
+              </p>
+            </div>
+          </section>
+        )}
+
+        <section className="u-shell py-[clamp(2.5rem,5vw,4rem)]">
+          <ProductGrid
+            products={deals}
+            emptyTitle="No deals running tonight."
+            emptyBody="Nothing is discounted from a service currently delivering to you. Check back tomorrow."
+          />
+        </section>
+      </>
+    );
+  } catch (error) {
+    console.error('Error loading deals:', error);
+    return (
+      <>
+        <PageHeader
+          trail={[{ label: "Home", href: "/" }, { label: "Deals" }]}
+          title="Deals"
+          blurb="Coming soon"
+        />
+        <section className="u-shell py-[clamp(2.5rem,5vw,4rem)]">
+          <ProductGrid
+            products={[]}
+            emptyTitle="Deals temporarily unavailable."
+            emptyBody="We're updating our deals. Please check back soon."
+          />
+        </section>
+      </>
+    );
+  }
 }

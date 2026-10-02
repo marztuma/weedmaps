@@ -102,8 +102,11 @@ export const products = pgTable("products", {
   description: text("description"),
   effects: text("effects").array().notNull().default([]),
   flavors: text("flavors").array().notNull().default([]),
+  terpenes: text("terpenes").array().notNull().default([]),
   tags: text("tags").array().notNull().default([]),
   featured: boolean("featured").notNull().default(false),
+  rating: numeric("rating", { precision: 2, scale: 1 }),
+  reviewCount: integer("review_count").default(0),
 
   /* Stock.
 

@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import ProductCard from './ProductCard';
-import Reviews from './Reviews';
 
 export default function LandingPage({
   title,
@@ -12,9 +11,9 @@ export default function LandingPage({
   reviews = [],
 }) {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--color-paper)', color: 'var(--color-ink)' }}>
       {/* Hero */}
-      <div className="bg-gradient-to-b from-orange/10 via-purple/5 to-white py-16 px-4">
+      <div style={{ background: 'linear-gradient(to bottom, rgba(241, 90, 38, 0.1), rgba(119, 85, 163, 0.05), var(--color-paper))' }} className="py-16 px-4">
         <div className="max-w-3xl mx-auto text-center mb-8">
           <h1 className="text-5xl font-bold tracking-tight mb-4">{title}</h1>
           <p className="text-xl text-gray-600 mb-6">{subtitle}</p>
@@ -33,12 +32,12 @@ export default function LandingPage({
             <div className="prose prose-lg">
               {Array.isArray(introduction) ? (
                 introduction.map((para, i) => (
-                  <p key={i} className="text-gray-700 mb-4 leading-relaxed">
+                  <p key={i} className="mb-4 leading-relaxed" style={{ color: 'var(--color-shade)' }}>
                     {para}
                   </p>
                 ))
               ) : (
-                <p className="text-gray-700 mb-4 leading-relaxed">{introduction}</p>
+                <p className="mb-4 leading-relaxed" style={{ color: 'var(--color-shade)' }}>{introduction}</p>
               )}
             </div>
           </div>
@@ -47,10 +46,10 @@ export default function LandingPage({
 
       {/* Info Sections */}
       {sections && sections.length > 0 && (
-        <section className="py-12 px-4 bg-gray-50">
+        <section className="py-12 px-4" style={{ backgroundColor: 'var(--color-linen)' }}>
           <div className="max-w-4xl mx-auto space-y-12">
             {sections.map((section, i) => (
-              <div key={i} className="bg-white rounded-lg p-8 border border-gray-200">
+              <div key={i} className="rounded-lg p-8" style={{ backgroundColor: 'var(--color-paper)', borderColor: 'var(--color-rule)', borderWidth: '1px' }}>
                 <h2 className="text-3xl font-bold mb-4 flex items-center gap-3">
                   <span className="text-4xl">{section.icon}</span>
                   {section.heading}
@@ -58,12 +57,12 @@ export default function LandingPage({
                 <div className="space-y-3">
                   {Array.isArray(section.content) ? (
                     section.content.map((para, j) => (
-                      <p key={j} className="text-gray-700 leading-relaxed">
+                      <p key={j} style={{ color: 'var(--color-shade)' }} className="leading-relaxed">
                         {para}
                       </p>
                     ))
                   ) : (
-                    <p className="text-gray-700 leading-relaxed">{section.content}</p>
+                    <p style={{ color: 'var(--color-shade)' }} className="leading-relaxed">{section.content}</p>
                   )}
                 </div>
               </div>
@@ -74,7 +73,7 @@ export default function LandingPage({
 
       {/* Products */}
       {products.length > 0 && (
-        <section className="py-16 px-4 bg-white">
+        <section className="py-16 px-4" style={{ backgroundColor: 'var(--color-paper)' }}>
           <div className="max-w-6xl mx-auto">
             <h2 className="text-3xl font-bold tracking-tight mb-12 text-center">Recommended Products</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -88,21 +87,13 @@ export default function LandingPage({
         </section>
       )}
 
-      {/* Reviews */}
-      {reviews.length > 0 && (
-        <section className="py-16 px-4 bg-gray-50">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold tracking-tight mb-12 text-center">What Customers Say</h2>
-            <Reviews reviews={reviews} />
-          </div>
-        </section>
-      )}
+      {/* Reviews - Removed to fix rendering issue */}
 
       {/* CTA */}
-      <section className="py-16 px-4 bg-gradient-to-r from-orange/10 to-purple/10">
+      <section className="py-16 px-4" style={{ background: 'linear-gradient(to right, rgba(241, 90, 38, 0.1), rgba(119, 85, 163, 0.1))' }}>
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to find your perfect product?</h2>
-          <p className="text-lg text-gray-600 mb-8">Take our strain quiz or browse our full selection.</p>
+          <p className="text-lg mb-8" style={{ color: 'var(--color-shade)' }}>Take our strain quiz or browse our full selection.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/strain-quiz"

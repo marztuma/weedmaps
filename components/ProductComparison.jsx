@@ -33,8 +33,10 @@ export default function ProductComparison({ products = [] }) {
     { key: 'weight', label: 'Weight', format: (p) => p.weight },
     { key: 'thc', label: 'THC', format: (p) => `${p.thc}%` },
     { key: 'cbd', label: 'CBD', format: (p) => p.cbd ? `${p.cbd}%` : '—' },
+    { key: 'rating', label: 'Rating', format: (p) => p.rating ? `${p.rating}⭐ (${p.reviewCount})` : '—' },
     { key: 'effects', label: 'Effects', format: (p) => p.effects?.slice(0, 3).join(', ') || '—' },
     { key: 'flavors', label: 'Flavors', format: (p) => p.flavors?.slice(0, 3).join(', ') || '—' },
+    { key: 'terpenes', label: 'Terpenes', format: (p) => p.terpenes?.slice(0, 3).join(', ') || '—' },
     { key: 'price', label: 'Price', format: (p) => `$${p.price?.toFixed(2)}` },
   ];
 
