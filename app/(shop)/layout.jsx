@@ -11,13 +11,16 @@ import Footer from "@/components/Footer";
 import ChatWidget from "@/components/ChatWidget";
 import Track from "@/components/Track";
 
-export const dynamic = 'force-dynamic';
+// Cache layout for 5 minutes instead of force-dynamic
+// This prevents the expensive getShops() query from running on every request
+export const revalidate = 300;
 
 export default async function ShopLayout({ children }) {
   let shops = [];
   try {
     shops = await getShops();
-  } catch {
+  } catch (error) {
+    console.error('getShops failed:', error);
     // Database unavailable, use empty shops list
   }
 
