@@ -1,4 +1,5 @@
 import StrainQuiz from '@/components/StrainQuiz';
+import { getShelf } from '@/db/queries';
 import { canonical } from '@/lib/seo';
 
 export const revalidate = 3600;
@@ -9,10 +10,18 @@ export const metadata = {
 };
 
 export default async function StrainQuizPage() {
-  // Products loaded dynamically in client to avoid server timeout
+  // Load only available shelves for quiz (flower, vape, edibles) instead of all products
+  const [flower, vape, edibles] = await Promise.all([
+    getShelf('flower', 6),
+    getShelf('vape', 6),
+    getShelf('edibles', 6),
+  ]);
+
+  const products = [...flower, ...vape, ...edibles];
+
   return (
     <div>
-      <StrainQuiz products={[]} />
+      <StrainQuiz products={products} />
     </div>
   );
 }
