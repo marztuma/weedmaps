@@ -23,24 +23,26 @@ export const revalidate = 60;
 export const metadata = { alternates: canonical("/") };
 
 export default async function HomePage() {
-  // Load fast queries first to avoid connection pool exhaustion
+  // Load metadata queries first
   const [cats, deals, shops, brands, stats, spotlight] = await Promise.all([
     getCategoryIndex(), getDeals(3), getShops(), getBrands(12), getStats(), getSpotlight(4),
   ]);
 
-  // Then load product queries with minimal items to avoid timeout
-  const [flower, vape, edibles, newArrivals, mostReviewed] = await Promise.all([
-    getShelf("flower", 3), getShelf("vape", 3), getShelf("edibles", 3),
-    getNewArrivals(3), getMostReviewed(3),
-  ]);
+  // Load product queries sequentially (not in parallel) to avoid connection pool exhaustion
+  const flower = await getShelf("flower", 3);
+  const vape = await getShelf("vape", 3);
+  const edibles = await getShelf("edibles", 3);
+  const newArrivals = await getNewArrivals(3);
+  const mostReviewed = await getMostReviewed(3);
 
   const safeShops = shops ?? [];
+  const safeStats = stats ?? { deliveringNow: 0, services: 0, products: 0, brands: 0 };
 
   const shelf = (category, title, note, items) => ({ category, title, note, items });
 
   return (
     <>
-      <Masthead stats={stats} shops={safeShops} />
+      <Masthead stats={safeStats} shops={safeShops} />
       <Spotlight slides={spotlight} />
       <CategoryIndex categories={cats} />
       <Shelf shelf={shelf("flower", "Flower", "Eighths, quarters and ounces, delivered", flower)} flush />

@@ -10,12 +10,10 @@ export const metadata = {
 };
 
 export default async function StrainQuizPage() {
-  // Load only available shelves for quiz with minimal items to prevent timeout
-  const [flower, vape, edibles] = await Promise.all([
-    getShelf('flower', 3),
-    getShelf('vape', 3),
-    getShelf('edibles', 3),
-  ]);
+  // Load shelves sequentially to avoid connection pool exhaustion
+  const flower = await getShelf('flower', 4);
+  const vape = await getShelf('vape', 4);
+  const edibles = await getShelf('edibles', 4);
 
   const products = [...flower, ...vape, ...edibles];
 

@@ -8,6 +8,25 @@ const money = (cents) => (cents == null ? null : cents / 100);
 
 /* Shape a product row the way the UI reads it — prices as dollars, potency as
    numbers, so no component has to know the storage format. */
+const shapeLightProduct = (r) => ({
+  id: r.id,
+  slug: r.slug,
+  name: r.name,
+  brand: r.brand,
+  category: r.category,
+  strainType: r.strainType,
+  weight: r.weight,
+  thc: r.thc,
+  cbd: r.cbd,
+  price: r.priceCents / 100,
+  image: r.imageCloudId ? { cloudId: r.imageCloudId, alt: r.imageAlt } : null,
+  effects: r.effects ?? [],
+  flavors: r.flavors ?? [],
+  terpenes: r.terpenes ?? [],
+  rating: r.rating ? Number(r.rating) : null,
+  reviewCount: r.reviewCount ?? 0,
+});
+
 const shapeProduct = (r) => ({
   id: r.id,
   slug: r.slug,
@@ -79,13 +98,24 @@ const withJoins = (q) =>
     .innerJoin(shops, eq(products.shopId, shops.id))
     .leftJoin(subcategories, eq(products.subcategoryId, subcategories.id));
 
+// Lightweight product selection for homepage/quiz (fewer fields = faster queries)
+const lightProductSelect = {
+  id: products.id, slug: products.slug, name: products.name,
+  strainType: products.strainType, weight: products.weight,
+  thc: products.thc, cbd: products.cbd, priceCents: products.priceCents,
+  imageCloudId: products.imageCloudId, imageAlt: products.imageAlt,
+  effects: products.effects, flavors: products.flavors, terpenes: products.terpenes,
+  rating: products.rating, reviewCount: products.reviewCount,
+  brand: brands.name, category: categories.slug,
+};
+
 /** One merchandised shelf: products in a category, from services delivering now. */
 export async function getShelf(categorySlug, limit = 12) {
-  const rows = await withJoins(db.select(productSelect))
+  const rows = await withJoins(db.select(lightProductSelect))
     .where(and(eq(categories.slug, categorySlug), eq(shops.deliveringNow, true)))
     .orderBy(desc(products.featured), asc(products.priceCents))
     .limit(limit);
-  return rows.map(shapeProduct);
+  return rows.map(shapeLightProduct);
 }
 
 /** The category index: every category, its subcategories and a live product count. */
@@ -714,30 +744,29 @@ export async function getGenuineRating({ productId, shopId }) {
 
 /** New arrivals — most recently created products. */
 export async function getNewArrivals(limit = 12) {
-  const rows = await withJoins(db.select(productSelect))
+  const rows = await withJoins(db.select(lightProductSelect))
     .where(eq(shops.deliveringNow, true))
     .orderBy(desc(products.createdAt), asc(products.id))
     .limit(limit);
-  return rows.map(shapeProduct);
+  return rows.map(shapeLightProduct);
 }
 
 /** Most reviewed products — highest review count first. */
 export async function getMostReviewed(limit = 12) {
   const rows = await db.select({
-    ...productSelect,
+    ...lightProductSelect,
     reviewCount: sql`count(${schema.reviews.id})`.mapWith(Number),
   })
     .from(products)
     .innerJoin(brands, eq(products.brandId, brands.id))
     .innerJoin(categories, eq(products.categoryId, categories.id))
     .innerJoin(shops, eq(products.shopId, shops.id))
-    .leftJoin(subcategories, eq(products.subcategoryId, subcategories.id))
     .leftJoin(schema.reviews, eq(products.id, schema.reviews.productId))
     .where(eq(shops.deliveringNow, true))
-    .groupBy(products.id, brands.id, categories.id, shops.id, subcategories.id)
+    .groupBy(products.id, brands.id, categories.id, shops.id)
     .orderBy(desc(sql`count(${schema.reviews.id})`), asc(products.id))
     .limit(limit);
-  return rows.map(shapeProduct);
+  return rows.map(shapeLightProduct);
 }
 
 /** All products for filtering (e.g., quiz, comparison tool) — no pagination. */
@@ -753,9 +782,9 @@ export async function getAllProductsArray(liveOnly = true) {
 /** Products by IDs (for comparison tool). */
 export async function getProductsByIds(ids) {
   if (!ids || ids.length === 0) return [];
-  const rows = await withJoins(db.select(productSelect))
+  const rows = await withJoins(db.select(lightProductSelect))
     .where(inArray(products.id, ids));
-  return rows.map(shapeProduct);
+  return rows.map(shapeLightProduct);
 }
 
 /** Products filtered by effect name (for landing pages). */
