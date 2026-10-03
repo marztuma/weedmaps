@@ -196,7 +196,7 @@ export default function StrainQuiz({ products = [] }) {
       subtitle: 'Select all that apply',
       type: 'multi',
       key: 'effects',
-      options: EFFECTS_OPTIONS,
+      options: EFFECTS_OPTIONS.map(e => ({ label: e, value: e })),
     },
     {
       title: 'What potency level do you prefer?',
